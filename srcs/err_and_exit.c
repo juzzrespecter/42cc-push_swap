@@ -14,7 +14,8 @@ void	free_data(t_checker_data *data)
 
 void	err_and_exit(t_checker_data *data)
 {
-	free_data(data);
+	if (data != NULL)
+		free_data(data);
 	ft_putstr_fd("Error\n", STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }

@@ -1,4 +1,5 @@
 #include "push_swap.h"
+#include <stdio.h>
 
 static int	check_if_valid_instr(char *instr)
 {
@@ -28,14 +29,18 @@ static int	check_if_valid_instr(char *instr)
 static void	save_instr(char *instr, t_checker_data *data)
 {
 	t_list	*instr_node;
+	t_list	*instr_head;
 
+	instr_head = data->instr_list_head;
 	instr_node = ft_lstnew(instr);
 	if (!instr_node)
 	{
 		free(instr);
 		err_and_exit(data);
 	}
-	ft_lstadd_back(&data->instr_list_head, instr_node);
+	ft_lstadd_back(&instr_head, instr_node);
+	printf("head out: %s %p\n", (char *)instr_head->content, instr_head->next);
+	data->instr_list_head = instr_head;
 }
 
 int	main(int argc, char **argv)
@@ -91,7 +96,7 @@ int	main(int argc, char **argv)
 		/*
 		 *	func save_instr ( array? linked list? )
 		 */
-		free(instr_buffer);
+		printf("head main: %s %p\n", (char *)data.instr_list_head->content, data.instr_list_head->next);
 		
 		/*
 		 *	sa

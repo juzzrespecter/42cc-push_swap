@@ -34,7 +34,9 @@ void	exec_instr_loop(t_checker_data *data)
 	while (instr_loop_count)
 	{
 		cmp_instr_list((char *)instr_loop_count->content, data);
-		instr_loop_count->next = instr_loop_count;	
+		ft_putstr((char *)instr_loop_count->content);
+		ft_putchar('\n');
+		instr_loop_count = instr_loop_count->next;	
 	}
 }
 

@@ -50,9 +50,11 @@ $(OBJS_DIR)%.o:		$(SRCS_DIR)%.c
 	mv $(@F) $(OBJS_DIR)
 
 clean:
+	make clean -C $(LIBFT_DIR)
 	rm -rf $(OBJS_DIR)
 
 fclean:			clean
+	make fclean -C $(LIBFT_DIR)
 	rm -f $(CHECKER) $(PUSH_SWAP)
 
 re:			fclean all
