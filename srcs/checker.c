@@ -26,7 +26,7 @@ static int	check_if_valid_instr(char *instr)
 	/* strcmp sa sb ss pa pb ra rb rr rra */
 }
 
-static void	save_instr(char *instr, t_checker_data *data)
+static void	save_instr(char *instr, t_data *data)
 {
 	t_list	*instr_node;
 	t_list	*instr_head;
@@ -36,18 +36,15 @@ static void	save_instr(char *instr, t_checker_data *data)
 	if (!instr_node)
 	{
 		free(instr);
-		err_and_exit(data);
+		err_and_exit(data, NULL, E_NOMEM);
 	}
 	ft_lstadd_back(&instr_head, instr_node);
-	printf("head out: %s %p\n", (char *)instr_head->content, instr_head->next);
 	data->instr_list_head = instr_head;
 }
 
 int	main(int argc, char **argv)
 {
-	t_checker_data		data;
-	t_stack	stack_a;
-	t_stack	stack_b;
+	t_data		data;
 	int	ret;
 	char	*instr_buffer;
 
@@ -73,12 +70,7 @@ int	main(int argc, char **argv)
 	err_arg_check(argc, argv);
 
 	/*	fill stack	*/
-	stack_a = fill_stack(argv);
-	stack_b.size = 0;
-	stack_b.stack = (int *)ft_calloc(sizeof(int), 1);
-	data.stack_a = &stack_a;
-	data.stack_b = &stack_b;
-	data.instr_list_head = NULL;
+	data = init_data(argv);
 	/*	instructions loop	*/
 	while (1)
 	{
@@ -86,19 +78,12 @@ int	main(int argc, char **argv)
 		if (ret == 0)
 			break;
 		if (ret < 0)
-			err_and_exit(NULL);
+			err_and_exit(NULL, NULL, E_NOMEM);
 		if (!check_if_valid_instr(instr_buffer))
-		{
-			free(instr_buffer);
-			err_and_exit(&data);
-		}
+			err_and_exit(&data, instr_buffer, E_NOINSTR);
 		save_instr(instr_buffer, &data);
 		/*
 		 *	func save_instr ( array? linked list? )
-		 */
-		printf("head main: %s %p\n", (char *)data.instr_list_head->content, data.instr_list_head->next);
-		
-		/*
 		 *	sa
 		 *	sb
 		 *	ss
@@ -114,8 +99,7 @@ int	main(int argc, char **argv)
 	}
 	exec_instr_loop(&data);
 	/*	func exec();		*/
+	check_stack_order(&data);
 	/*	check if success	*/
-
-
-
+	return (EXIT_SUCCESS);
 }

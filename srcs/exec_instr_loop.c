@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-static void	cmp_instr_list(char *instr, t_checker_data *data)
+static void	cmp_instr_list(char *instr, t_data *data)
 {
 	if (!ft_strncmp(instr, "sa", 3))
 		swap(data->stack_a);
@@ -26,17 +26,17 @@ static void	cmp_instr_list(char *instr, t_checker_data *data)
 		rev_rotate_both(data->stack_a, data->stack_b);
 }
 
-void	exec_instr_loop(t_checker_data *data)
+void	exec_instr_loop(t_data *data)
 {
 	t_list *instr_loop_count;
 
 	instr_loop_count = data->instr_list_head;
+	printf_stack(data->stack_a, data->stack_b->size);
 	while (instr_loop_count)
 	{
 		cmp_instr_list((char *)instr_loop_count->content, data);
-		ft_putstr((char *)instr_loop_count->content);
-		ft_putchar('\n');
 		instr_loop_count = instr_loop_count->next;	
+		printf_stack(data->stack_a, data->stack_b->size);
 	}
 }
 

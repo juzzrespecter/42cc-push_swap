@@ -7,12 +7,14 @@ PUSH_SWAP		= push_swap
 SRCS_DIR		= ./srcs/
 
 SRCS			= err_arg_check.c \
-			  fill_stack.c \
+			  init_data.c \
 			  err_and_exit.c \
 			  swap.c \
 			  push.c \
 			  rotate.c \
-			  exec_instr_loop.c
+			  exec_instr_loop.c \
+			  check_stack_order.c \
+			  tmp_print_stack.c
 
 CHECKER_MAIN		= checker.c
 

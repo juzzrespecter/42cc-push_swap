@@ -2,13 +2,16 @@
 
 int	main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
+	t_data	data;
+
 	/* recibe stack a
 	 * push_swap se encarga de ordenar el stack con el
 	 * minimo uso posible de operaciones.
 	 * cada operacion es impresa por stdin
 	 * caso de error, imprime mensaje pertinente.
 	 */
-	return (1);
+
+	err_arg_check(argc, argv);
+	data = init_data(argv);
+	return (EXIT_SUCCESS);
 }
