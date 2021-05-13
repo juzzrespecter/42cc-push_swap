@@ -1,15 +1,22 @@
 #include "push_swap.h"
 #include <stdio.h>
 
-void	printf_stack(t_stack *stack, int size_b)
+void	printf_stack(t_stack *stack_a, t_stack *stack_b)
 {
 	int	i;
 
 	i = 0;
-	printf("actual size: a(%d) b(%d)\n", stack->size, size_b);
-	while (i < stack->size)
+	printf("actual size: a(%d) b(%d)\n", stack_a->size, stack_b->size);
+	while (i < stack_a->size || i < stack_b->size)
 	{
-		printf("- %d\n", stack->stack[stack->size - i - 1]);
+		if (i < stack_a->size)
+			printf("- %d", stack_a->stack[stack_a->size - i - 1]);
+		else 
+			printf("    ");
+		if (i < stack_b->size)
+			printf("      - %d\n", stack_b->stack[stack_b->size - i - 1]);
+		else
+			printf("\n");
 		i++;
 	}
 }

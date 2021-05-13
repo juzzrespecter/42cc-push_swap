@@ -31,12 +31,12 @@ void	exec_instr_loop(t_data *data)
 	t_list *instr_loop_count;
 
 	instr_loop_count = data->instr_list_head;
-	printf_stack(data->stack_a, data->stack_b->size);
+	printf_stack(data->stack_a, data->stack_b);
 	while (instr_loop_count)
 	{
 		cmp_instr_list((char *)instr_loop_count->content, data);
 		instr_loop_count = instr_loop_count->next;	
-		printf_stack(data->stack_a, data->stack_b->size);
+		printf_stack(data->stack_a, data->stack_b);
 	}
 }
 

@@ -12,9 +12,10 @@ static t_stack	*fill_stack(t_stack *stack_s, char **argv)
 	if (stack_s->stack == NULL)
 		return (stack_s);
 	/* ------- TODO: mirar orden de llenado del stack	------- */
+	/* ----The first argument should be at the top of the stack---- */
 	while (argv[count + 1])
 	{
-		stack_s->stack[count] = ft_atoi(argv[count + 1]);
+		stack_s->stack[stack_s->size - count - 1] = ft_atoi(argv[count + 1]);
 		count++;
 	}
 	return (stack_s);

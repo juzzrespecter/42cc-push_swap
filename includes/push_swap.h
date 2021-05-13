@@ -38,6 +38,7 @@ void	rotate_both(t_stack *stack_a, t_stack *stack_b);
 void	rev_rotate(t_stack *stack_s);
 void	rev_rotate_both(t_stack *stack_a, t_stack *stack_b);
 
-void	printf_stack(t_stack *stack, int size_b);	// to delete
+void	printf_stack(t_stack *stack_a, t_stack *stack_b);	// to delete
+void	insertion_sort(t_data *data);				// test
 
 #endif

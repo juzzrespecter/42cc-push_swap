@@ -2,15 +2,15 @@
 
 void	push(t_stack *stack_push, t_stack *stack_pop)
 {
-	int	size_push;
 	int	size_pop;
+	int	size_push;
 
-	size_push = stack_push->size;
 	size_pop = stack_pop->size;
-	if (size_push == 0)
+	size_push = stack_push->size;
+	if (size_pop == 0)
 		return ;
-	stack_pop->size++;
-	stack_pop->stack[size_pop] = stack_push->stack[size_push - 1];
-	stack_push->stack[size_push - 1] = 0;
-	stack_push->size--;
+	stack_push->size++;
+	stack_push->stack[size_push] = stack_pop->stack[size_pop - 1];
+	stack_pop->stack[size_pop - 1] = 0;
+	stack_pop->size--;
 }
