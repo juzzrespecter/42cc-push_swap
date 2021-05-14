@@ -9,9 +9,9 @@ static void	cmp_instr_list(char *instr, t_data *data)
 	else if (!ft_strncmp(instr, "ss", 3))
 		swap_both(data->stack_a, data->stack_b);
 	else if (!ft_strncmp(instr, "pa", 3))
-		push(data->stack_b, data->stack_a);
-	else if (!ft_strncmp(instr, "pb", 3))
 		push(data->stack_a, data->stack_b);
+	else if (!ft_strncmp(instr, "pb", 3))
+		push(data->stack_b, data->stack_a);
 	else if (!ft_strncmp(instr, "ra", 3))
 		rotate(data->stack_a);
 	else if (!ft_strncmp(instr, "rb", 3))

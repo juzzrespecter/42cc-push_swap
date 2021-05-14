@@ -18,7 +18,8 @@ void	insert_on_sublist(t_stack *stack_a, t_stack *stack_b)
 	pos = 0;
 	count = 0;
 	aux = stack_a->stack[stack_a->size - 1];
-	while (aux < stack_b->stack[stack_b->size - 1 - pos])
+	while (aux > stack_b->stack[stack_b->size - 1 - pos] \
+			&& pos < stack_b->size - 1)
 		pos++;
 	while (count < pos)
 	{
@@ -27,7 +28,7 @@ void	insert_on_sublist(t_stack *stack_a, t_stack *stack_b)
 		count++;
 	}
 	push(stack_b, stack_a);
-	ft_putstr("pa\n");
+	ft_putstr("pb\n");
 	count = 0;
 	while (count < pos)
 	{
@@ -52,7 +53,11 @@ void	insertion_sort(t_data *data)
 			ft_putstr("pb\n");
 		}
 		else
+		{
+			swap(stack_a);
+			ft_putstr("sa\n");
 			insert_on_sublist(stack_a, data->stack_b);
+		}
 	}
 	while (data->stack_b->size)
 	{

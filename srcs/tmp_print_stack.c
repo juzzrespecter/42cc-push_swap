@@ -10,11 +10,11 @@ void	printf_stack(t_stack *stack_a, t_stack *stack_b)
 	while (i < stack_a->size || i < stack_b->size)
 	{
 		if (i < stack_a->size)
-			printf("- %d", stack_a->stack[stack_a->size - i - 1]);
+			printf("%d", stack_a->stack[stack_a->size - i - 1]);
 		else 
-			printf("    ");
+			printf("\t");
 		if (i < stack_b->size)
-			printf("      - %d\n", stack_b->stack[stack_b->size - i - 1]);
+			printf("\t\t%d\n", stack_b->stack[stack_b->size - i - 1]);
 		else
 			printf("\n");
 		i++;
