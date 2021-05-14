@@ -30,7 +30,7 @@ void	check_stack_order(t_data *data)
 		check_stack_ko(data);
 	while (i < data->stack_a->size)
 	{
-		if (i > 0 && data->stack_a->stack[i] > data->stack_a->stack[i - 1])
+		if (i > 0 && data->stack_a->array[i] > data->stack_a->array[i - 1])
 			check_stack_ko(data);
 		i++;
 	}

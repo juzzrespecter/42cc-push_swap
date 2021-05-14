@@ -6,9 +6,9 @@ void	swap(t_stack *stack_s)
 
 	if (stack_s->size < 2)
 		return ;
-	aux = stack_s->stack[stack_s->size - 1];
-	stack_s->stack[stack_s->size - 1] = stack_s->stack[stack_s->size - 2];
-	stack_s->stack[stack_s->size - 2] = aux;
+	aux = stack_s->array[stack_s->size - 1];
+	stack_s->array[stack_s->size - 1] = stack_s->array[stack_s->size - 2];
+	stack_s->array[stack_s->size - 2] = aux;
 }
 
 void	swap_both(t_stack *stack_a, t_stack *stack_b)

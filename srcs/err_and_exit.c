@@ -7,12 +7,12 @@ void	free_data(t_data *data)
 {
 	if (data->stack_a)
 	{
-		free(data->stack_a->stack);
+		free(data->stack_a->array);
 		free(data->stack_a);
 	}
 	if (data->stack_b)
 	{
-		free(data->stack_b->stack);
+		free(data->stack_b->array);
 		free(data->stack_b);
 	}
 	if (data->instr_list_head)

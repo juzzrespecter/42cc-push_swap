@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-static void	cmp_instr_list(char *instr, t_data *data)
+void	cmp_instr_list(char *instr, t_data *data)
 {
 	if (!ft_strncmp(instr, "sa", 3))
 		swap(data->stack_a);
