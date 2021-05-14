@@ -12,9 +12,9 @@ void	printf_stack(t_stack *stack_a, t_stack *stack_b)
 		if (i < stack_a->size)
 			printf("%d", stack_a->stack[stack_a->size - i - 1]);
 		else 
-			printf("\t");
+			printf(" ");
 		if (i < stack_b->size)
-			printf("\t\t%d\n", stack_b->stack[stack_b->size - i - 1]);
+			printf("    %d\n", stack_b->stack[stack_b->size - i - 1]);
 		else
 			printf("\n");
 		i++;

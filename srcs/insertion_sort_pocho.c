@@ -18,8 +18,8 @@ void	insert_on_sublist(t_stack *stack_a, t_stack *stack_b)
 	pos = 0;
 	count = 0;
 	aux = stack_a->stack[stack_a->size - 1];
-	while (aux > stack_b->stack[stack_b->size - 1 - pos] \
-			&& pos < stack_b->size - 1)
+	while (aux < stack_b->stack[stack_b->size - 1 - pos] \
+			&& pos < stack_b->size)
 		pos++;
 	while (count < pos)
 	{

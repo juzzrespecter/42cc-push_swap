@@ -34,6 +34,8 @@ void	exec_instr_loop(t_data *data)
 	printf_stack(data->stack_a, data->stack_b);
 	while (instr_loop_count)
 	{
+		ft_putstr((char *)instr_loop_count->content);
+		ft_putchar('\n');
 		cmp_instr_list((char *)instr_loop_count->content, data);
 		instr_loop_count = instr_loop_count->next;	
 		printf_stack(data->stack_a, data->stack_b);
