@@ -13,7 +13,7 @@
 
 typedef struct	s_stack
 {
-	int	*stack;
+	int	*array;
 	int	size;
 }		t_stack;
 

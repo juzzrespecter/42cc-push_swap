@@ -47,7 +47,7 @@ $(PUSH_SWAP):		$(OBJS) $(PUSH_SWAP_OBJ)
 	make -C $(LIBFT_DIR)
 	$(GCC) -o $(PUSH_SWAP) $(OBJS) $(PUSH_SWAP_OBJ) $(LIB)
 
-$(OBJS_DIR)%.o:		$(SRCS_DIR)%.c
+$(OBJS_DIR)%.o:		$(SRCS_DIR)%.c $(INCLUDE)push_swap.h
 	$(GCC) -c $< -I$(INCLUDE) 
 	mkdir -p $(OBJS_DIR)
 	mv $(@F) $(OBJS_DIR)
