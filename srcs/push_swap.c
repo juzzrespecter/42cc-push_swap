@@ -14,5 +14,6 @@ int	main(int argc, char **argv)
 	err_arg_check(argc, argv);
 	data = init_data(argv);
 	insertion_sort(&data);
+	//selection_sort(&data);
 	return (EXIT_SUCCESS);
 }

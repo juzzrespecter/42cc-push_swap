@@ -39,7 +39,13 @@ void	rev_rotate(t_stack *stack_s);
 void	rev_rotate_both(t_stack *stack_a, t_stack *stack_b);
 void	cmp_instr_list(char *instr, t_data *data);
 
+/*	----	test	---- */
+
 void	printf_stack(t_stack *stack_a, t_stack *stack_b);	// to delete
 void	insertion_sort(t_data *data);				// test
+void	selection_sort(t_data *data);				// test
+int		index_pos(t_stack *stack_s, int pos);
+void	cmd_loop(t_data *data, char *cmd, int n);
+
 
 #endif

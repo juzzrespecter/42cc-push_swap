@@ -1,4 +1,5 @@
 #include "push_swap.h"
+#include <stdio.h>
 
 void	push(t_stack *stack_push, t_stack *stack_pop)
 {

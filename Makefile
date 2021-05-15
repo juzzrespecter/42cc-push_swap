@@ -15,7 +15,9 @@ SRCS			= err_arg_check.c \
 			  exec_instr_loop.c \
 			  check_stack_order.c \
 			  tmp_print_stack.c \
-			  insertion_sort.c
+			  insertion_sort.c \
+			  selection_sort.c \
+			  sort_utils.c
 
 CHECKER_MAIN		= checker.c
 
