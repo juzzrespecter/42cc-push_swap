@@ -21,6 +21,7 @@ typedef struct	s_data
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
+	int		flags[3];
 	t_list	*instr_list_head;
 }	t_data;
 
@@ -46,6 +47,7 @@ void	insertion_sort(t_data *data);				// test
 void	selection_sort(t_data *data);				// test
 int		index_pos(t_stack *stack_s, int pos);
 void	cmd_loop(t_data *data, char *cmd, int n);
+void	heap_sort(t_data *data);
 
 
 #endif

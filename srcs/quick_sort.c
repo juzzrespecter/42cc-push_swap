@@ -1,33 +1,13 @@
 #include "push_swap.h"
 
 /*
- * recursivo??
- *
- * condicion de sainda: rango del subarray es menor que 2
- *
- * escoger un pivot (criterios: ultimo elemento del array (worst_case scenario !!)
- * particion: crear dos sub arrays separados por el pivot, uno con todos los valores mayores que este
- * 			  y otro con los valores menores
- * aplicar recursion a los dos subarrays
- *
- * in-place - los sub arrays sigue formando parte del mismo stack a (no es necesario usar mas memoria con nuevos arrays)
- *
- * quicksort ( A, lo, hi )
- * 		if lo < hi then;
- * 			p := partition ( A, lo, hi )
- * 			quicksort ( A, lo,    p - 1 )
- * 			quicksort ( A, p + 1, hi    )
- *
- * partition ( A, lo, hi )
- * 		pivot := A [ hi ]					-> seleccion de pivot como el ultimo elemento del array
- * 		i	  := lo
- * 		for j := lo to hi
- * 			if A [ j ] < pivot then			-> encontrado elemento menor que el pivot
- * 				swap A [ i ] with A [ j ]	-> movemos el elemento a la parte izquierda del array
- * 				i := i + 1					-> ese elemento no vuelve a ser comparado
- * 		swap A [ i ] with A [ hi ]			-> movemos el pivot a la posicion que separa los dos arrays
- * 		return i							-> devuelve la posicion que separa el array en dos sub arrays
- *
+ * Quick sort:
+ * 		algortmo de ordenacion recursivo por comparacion, escoge un elemento 'pivot' que se usara
+ * 		para separar el array en dos sub-arrays, un conteniendo todos los elementos
+ * 		menores que el elemento pivot, y otro conteniendo los elementos mayores, para 
+ * 		despues llamar a quick sort en cada uno de estos sub-arrays que ordenaran
+ * 		en distintos sub-arrays de forma recursiva hasta alcanzar la condicion de salida
+ * 		en la que el rango del sub-array es menor que 2 (la menor unidad posible)
  *
  * pivot: A [ hi ] como pivot provoca complejidad O ( n^2 ) en casos de array con tendencia a ordenacion inversa
  * 

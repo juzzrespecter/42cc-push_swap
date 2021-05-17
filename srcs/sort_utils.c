@@ -5,7 +5,7 @@ int	index_pos(t_stack *stack_s, int pos)
 	return (stack_s->size - (pos + 1));
 }
 
-void	cmd_loop(t_data *data, char *cmd, int n)
+void	exec_cmd(char *cmd, int n, t_data *data)
 {
 	int	i;
 
@@ -15,6 +15,8 @@ void	cmd_loop(t_data *data, char *cmd, int n)
 		cmp_instr_list(cmd, data);
 		ft_putstr_fd(cmd, STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
+		if (data->flags[V])
+			print_cmd(cmd, data);
 		i++;
 	}
 }
