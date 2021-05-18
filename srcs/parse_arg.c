@@ -1,7 +1,5 @@
 #include "push_swap.h"
 
-/*		----- FALTA CHECKK DUPLICADOS -----	*/
-
 static int	check_int_overflow(char *integer, int size)
 {
 	int	comp_out;
@@ -35,7 +33,7 @@ static int	check_duplicates(char **argv, int pos)
 	return (0);
 }
 
-void	err_arg_check(int argc, char **argv)
+void	parse_arg(int argc, char **argv)
 {
 	int	count;
 	int	i;
@@ -62,3 +60,11 @@ void	err_arg_check(int argc, char **argv)
 		count++;
 	}
 }
+
+/*
+ * 00000009 <--- valido
+ * -v, -h, -r, -s
+ * if -r: arg[i + 1] == num, arg[i + 2] puede ser BEST_CASE o WORST_CASE
+ *
+ *
+ */

@@ -2,6 +2,8 @@
 # define PUSH_SWAP_H
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/wait.h>
+# include <fcntl.h>
 # include "libft.h"
 
 # define E_DUPL 1
@@ -10,6 +12,11 @@
 # define E_INTOVF 4
 # define E_NOMEM 5
 # define E_NOINSTR 6
+
+# define V 0
+# define R 1
+# define S 2
+# define H 3
 
 typedef struct	s_stack
 {
@@ -24,6 +31,15 @@ typedef struct	s_data
 	int		flags[3];
 	t_list	*instr_list_head;
 }	t_data;
+
+typedef struct	s_print_info
+{
+	int	width_a;
+	int	width_b;
+	int	height;
+	int	width;
+	char	*cmd;
+}		t_print_info;
 
 void	err_arg_check(int argc, char **argv);
 t_data	init_data(char **argv);

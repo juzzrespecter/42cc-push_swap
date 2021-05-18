@@ -11,7 +11,7 @@ int	main(int argc, char **argv)
 	 * caso de error, imprime mensaje pertinente.
 	 */
 
-	err_arg_check(argc, argv);
+	parse_arg(argc, argv);
 	data = init_data(argv);
 //	insertion_sort(&data);
 	heap_sort(&data);

@@ -17,8 +17,48 @@
  * -> comparar entre el primer elemento, el elemento de mitad de la lista y el ultimo, usando el valor del medio como pivot
  */
 
-void	quick_sort(t_data *data)
+static void	partition(t_data *data, int low, int high)
 {
-	check_already_sorted();
+	/*
+	 * select pivot
+	 * while (i + low < high)
+	 * if data->stack_a->array[index_pos(i + low)]
+	 * 	pb
+	 * 	i++;
+	 * while (data->stack_b->size)
+	 * 	pa
+	 * ret;
+	 */
 
+	int	i;
+	int	pivot;
+
+	i = 0;
+	pivot = data->stack_a->array[index_pos(data->stack_a, high)]; // provisional
+	while (i + low < high)
+	{
+		if (data->stack_a->array[index_pos(data->stack_a, i + low)] < pivot)
+			exec_cmd(data, "pb", 1);
+		i++;
+	}
+}
+
+static void	quick_sort(t_data *data, int i, int j)
+{
+	int	pos;
+
+	pos = partition(data, i, j);
+	quick_sort(data, i, j - pos);
+	quick_sort(data, i + pos, j);
+}
+
+void	quick_sort_init(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = data->stack_a->size;	
+	check_already_sorted(data->stack_a);
+	quick_sort(data, i, j);
 }

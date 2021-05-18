@@ -19,11 +19,15 @@ SRCS			= err_arg_check.c \
 			  heap_sort.c \
 			  sort_utils.c
 
+SRCS_BONUS		= bonus_rand.c \
+			  bonus_print.c \
+			  bonus_save.c
+
 CHECKER_MAIN		= checker.c
 
 PUSH_SWAP_MAIN		= push_swap.c
 
-INCLUDE			= ./includes/
+INCLUDE_DIR			= ./includes/
 
 OBJS_DIR		= ./objs/
 
@@ -49,8 +53,8 @@ $(PUSH_SWAP):		$(OBJS) $(PUSH_SWAP_OBJ)
 	make -C $(LIBFT_DIR)
 	$(GCC) -o $(PUSH_SWAP) $(OBJS) $(PUSH_SWAP_OBJ) $(LIB)
 
-$(OBJS_DIR)%.o:		$(SRCS_DIR)%.c $(INCLUDE)push_swap.h
-	$(GCC) -c $< -I$(INCLUDE) 
+$(OBJS_DIR)%.o:		$(SRCS_DIR)%.c $(INCLUDE_DIR)push_swap.h
+	$(GCC) -c $< -I$(INCLUDE_DIR) 
 	mkdir -p $(OBJS_DIR)
 	mv $(@F) $(OBJS_DIR)
 

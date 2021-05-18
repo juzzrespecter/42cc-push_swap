@@ -67,7 +67,7 @@ int	main(int argc, char **argv)
 	imprime lo que proceda;*/
 
 	/*	err check	*/
-	err_arg_check(argc, argv);
+	parse_arg(argc, argv);
 
 	/*	fill stack	*/
 	data = init_data(argv);
