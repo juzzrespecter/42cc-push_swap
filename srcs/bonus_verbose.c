@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-static void	get_stack_width(t_stack *stack_s)
+static int	get_stack_width(t_stack stack_s)
 {
 	int	current;
 	int	width;
@@ -10,50 +10,53 @@ static void	get_stack_width(t_stack *stack_s)
 	count = 0;
 	width = 0;
 	current = 0;
-	while ((count + 1) < stack_s->size)
+	while ((count + 1) < stack_s.size)
 	{
-		n = stack_s->array[count];
-		n = -1 * (stack_s->array[count] < 0);
+		n = stack_s.array[count];
+		if (n < 0)
+			n *= -1;
 		if (current < n)
 			current = n;
 		count++;
 	}
-	while (current / 10)
+	while (current)
+	{
 		width++;
-	return (width++);
-}
-
-static void print_cmd_process(t_print_info *purse, t_data *data)
-{
-	int	dup_out;
-
-	dup_out = dup2(STDOUT_FILENO, STDERR_FILENO);	// check this
-	/*
-	 * printf ceiling * purse->width
-	 * (printf wall + marg + stack_a + sep + stack_b + marg + wall) * purse->height
-	 * printf floor * purse->width
-	 * 
-	 * printf descrp
-	 * (press enter to continue...)
-	 */
-	exit(EXIT_SUCCESS);
+		current /= 10;
+	}
+	return (width);
 }
 
 void	print_cmd(char *cmd, t_data *data)
 {	
-	t_print_info purse;
 	pid_t	pid_print;
+	int	dup_out;
+	char	buffer[1000]; // buscar una forma mas elegante pa hacer esto
 
-	purse.width_a = get_stack_width(data->stack_a);
-	purse.width_a = get_stack_width(data->stack_b);
-	purse.height = data->stack_a->size;
-	if (data->stack_b->size > data->stack_a->size)
-		purse.height = data->stack_b->size;
-	// add margins to height
-	purse.width = purse.width_a + purse.width_b /* + margins */;
-	purse.cmd = cmd;
+	data->purse.cmd = cmd;
 	pid_print = fork();
 	if (pid_print == 0)
-		print_cmd_process(&purse, data);
-	wait();
+	{
+		dup_out = dup2(STDERR_FILENO, STDOUT_FILENO);	// check this
+		print_ceiling(data->purse);
+		print_walls(data->purse, data);
+		print_ceiling(data->purse);
+		ft_putstr("\n\n\n");
+		print_cmd_info(cmd, data);
+		ft_putstr_fd("(press ENTER to continue...)\n", STDOUT_FILENO);
+		read(STDIN_FILENO, buffer, 1000);
+		exit(EXIT_SUCCESS);
+
+	}
+	wait(NULL);
+}
+
+t_print_info	init_print_cmd(t_stack stack_s)
+{
+	t_print_info purse;
+
+	purse.width_stack = get_stack_width(stack_s);
+	purse.width = purse.width_stack + 11;
+	purse.height = stack_s.size + 5;
+	return (purse);
 }

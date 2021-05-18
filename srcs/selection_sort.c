@@ -34,10 +34,10 @@ void	selection_sort(t_data *data)
 	while (i < data->stack_a->size)
 	{
 			pos = find_smaller_pos(data->stack_a, i);
-			cmd_loop(data, "pb", pos);
+			exec_cmd("pb", pos, data);
 			rotate(data->stack_a);
 			ft_putstr_fd("ra\n", STDOUT_FILENO);
-			cmd_loop(data, "pa", pos);
+			exec_cmd("pa", pos, data);
 		i++;
 	}
 }

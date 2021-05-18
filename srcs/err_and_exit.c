@@ -5,16 +5,10 @@
 
 void	free_data(t_data *data)
 {
-	if (data->stack_a)
-	{
-		free(data->stack_a->array);
-		free(data->stack_a);
-	}
-	if (data->stack_b)
-	{
-		free(data->stack_b->array);
-		free(data->stack_b);
-	}
+	if (data->stack_a.array)
+		free(data->stack_a.array);
+	if (data->stack_b.array)
+		free(data->stack_b.array);
 	if (data->instr_list_head)
 		ft_lstclear(&data->instr_list_head, &free);
 }
@@ -34,6 +28,8 @@ void	err_and_exit(t_data *data, char *err_token, int err_code)
 		ft_putstr_fd(": argument overflows integer limits.\n", STDERR_FILENO);
 	if (err_code == E_NOMEM)
 		ft_putstr_fd("Not enough memory space on system\n", STDERR_FILENO);
+	if (err_code == E_NOFLAG)
+		ft_putstr_fd(": unknown flag.\n", STDERR_FILENO);
 	if (err_code == E_NOINSTR)
 	{
 		ft_putstr_fd(": not a valid instruction.\n", STDERR_FILENO);

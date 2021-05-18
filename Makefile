@@ -6,7 +6,7 @@ PUSH_SWAP		= push_swap
 
 SRCS_DIR		= ./srcs/
 
-SRCS			= err_arg_check.c \
+SRCS			= parse_arg.c \
 			  init_data.c \
 			  err_and_exit.c \
 			  swap.c \
@@ -14,10 +14,14 @@ SRCS			= err_arg_check.c \
 			  rotate.c \
 			  exec_instr_loop.c \
 			  check_stack_order.c \
-			  tmp_print_stack.c \
 			  insertion_sort.c \
 			  heap_sort.c \
-			  sort_utils.c
+			  sort_utils.c \
+			  bonus_rand.c \
+			  bonus_verbose.c \
+			  bonus_verbose_utils.c \
+			  bonus_save.c \
+			  bonus_help.c
 
 SRCS_BONUS		= bonus_rand.c \
 			  bonus_print.c \

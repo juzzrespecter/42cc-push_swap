@@ -4,6 +4,8 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <limits.h>
+# include <time.h>
 # include "libft.h"
 
 # define E_DUPL 1
@@ -12,11 +14,12 @@
 # define E_INTOVF 4
 # define E_NOMEM 5
 # define E_NOINSTR 6
+# define E_NOFLAG 7
 
-# define V 0
-# define R 1
-# define S 2
-# define H 3
+# define V_FLAG 0
+# define R_FLAG 1
+# define S_FLAG 2
+# define H_FLAG 3
 
 typedef struct	s_stack
 {
@@ -24,24 +27,24 @@ typedef struct	s_stack
 	int	size;
 }		t_stack;
 
-typedef struct	s_data
-{
-	t_stack	*stack_a;
-	t_stack	*stack_b;
-	int		flags[3];
-	t_list	*instr_list_head;
-}	t_data;
-
 typedef struct	s_print_info
 {
-	int	width_a;
-	int	width_b;
+	int	width_stack;
 	int	height;
 	int	width;
 	char	*cmd;
 }		t_print_info;
 
-void	err_arg_check(int argc, char **argv);
+typedef struct	s_data
+{
+	t_stack	stack_a;
+	t_stack	stack_b;
+	int		flags[4];
+	t_print_info	purse;
+	t_list	*instr_list_head;
+}	t_data;
+
+void	parse_arg(int argc, char **argv);
 t_data	init_data(char **argv);
 void	err_and_exit(t_data *t_data, char *err_token, int err_code);
 void	free_data(t_data *t_data);
@@ -58,12 +61,19 @@ void	cmp_instr_list(char *instr, t_data *data);
 
 /*	----	test	---- */
 
-void	printf_stack(t_stack *stack_a, t_stack *stack_b);	// to delete
 void	insertion_sort(t_data *data);				// test
 void	selection_sort(t_data *data);				// test
-int		index_pos(t_stack *stack_s, int pos);
-void	cmd_loop(t_data *data, char *cmd, int n);
+int		index_pos(t_stack stack_s, int pos);
+void	exec_cmd(char *cmd, int n, t_data *data);
 void	heap_sort(t_data *data);
+void	print_cmd(char *cmd, t_data *data);
+
+void	print_ceiling(t_print_info purse);
+void	print_walls(t_print_info purse, t_data *data);
+void	print_cmd_info(char *cmd, t_data *data);
+t_print_info	init_print_cmd(t_stack stack_s);
+void	print_help_and_exit(void);
+t_stack	fill_stack_with_rand(int start, char **argv);
 
 
 #endif

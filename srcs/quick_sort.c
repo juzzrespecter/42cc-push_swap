@@ -41,6 +41,7 @@ static void	partition(t_data *data, int low, int high)
 			exec_cmd(data, "pb", 1);
 		i++;
 	}
+
 }
 
 static void	quick_sort(t_data *data, int i, int j)

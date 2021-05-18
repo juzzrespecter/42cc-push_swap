@@ -1,17 +1,10 @@
 #include "push_swap.h"
 
-/*
- * check if stack_a is sorted
- *
- * check if stack_b is empty
- *
- */
-
 static void	check_stack_ko(t_data *data)
 {
-			ft_putstr("KO\n");
-			free_data(data);
-			exit(EXIT_SUCCESS);
+	ft_putstr("KO\n");
+	free_data(data);
+	exit(EXIT_SUCCESS);
 }
 
 static void	check_stack_ok(t_data *data)
@@ -26,11 +19,11 @@ void	check_stack_order(t_data *data)
 	int	i;
 
 	i = 0;
-	if (data->stack_b->size != 0 || data->stack_a->size == 0)
+	if (data->stack_b.size != 0 || data->stack_a.size == 0)
 		check_stack_ko(data);
-	while (i < data->stack_a->size)
+	while (i < data->stack_a.size)
 	{
-		if (i > 0 && data->stack_a->array[i] > data->stack_a->array[i - 1])
+		if (i > 0 && data->stack_a.array[i] > data->stack_a.array[i - 1])
 			check_stack_ko(data);
 		i++;
 	}

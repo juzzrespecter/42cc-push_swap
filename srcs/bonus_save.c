@@ -2,6 +2,7 @@
 
 void	save_to_file(t_data *data)
 {
+	(void) data;
 	/*
 	 * open file
 	 *

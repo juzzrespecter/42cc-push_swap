@@ -27,7 +27,7 @@
  *				  hueco dejado por el primer hijo con el mayor de sus hijos hasta llegar
  *				  al final del heap 
  *
- * 		complejidad del algoritmo: O( n * log(n) ), donde n == stack_a->size
+ * 		complejidad del algoritmo: O( n * log(n) ), donde n == stack_a.size
  * 		en cualquier caso.
  *
  * 		heapify == (...) + pb
@@ -37,19 +37,51 @@
 #include "push_swap.h"
 #include <stdio.h>
 
-static void	ordenar_stack()
+static void	ordenar_stack(t_data *data, int n)
 {
+	int	i;
+
+	i = 0;
+	exec_cmd("pa", 1, data);
+	while (i < n)
+	{
+		exec_cmd("sa", 1, data);
+		exec_cmd("ra", 1, data);
+		i++;
+	}
+	exec_cmd("rra", n, data);
 }
 
-static void segunda_iteracion()
+static void segunda_iteracion(int i, int new, int n_stack, t_data *data)
 {
+	int	parent;
 
+	exec_cmd("rrb", i, data);
+	ordenar_stack(data, n_stack);
+	parent = data->stack_b.array[i/2 - 1];
+	if (new > parent && i > 0)
+		segunda_iteracion(i/2, new, n_stack++, data);
+	exec_cmd("pb", 1, data);
+	exec_cmd("rb", i, data);
 }
 
-static void	heapify(/* valor a comparar, stack, heap */int n, t_data *data)
+static void	primera_iteracion(int i, int new, t_data *data)
 {
-	t_stack *stack;
-	t_stack *heap;
+	int	parent;
+
+	exec_cmd("rb", i, data);
+	ordenar_stack(data, 1);
+	parent = data->stack_b.array[i/2 - 1];
+	if (new > parent && i > 0)
+		segunda_iteracion(i/2, new, 2, data);
+	exec_cmd("pb", 1, data);
+	exec_cmd("rrb", i, data);
+}
+
+static void	heapify(/* valor a comparar, stack, heap */int new, t_data *data)
+{
+	t_stack stack;
+	t_stack heap;
 	int	parent;
 	int	i;
 
@@ -91,7 +123,7 @@ static void	heapify(/* valor a comparar, stack, heap */int n, t_data *data)
 	 * 			parent = heap[i - 1]
 	 * 			if new > parent
 	 * 			{
-	 * 				ordenar_stack();
+	 * 				ordenar_stack(data, n);
 	 * 				i * rrb;
 	 * 				segunda_iteracion();
 	 * 				i * rb;
@@ -104,8 +136,19 @@ static void	heapify(/* valor a comparar, stack, heap */int n, t_data *data)
 	 *
 	 *
 	 */
-
-
+	stack = data->stack_a;
+	heap = data->stack_b;
+	if (heap.size == 0)
+	{
+		exec_cmd("pb", 1, data);
+		return ;
+	}
+	i = heap.size / 2;
+	parent = heap.array[index_pos(heap, i + 1)];
+	if (new > parent)
+		primera_iteracion(i, new, data);
+	exec_cmd("pb", 1, data);
+	exec_cmd("rb", 1, data);
 }
 
 /*static void	delete_from_heap(t_data *data)
@@ -124,16 +167,15 @@ static void	heapify(/* valor a comparar, stack, heap */int n, t_data *data)
 void	heap_sort(t_data *data)
 {
 	int	stack_size;
-	int	n;
+	int	new;
 	int	i;
 
-	stack_size = data->stack_a->size;
+	stack_size = data->stack_a.size;
 	i = 0;
 	while (i < stack_size)
 	{
-		n = data->stack_a->array[index_pos(data->stack_a, 0)];
-		printf("n: (%d)\n", n);
-		heapify(n, data);
+		new = data->stack_a.array[index_pos(data->stack_a, 0)];
+		heapify(new, data);
 		i++;
 	}
 	i = 0;
