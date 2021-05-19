@@ -39,12 +39,3 @@ void	err_and_exit(t_data *data, char *err_token, int err_code)
 		free_data(data);
 	exit(EXIT_FAILURE);
 }
-
-/*
- * 	- argumento duplicado
- * 	- no se ha pasado un argumento
- * 	- argumento no es un numero
- * 	- argumento es superior a un entero
- * 	- enomem
- * 	- instruccion invalida
- */

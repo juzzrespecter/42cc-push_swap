@@ -6,7 +6,8 @@ PUSH_SWAP		= push_swap
 
 SRCS_DIR		= ./srcs/
 
-SRCS			= parse_arg.c \
+SRCS			= parse_args.c \
+			  parse_args_checker.c \
 			  init_data.c \
 			  err_and_exit.c \
 			  swap.c \
@@ -59,8 +60,8 @@ $(PUSH_SWAP):		$(OBJS) $(PUSH_SWAP_OBJ)
 
 $(OBJS_DIR)%.o:		$(SRCS_DIR)%.c $(INCLUDE_DIR)push_swap.h
 	$(GCC) -c $< -I$(INCLUDE_DIR) 
-	mkdir -p $(OBJS_DIR)
-	mv $(@F) $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)
+	@mv $(@F) $(OBJS_DIR)
 
 clean:
 	make clean -C $(LIBFT_DIR)

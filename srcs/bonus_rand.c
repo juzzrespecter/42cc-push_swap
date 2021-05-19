@@ -43,12 +43,14 @@ static int	is_duplicate(int to_add, int *array, int array_pos)
 	i = 0;
 	while (i < array_pos)
 	{
-		if (array[array_pos] == to_add)
+		if (array[i] == to_add)
 			return (1);
 		i++;
 	}
 	return (0);
 }
+
+#include <stdio.h>
 
 t_stack	fill_stack_with_rand(int start, char **argv)
 {
@@ -58,10 +60,10 @@ t_stack	fill_stack_with_rand(int start, char **argv)
 	int	to_add;
 	int	i;
 
-	n_elem = ft_atoi(argv[start + 1]);
-	if (argv[start + 2] != NULL)
+	n_elem = ft_atoi(argv[start]);
+	if (argv[start + 1] != NULL)
 	{
-		if (!ft_strncmp(argv[start + 2], "BEST", 4))
+		if (argv[start + 1][0] ==  'B')
 			return (fill_stack_with_best_case(n_elem));
 		else
 			return (fill_stack_with_worst_case(n_elem));
@@ -74,7 +76,7 @@ t_stack	fill_stack_with_rand(int start, char **argv)
 	srand((unsigned)&t_seed);
 	while (i < n_elem)
 	{
-		to_add = 2 * rand() % INT_MAX + INT_MIN;
+		to_add = 2 * (rand() % INT_MAX) + INT_MIN;
 		if (!is_duplicate(to_add, stack_a.array, i))
 		{
 			stack_a.array[i] = to_add;

@@ -56,7 +56,7 @@ t_print_info	init_print_cmd(t_stack stack_s)
 	t_print_info purse;
 
 	purse.width_stack = get_stack_width(stack_s);
-	purse.width = purse.width_stack + 11;
+	purse.width = purse.width_stack + 33;
 	purse.height = stack_s.size + 5;
 	return (purse);
 }

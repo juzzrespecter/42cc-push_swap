@@ -34,108 +34,62 @@
  * 		delete == (...) + pa
  */
 
+/*
+ *	coge bien los indices
+ *	parece que falla a la hora de meter el ultimo paso, justo
+ *	cuando llega al root
+ *
+ *
+ */
+
+
 #include "push_swap.h"
 #include <stdio.h>
 
-static void	ordenar_stack(t_data *data, int n)
+static void heapify_up(int n, int i, t_data *data)
 {
-	int	i;
-
-	i = 0;
-	exec_cmd("pa", 1, data);
-	while (i < n)
+	if (n < 0)
 	{
-		exec_cmd("sa", 1, data);
-		exec_cmd("ra", 1, data);
-		i++;
+		exec_cmd("rra", 1, data);
+		return ;
 	}
-	exec_cmd("rra", n, data);
+	exec_cmd("pa", 1, data);
+	exec_cmd("rrb", i, data);
+	heapify_up(n - 1, i / 2, data);
+	exec_cmd("pb", 1 , data);
+	exec_cmd("rb", i, data);	
 }
 
-static void segunda_iteracion(int i, int new, int n_stack, t_data *data)
+static int	n_of_recursions(int leaf, t_stack heap)
 {
+	int	n;
+	int	i;
 	int	parent;
 
-	exec_cmd("rrb", i, data);
-	ordenar_stack(data, n_stack);
-	parent = data->stack_b.array[i/2 - 1];
-	if (new > parent && i > 0)
-		segunda_iteracion(i/2, new, n_stack++, data);
-	exec_cmd("pb", 1, data);
-	exec_cmd("rb", i, data);
+	n = 0;
+	i = (heap.size + 1) / 2;
+	parent = heap.array[index_pos(heap, i - 1)];
+//	printf("son: %d, parent: %d\n", leaf, parent);
+//	printf("i: (%d), index_pos: (%d)\n", i, index_pos(heap, i - 1));
+	while (leaf > parent && i > 0)
+	{
+//		printf("---while---\nson: %d, parent: %d\n", leaf, parent);
+//		printf("i: (%d), index_pos: (%d)\n", i, index_pos(heap, i - 1));
+		n++;
+		i /= 2;
+		parent = heap.array[index_pos(heap, i - 1)];
+	}
+//	printf("n: (%d)\n", n);
+	return (n);
 }
 
-static void	primera_iteracion(int i, int new, t_data *data)
-{
-	int	parent;
-
-	exec_cmd("rb", i, data);
-	ordenar_stack(data, 1);
-	parent = data->stack_b.array[i/2 - 1];
-	if (new > parent && i > 0)
-		segunda_iteracion(i/2, new, 2, data);
-	exec_cmd("pb", 1, data);
-	exec_cmd("rrb", i, data);
-}
-
-static void	heapify(/* valor a comparar, stack, heap */int new, t_data *data)
+static void	heapify(int leaf, t_data *data)
 {
 	t_stack stack;
 	t_stack heap;
-	int	parent;
 	int	i;
+	int	n;
 
-	/*
-	 * i == indice para moverse por heap
-	 * index_pos(i) == posicion real del elemento en el array
-	 * 		( index_pos(i) == size - i )
-	 * 		i := { i(new) == size, i(root == top stack) == 1 }
-	 *
-	 * if ( primer_elemento )
-	 * 		pb, ret;
-	 * set up i, new, parent:
-	 * 		i 	= size / 2
-	 * 		new = stack[size - 1]
-	 * 		parent = heap[index_pos(i + 1)] -> i rang [ 1, size ]
-	 * while ( new > parent )
-	 * 		mover heap (rb) hasta encontrar parent
-	 * 		recogemos todos los parents menores que new y los ordenamos de forma inversa en stack (pa + (sa * ra) * n + rra * n )
-	 *		condicion new < parent: hacemos pb a todos los elementos almacenados temporalmente en sus respectivas posiciones
-	 *		primera_iteracion()
-	 *		{
-	 *			if new > parent
-	 *			{
-	 *				rb * i
-	 *				ordenar stack ( pa + (sa * ra ) * n_de_movimientos + rra * n_de_movimientos )	
-	 *				segunda_iteracion();
-	 *				rrb * i
-	 *			}
-	 *			pb;
-	 *			rb;
-	 *		}
-	 *
-	 * 		segunda_iteracion()
-	 * 		{
-	 * 			cambio de criterio para los indices: index_pos(i + 1) -> i - 1
-	 *			
-	 *			i     /= 2;
-	 * 			new    = cnst.
-	 * 			parent = heap[i - 1]
-	 * 			if new > parent
-	 * 			{
-	 * 				ordenar_stack(data, n);
-	 * 				i * rrb;
-	 * 				segunda_iteracion();
-	 * 				i * rb;
-	 * 				pb
-	 * 			}
-	 * 			ret;
-	 * 		}
-	 *
-	 *
-	 *
-	 *
-	 */
 	stack = data->stack_a;
 	heap = data->stack_b;
 	if (heap.size == 0)
@@ -143,45 +97,50 @@ static void	heapify(/* valor a comparar, stack, heap */int new, t_data *data)
 		exec_cmd("pb", 1, data);
 		return ;
 	}
-	i = heap.size / 2;
-	parent = heap.array[index_pos(heap, i + 1)];
-	if (new > parent)
-		primera_iteracion(i, new, data);
-	exec_cmd("pb", 1, data);
+	n = n_of_recursions(leaf, heap);
+	if (n > 0)
+	{
+		i = heap.size / 2;
+		exec_cmd("rr", 1, data);				// guarda elemento a pushear
+		exec_cmd("rb", i - 1, data);	// mueve a primer parent
+		heapify_up(n - 1, i, data);
+		exec_cmd("rrb", i, data);
+	}
+	exec_cmd("pb", 1, data);				// mete el elemento hoja
 	exec_cmd("rb", 1, data);
 }
 
-/*static void	delete_from_heap(t_data *data)
+static void	delete_from_heap(t_data *data)
 {
 	int	n;
 
-	n = data->stack_a->array[index_pos(data->stack_a, 0)];
-	cmd_loop(data, "pa", 2);
-	* guarda el root
-	 * pilla el ultimo elemento en el stack (rb, pa)
-	 * llama a heapify para que inserte ese elemento
-	 *
+	n = data->stack_a.array[index_pos(data->stack_a, 0)];
+	exec_cmd("pa", 1, data);
+	if (data->stack_b.size == 0)
+		return ;
+	exec_cmd("rrb", 1, data);
+	exec_cmd("pa", 1, data);
 	heapify(n, data);
-}*/
+}
 
 void	heap_sort(t_data *data)
 {
 	int	stack_size;
-	int	new;
+	int	son;
 	int	i;
 
 	stack_size = data->stack_a.size;
 	i = 0;
 	while (i < stack_size)
 	{
-		new = data->stack_a.array[index_pos(data->stack_a, 0)];
-		heapify(new, data);
+		son = data->stack_a.array[index_pos(data->stack_a, 0)];
+		heapify(son, data);
 		i++;
 	}
 	i = 0;
-	/*while (i < stack_size)
+	while (i < stack_size)
 	{
 		delete_from_heap(data);
 		i++;
-	}*/
+	}
 }

@@ -26,7 +26,7 @@ static int	check_if_valid_instr(char *instr)
 	/* strcmp sa sb ss pa pb ra rb rr rra */
 }
 
-static void	save_instr(char *instr, t_data *data)
+void	save_instr(char *instr, t_data *data)
 {
 	t_list	*instr_node;
 	t_list	*instr_head;
@@ -67,7 +67,7 @@ int	main(int argc, char **argv)
 	imprime lo que proceda;*/
 
 	/*	err check	*/
-	parse_arg(argc, argv);
+	parse_args_checker(argc, argv);
 
 	/*	fill stack	*/
 	data = init_data(argv);

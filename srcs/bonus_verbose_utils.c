@@ -27,10 +27,14 @@ static void	print_element(int width_stack, int i, t_stack stack_s)
 	if (i < stack_s.size)
 	{
 		elem = ft_itoa(stack_s.array[stack_s.size - (i + 1)]);
+		if (elem > 0)
+			ft_putchar(' ');
 		elem_len = ft_strlen(elem);
 		ft_putstr(elem);
 		free(elem);
 	}
+	else
+		ft_putchar(' ');
 	while (elem_len + count < width_stack)
 	{
 		ft_putchar(' ');
@@ -46,11 +50,11 @@ void	print_walls(t_print_info purse, t_data *data)
 	i = 0;
 	while (i < purse.height)
 	{
-		ft_putstr("          |  ");
+		ft_putstr("          |      ");
 		print_element(purse.width_stack, i, data->stack_a);
-		ft_putstr("  $$  ");
+		ft_putstr("     $|$    ");
 		print_element(purse.width_stack, i, data->stack_b);
-		ft_putstr("  |\n");
+		ft_putstr("       |\n");
 		i++;
 	}
 }
@@ -58,9 +62,20 @@ void	print_walls(t_print_info purse, t_data *data)
 void	print_cmd_info(char *cmd, t_data *data)
 {
 /*
+ *	swap: amarillo
+ *	push: morado
+ *	rot: rojo
+ *
+ *
  * tmp
  */
 
 	(void) data;
+	ft_putstr("          ");
 	ft_putstr(cmd);
+	ft_putchar('\n');
+	/*
+	 * if cmd == sa
+	 * 		swapped
+	 */
 }

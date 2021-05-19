@@ -1,19 +1,17 @@
 #include "push_swap.h"
 
-static int	init_flags(char **argv, t_data *data)
+static int	init_flags(char **argv, t_data *data) // no
 {
 	int	i;
 	
 	i = 1;
-	while (i < 5)
+	while (argv[i])
 	{
-		if (!ft_strncmp("-v", argv[i + 1], 3))
+		if (!ft_strncmp("-v", argv[i], 3))
 			data->flags[V_FLAG] = 1;
-		else if (!ft_strncmp("-r", argv[i + 1], 3))
+		else if (!ft_strncmp("-r", argv[i], 3))
 			data->flags[R_FLAG] = 1;
-		else if (!ft_strncmp("-h", argv[i + 1], 3))
-			data->flags[H_FLAG] = 1;
-		else if (!ft_strncmp("-s", argv[i + 1], 3))
+		else if (!ft_strncmp("-s", argv[i], 3))
 			data->flags[S_FLAG] = 1;
 		else
 			return (i);
@@ -34,7 +32,7 @@ static t_stack	fill_stack(int start, char **argv)
 	stack_s.array = (int *)malloc(sizeof(int) * stack_s.size);
 	if (stack_s.array == NULL)
 		err_and_exit(NULL, NULL, E_NOMEM);
-	while (argv[start + i + 1])
+	while (argv[start + i])
 	{
 		stack_s.array[stack_s.size - i - 1] = ft_atoi(argv[start + i]);
 		i++;
@@ -48,8 +46,6 @@ static t_stack	flag_manager(char **argv, t_data *data)
 	t_stack	stack_a;
 
 	argv_start = init_flags(argv, data);
-	if (data->flags[H_FLAG])
-		print_help_and_exit();
 	if (data->flags[R_FLAG])
 		stack_a = fill_stack_with_rand(argv_start, argv);
 	else

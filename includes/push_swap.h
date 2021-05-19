@@ -44,7 +44,6 @@ typedef struct	s_data
 	t_list	*instr_list_head;
 }	t_data;
 
-void	parse_arg(int argc, char **argv);
 t_data	init_data(char **argv);
 void	err_and_exit(t_data *t_data, char *err_token, int err_code);
 void	free_data(t_data *t_data);
@@ -58,6 +57,12 @@ void	rotate_both(t_stack *stack_a, t_stack *stack_b);
 void	rev_rotate(t_stack *stack_s);
 void	rev_rotate_both(t_stack *stack_a, t_stack *stack_b);
 void	cmp_instr_list(char *instr, t_data *data);
+
+void	parse_args(int i, char **argv);
+void	parse_args_checker(int i, char **argv);
+void	parse_element(int i, int stack_sizee, char **argv);
+void	parse_element_overflow(char *element);
+void	parse_element_duplicates(int start, char **argv);
 
 /*	----	test	---- */
 
