@@ -29,20 +29,25 @@ typedef struct	s_stack
 
 typedef struct	s_print_info
 {
-	int	width_stack;
 	int	height;
 	int	width;
+	int	width_stack;
+	char	*left_margin;
+	int	padding;
+	char	wall;
+	char	margin;
 	char	*cmd;
 }		t_print_info;
 
 typedef struct	s_data
 {
-	char	*filename;
 	t_stack	stack_a;
 	t_stack	stack_b;
-	int		flags[4];
-	t_print_info	purse;
 	t_list	*instr_list_head;
+	int		flags[4];
+	char	*filename;
+	t_print_info	purse;
+	int	save_fd;
 }	t_data;
 
 t_data	init_data(char **argv);
@@ -76,13 +81,14 @@ void	exec_cmd(char *cmd, int n, t_data *data);
 void	heap_sort(t_data *data);
 void	print_cmd(char *cmd, t_data *data);
 
-void	print_ceiling(t_print_info purse);
-void	print_walls(t_print_info purse, t_data *data);
-void	print_cmd_info(char *cmd, t_data *data);
+void	print_margin(t_print_info purse);
+void	print_body(t_print_info purse, t_data *data);
+void	print_instr(char *instr, int fd);
 t_print_info	init_print_cmd(t_stack stack_s);
 void	print_help_and_exit(void);
 t_stack	fill_stack_with_rand(int start, char **argv);
-void	save_to_file(t_data *data);
+int	init_savefile(char *filename);
+
 
 
 #endif

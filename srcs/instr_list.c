@@ -65,5 +65,5 @@ void	print_instr_loop(t_data *data)
 		instr_loop_count = instr_loop_count->next;	
 	}
 	if (data->flags[S_FLAG])
-		save_to_file(data);
+		close(data->save_fd);
 }

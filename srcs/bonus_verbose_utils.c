@@ -1,81 +1,78 @@
 #include "push_swap.h"
 
-void	print_ceiling(t_print_info purse)
+static void	print_padding(int padding, int neg)
 {
 	int	i;
 
 	i = 0;
-	ft_putstr("          ");
-	while (i < purse.width)
+	while (i + neg < padding)
 	{
-		ft_putstr("_");
+		ft_putchar(' ');
 		i++;
 	}
-	ft_putstr("\n");
 }
 
-static void	print_element(int width_stack, int i, t_stack stack_s)
+#include <stdio.h>
+
+static void	print_stack(int i, t_print_info purse,  t_stack stack_s)
 {
-	int	elem_len;
-	char	*elem;
 	int	count;
+	int	index;
+	int	written;
+	char	*element;
 
-	/* faltan instrucciones colorizadas */
-
-	elem_len = 0;
 	count = 0;
-	if (i < stack_s.size)
+	index = index_pos(stack_s, i) + (purse.height - stack_s.size);
+	written = 0;
+	//printf("index: %d, i: %d, height: %d, stack: %d\n", index,i,purse.height,stack_s.size);
+	if (purse.height - (i + 1) < stack_s.size)
 	{
-		elem = ft_itoa(stack_s.array[stack_s.size - (i + 1)]);
-		if (stack_s.array[stack_s.size - (i + 1)]  > 0)
-			ft_putchar(' ');
-		elem_len = ft_strlen(elem);
-		ft_putstr(elem);
-		free(elem);
+		element = ft_itoa(stack_s.array[index]);
+		ft_putstr(element);
+		written = ft_strlen(element);
 	}
-	else
-		ft_putchar(' ');
-	while (elem_len + count < width_stack)
+	written -= (stack_s.array[index] < 0);
+	while (count + written < purse.width_stack)
 	{
 		ft_putchar(' ');
 		count++;
 	}
-
 }
 
-void	print_walls(t_print_info purse, t_data *data)
+void	print_body(t_print_info purse, t_data *data)
 {
 	int	i;
+	t_stack stack_a;
+	t_stack stack_b;
 
 	i = 0;
+	stack_a = data->stack_a;
+	stack_b = data->stack_b;
 	while (i < purse.height)
 	{
-		ft_putstr("          |      ");
-		print_element(purse.width_stack, i, data->stack_a);
-		ft_putstr("     $|$    ");
-		print_element(purse.width_stack, i, data->stack_b);
-		ft_putstr("       |\n");
+		ft_putstr(purse.left_margin);
+		ft_putchar(purse.wall);
+		print_padding(purse.padding, (stack_a.array[index_pos(stack_a, i)] < 0));
+		print_stack(i, purse, stack_a);
+		ft_putstr(" | ");
+		print_stack(i, purse, stack_b);
+		print_padding(purse.padding, (stack_b.array[index_pos(stack_b, i)] < 0));
+		ft_putchar(purse.wall);
+		ft_putchar('\n');
 		i++;
 	}
 }
 
-void	print_cmd_info(char *cmd, t_data *data)
+void	print_margin(t_print_info purse)
 {
-/*
- *	swap: amarillo
- *	push: morado
- *	rot: rojo
- *
- *
- * tmp
- */
+	int	i;
 
-	(void) data;
-	ft_putstr("          ");
-	ft_putstr(cmd);
-	ft_putchar('\n');
-	/*
-	 * if cmd == sa
-	 * 		swapped
-	 */
+	i = 0;
+	ft_putstr(purse.left_margin);
+	while (i < purse.width)
+	{
+		ft_putchar(purse.margin);
+		i++;
+	}
+	ft_putstr("\n");
 }

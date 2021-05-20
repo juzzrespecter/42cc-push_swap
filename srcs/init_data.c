@@ -67,5 +67,7 @@ t_data	init_data(char **argv)
 	data.instr_list_head = NULL;
 	if (!data.stack_b.array || !data.stack_a.array)
 		err_and_exit(&data, NULL, E_NOMEM);
+	if (data.flags[S_FLAG])
+		data.save_fd = init_savefile(data.filename);
 	return (data);
 }
