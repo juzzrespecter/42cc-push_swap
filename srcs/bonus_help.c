@@ -2,6 +2,7 @@
 
 void	print_help_and_exit(void)
 {
-	ft_putstr("placeholder\n");
+	ft_putstr("Usage: ./push_swap [FLAG]... [INTEGER]...\n");
+	ft_putstr("Prints (...)\n");
 	exit(EXIT_SUCCESS);
 }

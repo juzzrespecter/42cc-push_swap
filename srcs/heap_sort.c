@@ -85,12 +85,10 @@ static int	n_of_recursions(int leaf, t_stack heap)
 
 static void	heapify(int leaf, t_data *data)
 {
-	t_stack stack;
 	t_stack heap;
 	int	i;
 	int	n;
 
-	stack = data->stack_a;
 	heap = data->stack_b;
 	if (heap.size == 0)
 	{

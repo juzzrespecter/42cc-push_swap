@@ -27,7 +27,7 @@ static void	print_element(int width_stack, int i, t_stack stack_s)
 	if (i < stack_s.size)
 	{
 		elem = ft_itoa(stack_s.array[stack_s.size - (i + 1)]);
-		if (elem > 0)
+		if (stack_s.array[stack_s.size - (i + 1)]  > 0)
 			ft_putchar(' ');
 		elem_len = ft_strlen(elem);
 		ft_putstr(elem);

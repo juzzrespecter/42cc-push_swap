@@ -59,6 +59,7 @@ t_data	init_data(char **argv)
 {
 	t_data	data;
 
+	data.filename = "save.txt";
 	ft_bzero(data.flags, sizeof(int) * 4);
 	data.stack_a = flag_manager(argv, &data);
 	data.stack_b.array = (int *)ft_calloc(sizeof(int), data.stack_a.size);

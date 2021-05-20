@@ -13,7 +13,7 @@ SRCS			= parse_args.c \
 			  swap.c \
 			  push.c \
 			  rotate.c \
-			  exec_instr_loop.c \
+			  instr_list.c \
 			  check_stack_order.c \
 			  insertion_sort.c \
 			  heap_sort.c \

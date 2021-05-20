@@ -33,10 +33,37 @@ void	exec_instr_loop(t_data *data)
 	instr_loop_count = data->instr_list_head;
 	while (instr_loop_count)
 	{
-		//ft_putstr((char *)instr_loop_count->content);
-		//ft_putchar('\n');
 		cmp_instr_list((char *)instr_loop_count->content, data);
 		instr_loop_count = instr_loop_count->next;	
 	}
 }
+void	save_instr(char *instr, t_data *data)
+{
+	t_list	*instr_node;
+	t_list	*instr_head;
 
+	instr_head = data->instr_list_head;
+	instr_node = ft_lstnew(instr);
+	if (!instr_node)
+	{
+		free(instr);
+		err_and_exit(data, NULL, E_NOMEM);
+	}
+	ft_lstadd_back(&instr_head, instr_node);
+	data->instr_list_head = instr_head;
+}
+
+void	print_instr_loop(t_data *data)
+{
+	t_list *instr_loop_count;
+
+	instr_loop_count = data->instr_list_head;
+	while (instr_loop_count)
+	{
+		ft_putstr((char *)instr_loop_count->content);
+		ft_putchar('\n');
+		instr_loop_count = instr_loop_count->next;	
+	}
+	if (data->flags[S_FLAG])
+		save_to_file(data);
+}

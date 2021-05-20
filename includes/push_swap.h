@@ -37,6 +37,7 @@ typedef struct	s_print_info
 
 typedef struct	s_data
 {
+	char	*filename;
 	t_stack	stack_a;
 	t_stack	stack_b;
 	int		flags[4];
@@ -48,6 +49,8 @@ t_data	init_data(char **argv);
 void	err_and_exit(t_data *t_data, char *err_token, int err_code);
 void	free_data(t_data *t_data);
 void	exec_instr_loop(t_data *data);
+void	print_instr_loop(t_data *data);
+void	save_instr(char *instr, t_data *data);
 void	check_stack_order(t_data *data);
 void	swap(t_stack *stack_s);
 void	swap_both(t_stack *stack_a, t_stack *stack_b);
@@ -79,6 +82,7 @@ void	print_cmd_info(char *cmd, t_data *data);
 t_print_info	init_print_cmd(t_stack stack_s);
 void	print_help_and_exit(void);
 t_stack	fill_stack_with_rand(int start, char **argv);
+void	save_to_file(t_data *data);
 
 
 #endif

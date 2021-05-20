@@ -2,8 +2,9 @@
 
 void	save_to_file(t_data *data)
 {
-	(void) data;
+	int	fd;
 	/*
+	 *
 	 * open file
 	 *
 	 * imprimir en archivo la lista de comandos
@@ -18,4 +19,8 @@ void	save_to_file(t_data *data)
 	 *
 	 *
 	 */
+
+	fd = open(data->filename, O_CREAT /* set open flags */);
+
+	close(fd);
 }

@@ -50,12 +50,9 @@ static int	is_duplicate(int to_add, int *array, int array_pos)
 	return (0);
 }
 
-#include <stdio.h>
-
 t_stack	fill_stack_with_rand(int start, char **argv)
 {
 	t_stack stack_a;
-	time_t	t_seed;
 	int	n_elem;
 	int	to_add;
 	int	i;
@@ -73,7 +70,7 @@ t_stack	fill_stack_with_rand(int start, char **argv)
 	stack_a.array = (int *)malloc(sizeof(int) * n_elem);
 	if (stack_a.array == NULL)
 		err_and_exit(NULL, NULL, E_NOMEM);
-	srand((unsigned)&t_seed);
+	srand(time(0));
 	while (i < n_elem)
 	{
 		to_add = 2 * (rand() % INT_MAX) + INT_MIN;

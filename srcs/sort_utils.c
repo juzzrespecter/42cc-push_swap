@@ -13,12 +13,9 @@ void	exec_cmd(char *cmd, int n, t_data *data)
 	while (i < n)
 	{
 		cmp_instr_list(cmd, data);
-		ft_putstr_fd(cmd, STDOUT_FILENO);
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		save_instr(cmd, data);
 		if (data->flags[V_FLAG])
 			print_cmd(cmd, data);
-		/* if (data->flags[V_FLAG])
-		 * 		save_cmd(cmd, data) */
 		i++;
 	}
 }

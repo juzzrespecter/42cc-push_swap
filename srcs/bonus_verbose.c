@@ -30,14 +30,13 @@ static int	get_stack_width(t_stack stack_s)
 void	print_cmd(char *cmd, t_data *data)
 {	
 	pid_t	pid_print;
-	int	dup_out;
 	char	buffer[1000]; // buscar una forma mas elegante pa hacer esto
 
 	data->purse.cmd = cmd;
 	pid_print = fork();
 	if (pid_print == 0)
 	{
-		dup_out = dup2(STDERR_FILENO, STDOUT_FILENO);	// check this
+		dup2(STDERR_FILENO, STDOUT_FILENO);	// check this
 		print_ceiling(data->purse);
 		print_walls(data->purse, data);
 		print_ceiling(data->purse);
