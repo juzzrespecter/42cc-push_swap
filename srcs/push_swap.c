@@ -7,7 +7,7 @@ int	main(int argc, char **argv)
 	(void) argc;
 	parse_args(1, argv);
 	data = init_data(argv);
-	heap_sort(&data);
+	quick_sort(data.stack_a.size, &data);
 	print_instr_loop(&data);
 	return (EXIT_SUCCESS);
 }

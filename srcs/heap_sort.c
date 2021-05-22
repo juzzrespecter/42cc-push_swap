@@ -50,14 +50,16 @@ static void heapify_up(int n, int i, t_data *data)
 {
 	if (n < 0)
 	{
+		printf("---exit cond.---\n");
 		exec_cmd("rra", 1, data);
 		return ;
 	}
+	printf("in heapify up: (%d).\n", i);
 	exec_cmd("pa", 1, data);
 	exec_cmd("rrb", i, data);
 	heapify_up(n - 1, i / 2, data);
-	exec_cmd("pb", 1 , data);
 	exec_cmd("rb", i, data);	
+	exec_cmd("pb", 1 , data);
 }
 
 static int	n_of_recursions(int leaf, t_stack heap)
@@ -69,17 +71,12 @@ static int	n_of_recursions(int leaf, t_stack heap)
 	n = 0;
 	i = (heap.size + 1) / 2;
 	parent = heap.array[index_pos(heap, i - 1)];
-//	printf("son: %d, parent: %d\n", leaf, parent);
-//	printf("i: (%d), index_pos: (%d)\n", i, index_pos(heap, i - 1));
 	while (leaf > parent && i > 0)
 	{
-//		printf("---while---\nson: %d, parent: %d\n", leaf, parent);
-//		printf("i: (%d), index_pos: (%d)\n", i, index_pos(heap, i - 1));
 		n++;
 		i /= 2;
 		parent = heap.array[index_pos(heap, i - 1)];
 	}
-//	printf("n: (%d)\n", n);
 	return (n);
 }
 

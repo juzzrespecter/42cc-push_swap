@@ -14,15 +14,13 @@ static void	print_padding(int padding, int neg)
 
 #include <stdio.h>
 
-static void	print_stack(int i, t_print_info purse,  t_stack stack_s)
+static void	print_stack(int i, int index, t_print_info purse,  t_stack stack_s)
 {
 	int	count;
-	int	index;
 	int	written;
 	char	*element;
 
 	count = 0;
-	index = index_pos(stack_s, i) + (purse.height - stack_s.size);
 	written = 0;
 	//printf("index: %d, i: %d, height: %d, stack: %d\n", index,i,purse.height,stack_s.size);
 	if (purse.height - (i + 1) < stack_s.size)
@@ -42,6 +40,7 @@ static void	print_stack(int i, t_print_info purse,  t_stack stack_s)
 void	print_body(t_print_info purse, t_data *data)
 {
 	int	i;
+	int	index;
 	t_stack stack_a;
 	t_stack stack_b;
 
@@ -52,11 +51,13 @@ void	print_body(t_print_info purse, t_data *data)
 	{
 		ft_putstr(purse.left_margin);
 		ft_putchar(purse.wall);
-		print_padding(purse.padding, (stack_a.array[index_pos(stack_a, i)] < 0));
-		print_stack(i, purse, stack_a);
+		index = index_pos(stack_a, i - (purse.height - stack_a.size));
+		print_padding(purse.padding, (stack_a.array[index] < 0));
+		print_stack(i, index, purse, stack_a);
 		ft_putstr(" | ");
-		print_stack(i, purse, stack_b);
-		print_padding(purse.padding, (stack_b.array[index_pos(stack_b, i)] < 0));
+		index = index_pos(stack_b, i - (purse.height - stack_b.size));
+		print_stack(i, index, purse, stack_b);
+		print_padding(purse.padding, (stack_b.array[index] < 0));
 		ft_putchar(purse.wall);
 		ft_putchar('\n');
 		i++;

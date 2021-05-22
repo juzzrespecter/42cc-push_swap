@@ -17,49 +17,103 @@
  * -> comparar entre el primer elemento, el elemento de mitad de la lista y el ultimo, usando el valor del medio como pivot
  */
 
-static void	partition(t_data *data, int low, int high)
+/*
+ * choose_pivot(); ->criterio
+ * recorrido de la particion (recorre todo el size de la particion)
+ * orden de las particiones (elementos mayores en top ??)
+ */
+#include <stdio.h>
+
+/*static int	check_if_sorted(int part_size, t_data *data)
+  {
+  int	i;
+
+  i = 0;
+  while (i < part_size)
+  {
+  if (data->stack_a.array[i] < data->stack_a.array[i + 1])
+  return (0);
+  i++;
+  }
+  return (1);
+  }*/
+/*
+ *
+ *	si encuentra en el recorrido de la particion un numero menor que el 
+ *	pivot, ra * x, pb
+ *
+ *	termina el recorrido, ya sea por no elementos < pivot o i > recorrido:
+ *	rra * x + pb * size
+ *
+ *	size es el recorrido de la siguiente particion, devolver a quick sort
+ *
+ *	quick sort llama a quick sort(size)
+ *					   quick sort (recorrido - size)
+ *
+ *	condicion de salida de la recursion: recorrido < 2; pasamos el elemento
+ *	ordenado a la parte de abajo del stack (??)
+ */
+#include <stdio.h>
+
+static int	pivot_as_median(t_stack stack, int recorrido)
 {
-	/*
-	 * select pivot
-	 * while (i + low < high)
-	 * if data->stack_a->array[index_pos(i + low)]
-	 * 	pb
-	 * 	i++;
-	 * while (data->stack_b->size)
-	 * 	pa
-	 * ret;
-	 */
+	long	median;
+	int i;
 
-	int	i;
-	int	pivot;
-
+	median = 0;
 	i = 0;
-	pivot = data->stack_a->array[index_pos(data->stack_a, high)]; // provisional
-	while (i + low < high)
+	while (i < recorrido)
 	{
-		if (data->stack_a->array[index_pos(data->stack_a, i + low)] < pivot)
-			exec_cmd(data, "pb", 1);
+		median += stack.array[index_pos(stack, i)];
 		i++;
 	}
-
+	median /= recorrido;
+	//printf("mediana calculada: (%ld)\n", median);
+	return ((int)median);
 }
 
-static void	quick_sort(t_data *data, int i, int j)
+static int	particion(int recorrido, t_data *data)
 {
-	int	pos;
-
-	pos = partition(data, i, j);
-	quick_sort(data, i, j - pos);
-	quick_sort(data, i + pos, j);
-}
-
-void	quick_sort_init(t_data *data)
-{
+	int	pivot;
+	int	tmp;
+	int	n;
 	int	i;
 	int	j;
 
+	pivot = pivot_as_median(data->stack_a, recorrido);
+	//pivot = data->stack_a.array[index_pos(data->stack_a, 0)];
+	tmp = 0;
 	i = 0;
-	j = data->stack_a->size;	
-	check_already_sorted(data->stack_a);
-	quick_sort(data, i, j);
+	j = 0;
+	while (i < recorrido)
+	{
+		if (data->stack_a.array[index_pos(data->stack_a, j)] < pivot)
+		{
+			tmp += j;
+			exec_cmd("ra", j, data); /* se pasa del valor de recorrido, checkar estoo */
+			exec_cmd("pb", 1, data);
+			j = 0;
+		}
+		else
+			j++;
+		i++;
+	}
+	n = data->stack_b.size == 0 ? 1 : data->stack_b.size;
+	exec_cmd("rra", tmp, data);
+	exec_cmd("pa", data->stack_b.size, data);
+	return (n);
+}
+
+void	quick_sort(int recorrido, t_data *data)
+{	
+	int	n;
+
+	if (recorrido < 2)
+	{
+		exec_cmd("ra", 1, data);
+		return ;
+	}
+	n = particion(recorrido, data);
+	quick_sort(n, data);
+	quick_sort(recorrido - n, data);
 }

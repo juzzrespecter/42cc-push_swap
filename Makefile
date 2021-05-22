@@ -16,8 +16,9 @@ SRCS			= parse_args.c \
 			  instr_list.c \
 			  check_stack_order.c \
 			  insertion_sort.c \
-			  heap_sort.c \
+			  heap_sort_2.c \
 			  sort_utils.c \
+			  quick_sort.c \
 			  bonus_rand.c \
 			  bonus_verbose.c \
 			  bonus_verbose_utils.c \

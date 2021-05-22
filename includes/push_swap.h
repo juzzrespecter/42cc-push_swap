@@ -80,6 +80,7 @@ int		index_pos(t_stack stack_s, int pos);
 void	exec_cmd(char *cmd, int n, t_data *data);
 void	heap_sort(t_data *data);
 void	print_cmd(char *cmd, t_data *data);
+void	quick_sort(int part_size, t_data *data);
 
 void	print_margin(t_print_info purse);
 void	print_body(t_print_info purse, t_data *data);
