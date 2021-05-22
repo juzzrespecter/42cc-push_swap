@@ -80,8 +80,9 @@ static int	particion(int recorrido, t_data *data)
 	int	i;
 	int	j;
 
-	pivot = pivot_as_median(data->stack_a, recorrido);
-	//pivot = data->stack_a.array[index_pos(data->stack_a, 0)];
+	pivot = pivot_as_median(data->stack_a, recorrido); // best
+	//pivot = data->stack_a.array[index_pos(data->stack_a, 0)]; // average
+	//pivot = pivot_as_best_of_three(data->stack_a, recorrido); // mierdaseca
 	tmp = 0;
 	i = 0;
 	j = 0;
