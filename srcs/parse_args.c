@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void	parse_element_duplicates(int start, char **argv)
+static void	parse_element_duplicates(int start, char **argv)
 {
 	char	*to_cmp;
 	int	i;
@@ -21,7 +21,7 @@ void	parse_element_duplicates(int start, char **argv)
 	}
 }
 
-void	parse_element_overflow(char *element)
+static void	parse_element_overflow(char *element)
 {
 	int	i;
 	int	len;

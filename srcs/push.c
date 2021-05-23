@@ -1,11 +1,14 @@
 #include "push_swap.h"
-#include <stdio.h>
 
-void	push(t_stack *stack_push, t_stack *stack_pop)
+void	push(t_data *data, int stack_id)
 {
+	t_stack *stack_push;
+	t_stack	*stack_pop;
 	int	size_pop;
 	int	size_push;
-
+	
+	stack_push = &data->stack[stack_id];
+	stack_pop = &data->stack[1 * (stack_id == 0)];
 	size_pop = stack_pop->size;
 	size_push = stack_push->size;
 	if (size_pop == 0)

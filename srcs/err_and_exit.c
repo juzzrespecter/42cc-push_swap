@@ -1,40 +1,33 @@
 #include "push_swap.h"
 
-/*	implementar gestion de memoria dinamica aqui	*/
-/*	meter mensajes de error especificos	*/
-
 void	free_data(t_data *data)
 {
-	if (data->stack_a.array)
-		free(data->stack_a.array);
-	if (data->stack_b.array)
-		free(data->stack_b.array);
+	if (data->stack[S_A].array)
+		free(data->stack[S_A].array);
+	if (data->stack[S_B].array)
+		free(data->stack[S_B].array);
 	if (data->instr_list_head)
 		ft_lstclear(&data->instr_list_head, &free);
 }
 
 void	err_and_exit(t_data *data, char *err_token, int err_code)
 {
+	static char	*err_descrp[7] = {
+		": duplicate argument.\n",
+		"No arguments given to the program.",
+		": not a valid argument.\n",
+		": argument overflows integer limits.\n",
+		"Not enough memory space on system.\n",
+		": unknown flag.\n",
+		": not a valid instruction.\n"
+	};
+
 	ft_putstr_fd("Error\n", STDERR_FILENO);
 	if (err_token != NULL)
 		ft_putstr_fd(err_token, STDERR_FILENO);
-	if (err_code == E_DUPL)
-		ft_putstr_fd(": duplicate argument\n", STDERR_FILENO);
-	if (err_code == E_NOARG)
-		ft_putstr_fd("No arguments given to the program.\n", STDERR_FILENO);
-	if (err_code == E_NONUM)
-		ft_putstr_fd(": not a valid argument.\n", STDERR_FILENO);
-	if (err_code == E_INTOVF)
-		ft_putstr_fd(": argument overflows integer limits.\n", STDERR_FILENO);
-	if (err_code == E_NOMEM)
-		ft_putstr_fd("Not enough memory space on system\n", STDERR_FILENO);
-	if (err_code == E_NOFLAG)
-		ft_putstr_fd(": unknown flag.\n", STDERR_FILENO);
+	ft_putstr_fd(err_descrp[err_code], STDERR_FILENO);
 	if (err_code == E_NOINSTR)
-	{
-		ft_putstr_fd(": not a valid instruction.\n", STDERR_FILENO);
 		free(err_token);
-	}
 	if (data != NULL)
 		free_data(data);
 	exit(EXIT_FAILURE);

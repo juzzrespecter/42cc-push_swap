@@ -7,16 +7,16 @@ PUSH_SWAP		= push_swap
 SRCS_DIR		= ./srcs/
 
 SRCS			= parse_args.c \
-			  parse_args_checker.c \
+			  checker_utils.c \
+			  checker_utils_2.c \
 			  init_data.c \
 			  err_and_exit.c \
 			  swap.c \
 			  push.c \
 			  rotate.c \
 			  instr_list.c \
-			  check_stack_order.c \
 			  insertion_sort.c \
-			  heap_sort_2.c \
+			  heap_sort.c \
 			  sort_utils.c \
 			  quick_sort.c \
 			  bonus_rand.c \

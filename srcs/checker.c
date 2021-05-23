@@ -12,30 +12,6 @@
 	 * caso de error, imprime error.
 	 */
 
-static int	check_if_valid_instr(char *instr)
-{
-	int	instr_len;
-
-	instr_len = ft_strlen(instr);
-	if (instr_len == 2)
-	{
-		if (instr[0] == 'p' && ft_strchr("ab", instr[1]))
-			return (1);
-		if (instr[0] == 'r' && ft_strchr("abr", instr[1]))
-			return (1);
-		if (instr[0] == 's' && ft_strchr("abs", instr[1]))
-			return (1);
-	}
-	if (instr_len == 3)
-	{
-		if (instr[0] != 'r' || instr[1] != 'r')
-			return (0);
-		if (ft_strchr("rab", instr[2]))
-			return (1);
-	}
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_data		data;
@@ -51,11 +27,11 @@ int	main(int argc, char **argv)
 			break;
 		if (ret < 0)
 			err_and_exit(NULL, NULL, E_NOMEM);
-		if (!check_if_valid_instr(instr_buffer))
+		if (!checker_if_valid_instr(instr_buffer))
 			err_and_exit(&data, instr_buffer, E_NOINSTR);
 		save_instr(instr_buffer, &data);
 	}
-	exec_instr_loop(&data);
-	check_stack_order(&data);
+	checker_exec_instr_loop(&data);
+	checker_stack_order(&data);
 	return (EXIT_SUCCESS);
 }

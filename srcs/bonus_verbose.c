@@ -27,7 +27,7 @@ static int	get_stack_width(t_stack stack_s)
 	return (width);
 }
 
-void	print_cmd(char *cmd, t_data *data)
+void	print_verbose(char *cmd, t_data *data)
 {	
 	pid_t	pid_print;
 	char	buffer[1000]; // buscar una forma mas elegante pa hacer esto

@@ -1,11 +1,13 @@
 #include "push_swap.h"
 
-void	rotate(t_stack *stack_s)
+void	rotate(t_data *data, int stack_id)
 {
+	t_stack	*stack_s;
 	int	size;
 	int	aux;
 	int	i;
 
+	stack_s = &data->stack[stack_id - 2 * (stack_id == 2)];
 	size = stack_s->size;
 	if (size < 2)
 		return ;
@@ -17,20 +19,18 @@ void	rotate(t_stack *stack_s)
 		i++;
 	}
 	stack_s->array[0] = aux;
+	if (stack_id == 2)
+		rotate(data, S_B);
 }
 
-void	rotate_both(t_stack *stack_a, t_stack *stack_b)
+void	rev_rotate(t_data *data, int stack_id)
 {
-	rotate(stack_a);
-	rotate(stack_b);
-}
-
-void	rev_rotate(t_stack *stack_s)
-{
+	t_stack	*stack_s;
 	int	size;
 	int	aux;
 	int	i;
 
+	stack_s = &data->stack[stack_id - 2 * (stack_id == 2)];
 	size = stack_s->size;
 	if (size < 2)
 		return ;
@@ -42,10 +42,6 @@ void	rev_rotate(t_stack *stack_s)
 		i++;
 	}
 	stack_s->array[size - 1] = aux;
-}
-
-void	rev_rotate_both(t_stack *stack_a, t_stack *stack_b)
-{
-	rev_rotate(stack_a);
-	rev_rotate(stack_b);
+	if (stack_id == 2)
+		rev_rotate(data, S_B);
 }
