@@ -58,13 +58,13 @@ typedef struct	s_data
 	int	save_fd;
 }	t_data;
 
-void	swap(t_data *data, int stack_id);
-void	swap_both(t_data *data, int stack_id);
-void	push(t_data *data, int stack_id);
-void	rotate(t_data *data, int stack_id);
-void	rotate_both(t_data *data, int stack_id);
-void	rev_rotate(t_data *data, int stack_id);
-void	rev_rotate_both(t_data *data, int stack_id);
+void	swap(int stack_id, t_data *data);
+void	swap_both(int stack_id, t_data *data);
+void	push(int stack_id, t_data *data);
+void	rotate(int stack_id, t_data *data);
+void	rotate_both(int stack_id, t_data *data);
+void	rev_rotate(int stack_id, t_data *data);
+void	rev_rotate_both(int stack_id, t_data *data);
 
 void	free_data(t_data *data);
 void	err_and_exit(t_data *data, char *err_token, int err_code);
@@ -73,7 +73,7 @@ void	parse_args(int i, char **argv);
 void	parse_element(int i, int stack_size, char **argv);
 void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data);
 void	print_instr_loop(t_data *data);
-void	print_instr(int instr_i, int fd);
+void	print_instr(int instr_i, t_data *data);
 int	stack_element(t_stack stack_s, int pos);
 
 void	insertion_sort(t_data *data);

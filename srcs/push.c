@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void	push(t_data *data, int stack_id)
+void	push(int stack_id, t_data *data)
 {
 	t_stack *stack_push;
 	t_stack	*stack_pop;

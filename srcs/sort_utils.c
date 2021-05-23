@@ -5,7 +5,7 @@ int	stack_element(t_stack stack_s, int pos)
 	return (stack_s.array[stack_s.size - (pos + 1)]);
 }
 
-void	print_instr(int instr_i, int fd)
+void	print_instr(int instr_i, t_data *data)
 {
 	static char	*instr_array[11] = {
 		"sa: swapped the first two elements in stack a\n",
@@ -22,7 +22,7 @@ void	print_instr(int instr_i, int fd)
 	};
 
 	ft_putstr_fd(data->purse.left_margin, data->save_fd);
-	ft_putstr_fd(instr_array[instr_i], fd);
+	ft_putstr_fd(instr_array[instr_i], data->fd);
 }
 
 void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data)
@@ -43,7 +43,7 @@ void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data)
 		if (data->flags[V_FLAG])
 			print_verbose(instr_id, data);
 		if (data->flags[S_FLAG])
-			print_instr(instr, data->save_fd);
+			print_instr(instr, data);
 		i++;
 	}
 }
