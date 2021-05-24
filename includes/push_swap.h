@@ -72,8 +72,7 @@ t_data	init_data(char **argv);
 void	parse_args(int i, char **argv);
 void	parse_element(int i, int stack_size, char **argv);
 void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data);
-void	print_instr_loop(t_data *data);
-void	print_instr(int instr_i, t_data *data);
+void	print_instr(int instr_i, int stack_id);
 int	stack_element(t_stack stack_s, int pos);
 
 void	insertion_sort(t_data *data);

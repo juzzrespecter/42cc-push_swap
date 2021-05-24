@@ -14,7 +14,6 @@ SRCS			= parse_args.c \
 			  swap.c \
 			  push.c \
 			  rotate.c \
-			  instr_list.c \
 			  insertion_sort.c \
 			  heap_sort.c \
 			  sort_utils.c \

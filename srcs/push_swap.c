@@ -9,6 +9,5 @@ int	main(int argc, char **argv)
 	data = init_data(argv);
 	insertion_sort(&data);
 	//quick_sort(data.stack_a.size, &data);
-	print_instr_loop(&data);
 	return (EXIT_SUCCESS);
 }

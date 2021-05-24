@@ -40,7 +40,7 @@ void	print_verbose(char *cmd, t_data *data)
 		print_margin(data->purse);
 		print_body(data->purse, data);
 		print_margin(data->purse);
-		print_instr(cmd, STDOUT_FILENO);
+		//print_instr(cmd, STDOUT_FILENO);
 		ft_putstr_fd("(press ENTER to continue...)\n", STDOUT_FILENO);
 		read(STDIN_FILENO, buffer, 1000);
 		exit(EXIT_SUCCESS);
