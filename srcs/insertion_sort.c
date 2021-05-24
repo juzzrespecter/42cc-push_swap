@@ -16,34 +16,36 @@ static void	add_element_to_sorted_stack(t_data *data)
 	i = 0;
 	while (i < data->stack[S_B].size)
 	{
-		if (stack_element(data->stack[S_A], S_A) > stack_element(data->stack[S_B], S_B))
+		if (stack_element(data->stack[S_A], 0) > stack_element(data->stack[S_B], i))
 			break ;
 		i++;
 	}
-	exec_instr_loop(ROT_ID, S_B, i, data);
+	if (i > data->stack[S_B].size)
+		exec_instr_loop(RROT_ID, S_B, data->stack[S_B].size - i, data);
+	else
+		exec_instr_loop(ROT_ID, S_B, i, data);
 	exec_instr_loop(PUSH_ID, S_B, 1, data);
-	exec_instr_loop(RROT_ID, S_B, i, data);
+	if (i > data->stack[S_B].size)
+		exec_instr_loop(ROT_ID, S_B, data->stack[S_B].size - i, data);
+	else
+		exec_instr_loop(RROT_ID, S_B, i, data);
 }
 
 void	insertion_sort(t_data *data)
 {
 	int	i;
+	int	round;
 
 	i = 0;
-	while (i < data->stack[S_A].size)
+	round = data->stack[S_A].size;
+	exec_instr_loop(PUSH_ID, S_B, 1, data);
+	while (i < round)
 	{
-		if (stack_element(data->stack[S_A], i) > stack_element(data->stack[S_A], i + 1))
-		{
-			if (i > 0)
-			{
-				exec_instr_loop(PUSH_ID, S_B, i, data);
-				exec_instr_loop(SWAP_ID, S_A, 1, data);
-				add_element_to_sorted_stack(data);
-				exec_instr_loop(PUSH_ID, S_A, i + 1, data);
-			}
-			else
-				exec_instr_loop(SWAP_ID, S_A, 1, data);
-		}
+		if (stack_element(data->stack[S_A], 0) < stack_element(data->stack[S_B], 0))
+			exec_instr_loop(PUSH_ID, S_B, 1, data);
+		else
+			add_element_to_sorted_stack(data);
 		i++;
 	}
+	exec_instr_loop(PUSH_ID, S_A, round, data);
 }

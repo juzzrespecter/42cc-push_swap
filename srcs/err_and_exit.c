@@ -14,7 +14,7 @@ void	err_and_exit(t_data *data, char *err_token, int err_code)
 {
 	static char	*err_descrp[7] = {
 		": duplicate argument.\n",
-		"No arguments given to the program.",
+		"No arguments given to the program.\n",
 		": not a valid argument.\n",
 		": argument overflows integer limits.\n",
 		"Not enough memory space on system.\n",

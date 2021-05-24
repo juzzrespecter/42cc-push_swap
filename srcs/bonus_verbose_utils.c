@@ -12,9 +12,7 @@ static void	print_padding(int padding, int neg)
 	}
 }
 
-#include <stdio.h>
-
-static void	print_stack(int i, int index, t_print_info purse,  t_stack stack_s)
+static void	print_stack(int i, int n, t_print_info purse,  t_stack stack_s)
 {
 	int	count;
 	int	written;
@@ -22,14 +20,13 @@ static void	print_stack(int i, int index, t_print_info purse,  t_stack stack_s)
 
 	count = 0;
 	written = 0;
-	//printf("index: %d, i: %d, height: %d, stack: %d\n", index,i,purse.height,stack_s.size);
 	if (purse.height - (i + 1) < stack_s.size)
 	{
-		element = ft_itoa(stack_s.array[index]);
+		element = ft_itoa(n);
 		ft_putstr(element);
 		written = ft_strlen(element);
 	}
-	written -= (stack_s.array[index] < 0);
+	written -= (n < 0);
 	while (count + written < purse.width_stack)
 	{
 		ft_putchar(' ');
@@ -40,24 +37,20 @@ static void	print_stack(int i, int index, t_print_info purse,  t_stack stack_s)
 void	print_body(t_print_info purse, t_data *data)
 {
 	int	i;
-	int	index;
-	t_stack stack_a;
-	t_stack stack_b;
+	int	n;
 
 	i = 0;
-	stack_a = data->stack_a;
-	stack_b = data->stack_b;
 	while (i < purse.height)
 	{
 		ft_putstr(purse.left_margin);
 		ft_putchar(purse.wall);
-		index = index_pos(stack_a, i - (purse.height - stack_a.size));
-		print_padding(purse.padding, (stack_a.array[index] < 0));
-		print_stack(i, index, purse, stack_a);
+		n = stack_element(data->stack[S_A], i - (purse.height - data->stack[S_A].size));
+		print_padding(purse.padding, (n < 0));
+		print_stack(i, n, purse, data->stack[S_A]);
 		ft_putstr(" | ");
-		index = index_pos(stack_b, i - (purse.height - stack_b.size));
-		print_stack(i, index, purse, stack_b);
-		print_padding(purse.padding, (stack_b.array[index] < 0));
+		n = stack_element(data->stack[S_B], i - (purse.height - data->stack[S_B].size));
+		print_stack(i, n, purse, data->stack[S_B]);
+		print_padding(purse.padding, (n < 0));
 		ft_putchar(purse.wall);
 		ft_putchar('\n');
 		i++;

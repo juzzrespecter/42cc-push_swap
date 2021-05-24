@@ -27,12 +27,11 @@ static int	get_stack_width(t_stack stack_s)
 	return (width);
 }
 
-void	print_verbose(char *cmd, t_data *data)
+void	print_verbose(int instr_id, int stack_id, t_data *data)
 {	
 	pid_t	pid_print;
 	char	buffer[1000]; // buscar una forma mas elegante pa hacer esto
 
-	data->purse.cmd = cmd;
 	pid_print = fork();
 	if (pid_print == 0)
 	{
@@ -40,7 +39,7 @@ void	print_verbose(char *cmd, t_data *data)
 		print_margin(data->purse);
 		print_body(data->purse, data);
 		print_margin(data->purse);
-		//print_instr(cmd, STDOUT_FILENO);
+		print_instr(instr_id, stack_id);
 		ft_putstr_fd("(press ENTER to continue...)\n", STDOUT_FILENO);
 		read(STDIN_FILENO, buffer, 1000);
 		exit(EXIT_SUCCESS);

@@ -17,91 +17,104 @@
  * -> comparar entre el primer elemento, el elemento de mitad de la lista y el ultimo, usando el valor del medio como pivot
  */
 
-/*
- * choose_pivot(); ->criterio
- * recorrido de la particion (recorre todo el size de la particion)
- * orden de las particiones (elementos mayores en top ??)
- */
 #include <stdio.h>
 
-/*static int	check_if_sorted(int part_size, t_data *data)
-  {
-  int	i;
-
-  i = 0;
-  while (i < part_size)
-  {
-  if (data->stack_a.array[i] < data->stack_a.array[i + 1])
-  return (0);
-  i++;
-  }
-  return (1);
-  }*/
-/*
- *
- *	si encuentra en el recorrido de la particion un numero menor que el 
- *	pivot, ra * x, pb
- *
- *	termina el recorrido, ya sea por no elementos < pivot o i > recorrido:
- *	rra * x + pb * size
- *
- *	size es el recorrido de la siguiente particion, devolver a quick sort
- *
- *	quick sort llama a quick sort(size)
- *					   quick sort (recorrido - size)
- *
- *	condicion de salida de la recursion: recorrido < 2; pasamos el elemento
- *	ordenado a la parte de abajo del stack (??)
- */
-#include <stdio.h>
-
-static int	pivot_as_median(t_stack stack, int recorrido)
+static double	choose_pivot(t_stack stack, int recorrido)
 {
-	long	median;
+	double	median;
+	int count;
 	int i;
 
 	median = 0;
+	count = 0;
 	i = 0;
-	while (i < recorrido)
+	while (i < recorrido && count < recorrido/2)
 	{
-		median += stack.array[index_pos(stack, i)];
+		median += stack_element(stack, i);
 		i++;
 	}
-	median /= recorrido;
-	//printf("mediana calculada: (%ld)\n", median);
-	return ((int)median);
+	median /= (float)recorrido;
+	return (median);
 }
+
+static double tema(t_stack stack, int r)
+{
+	double lo, mid, hi;
+	double	ret;
+
+	lo = stack_element(stack, 0);
+	mid = stack_element(stack, r/2);
+	hi = stack_element(stack, r - 1);
+
+	ret = lo > mid ? lo : mid;
+	ret = hi > ret ? hi : ret;
+	return (lo);
+}
+
+/*static int	check(t_stack stack, int size, double pivot)
+  {
+  int lo, hi;
+  int i;
+
+  i = 0;
+  while (i < size)
+  {
+  if (stack_element(stack, i) < pivot)
+  lo = i;
+  i++;
+  }
+  i = 0;
+  while (i < size)
+  {
+  if (stack_element(stack, size - (i + 1)) >= pivot)
+  hi = size - i;
+  i++;
+  }
+//printf("lo (%d) - (%d)\nhi (%d) - (%d)\nr(%d)\n", lo, stack_element(stack, lo), hi, stack_element(stack, hi), size);
+if (lo < hi)
+return (!lo ? 1 : lo);
+return (0);
+}*/
 
 static int	particion(int recorrido, t_data *data)
 {
-	int	pivot;
+	double	pivot;
 	int	tmp;
 	int	n;
 	int	i;
 	int	j;
+	int	test = 0;
 
-	pivot = pivot_as_median(data->stack_a, recorrido); // best
-	//pivot = data->stack_a.array[index_pos(data->stack_a, 0)]; // average
-	//pivot = pivot_as_best_of_three(data->stack_a, recorrido); // mierdaseca
+	pivot = choose_pivot(data->stack[S_A], recorrido); // best
+	pivot = (double)tema(data->stack[S_A], recorrido);
+	pivot = choose_pivot(data->stack[S_A], recorrido); // best
 	tmp = 0;
 	i = 0;
 	j = 0;
+
+	//n = check(data->stack[S_A], recorrido, pivot);
+	//	printf("n: (%d), r (%d).\n", n, recorrido);
+	//if (n != 0)
+	//	return (n);
+	if (recorrido == data->stack[S_A].size)
+		test = 1;
 	while (i < recorrido)
 	{
-		if (data->stack_a.array[index_pos(data->stack_a, j)] < pivot)
+		if ((double)stack_element(data->stack[S_A], j) < pivot)
 		{
 			tmp += j;
-			exec_cmd("ra", j, data); /* se pasa del valor de recorrido, checkar estoo */
-			exec_cmd("pb", 1, data);
+			exec_instr_loop(ROT_ID, S_A, j, data); /* se pasa del valor de recorrido, checkar estoo */
+			exec_instr_loop(PUSH_ID, S_B, 1, data);
 			j = 0;
 		}
 		else
 			j++;
 		i++;
 	}
-	n = data->stack_b.size == 0 ? 1 : data->stack_b.size;
-	exec_cmd("rra", tmp, data);
-	exec_cmd("pa", data->stack_b.size, data);
+	n = data->stack[S_B].size == 0 ? 1 : data->stack[S_B].size;
+	if (test == 0)
+		exec_instr_loop(RROT_ID, S_A, tmp, data);
+	exec_instr_loop(PUSH_ID, S_A, data->stack[S_B].size, data);
 	return (n);
 }
 
@@ -109,9 +122,15 @@ void	quick_sort(int recorrido, t_data *data)
 {	
 	int	n;
 
+	// caso ya ordenado
+	//
+	// caso n == 3
+	// caso n == 5
+	// caso n == 100
+	// caso n == 500
 	if (recorrido < 2)
 	{
-		exec_cmd("ra", 1, data);
+		exec_instr_loop(ROT_ID, S_A, 1, data);
 		return ;
 	}
 	n = particion(recorrido, data);

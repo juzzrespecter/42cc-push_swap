@@ -7,7 +7,7 @@ int	main(int argc, char **argv)
 	(void) argc;
 	parse_args(1, argv);
 	data = init_data(argv);
-	insertion_sort(&data);
-	//quick_sort(data.stack_a.size, &data);
+//	insertion_sort(&data);
+	quick_sort(data.stack[S_A].size, &data);
 	return (EXIT_SUCCESS);
 }

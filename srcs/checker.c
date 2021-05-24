@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 	int	ret;
 	char	*instr_buffer;
 
-	parse_args_checker(argc, argv);
+	checker_parse_args(argc, argv);
 	data = init_data(argv);
 	while (1)
 	{
@@ -29,7 +29,7 @@ int	main(int argc, char **argv)
 			err_and_exit(NULL, NULL, E_NOMEM);
 		if (!checker_if_valid_instr(instr_buffer))
 			err_and_exit(&data, instr_buffer, E_NOINSTR);
-		save_instr(instr_buffer, &data);
+		checker_save_instr(instr_buffer, &data);
 	}
 	checker_exec_instr_loop(&data);
 	checker_stack_order(&data);

@@ -56,9 +56,16 @@ void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data)
 		instr_table[instr_id](stack_id, data);
 		print_instr(instr_id, stack_id);
 		if (data->flags[V_FLAG])
-			print_verbose(instr_id, data);
+			print_verbose(instr_id, stack_id, data);
 		if (data->flags[S_FLAG])
-			print_instr(instr, data);
+			print_instr(instr_id, stack_id);
 		i++;
 	}
 }
+
+/*
+ *
+ *	check print_instr ();
+ *
+ *
+ */

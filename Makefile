@@ -56,10 +56,10 @@ $(CHECKER):			$(OBJS) $(CHECKER_OBJ)
 
 $(PUSH_SWAP):		$(OBJS) $(PUSH_SWAP_OBJ)
 	make -C $(LIBFT_DIR)
-	$(GCC) -o $(PUSH_SWAP) $(OBJS) $(PUSH_SWAP_OBJ) $(LIB)
+	$(GCC) -o $(PUSH_SWAP) -g $(OBJS) $(PUSH_SWAP_OBJ) $(LIB)
 
 $(OBJS_DIR)%.o:		$(SRCS_DIR)%.c $(INCLUDE_DIR)push_swap.h
-	$(GCC) -c $< -I$(INCLUDE_DIR) 
+	$(GCC) -c $< -g -I$(INCLUDE_DIR) 
 	@mkdir -p $(OBJS_DIR)
 	@mv $(@F) $(OBJS_DIR)
 

@@ -1,4 +1,5 @@
 #include "push_swap.h"
+#include <stdio.h>
 
 static int	init_flags(char **argv, t_data *data) // no
 {
@@ -43,28 +44,26 @@ static t_stack	fill_stack(int start, char **argv)
 static t_stack	flag_manager(char **argv, t_data *data)
 {
 	int	argv_start;
-	t_stack	stack[S_A];
+	t_stack	stack_s;
 
 	argv_start = init_flags(argv, data);
 	if (data->flags[R_FLAG])
-		stack[S_A] = fill_stack_with_rand(argv_start, argv);
+		stack_s = fill_stack_with_rand(argv_start, argv);
 	else
-		stack[S_A] = fill_stack(argv_start, argv);
+		stack_s = fill_stack(argv_start, argv);
 	if (data->flags[V_FLAG])
-		data->purse = init_print_cmd(stack[S_A]);
-	return (stack[S_A]);
+		data->purse = init_print_cmd(stack_s);
+	return (stack_s);
 }
 
 t_data	init_data(char **argv)
 {
 	t_data	data;
 
+	ft_bzero(&data, sizeof(t_data));
 	data.filename = "save.txt";
-	ft_bzero(data.flags, sizeof(int) * 4);
 	data.stack[S_A] = flag_manager(argv, &data);
-	data.stack[S_A].array = (int *)ft_calloc(sizeof(int), data.stack[S_A].size);
-	data.stack[S_B].size = 0;
-	data.instr_list_head = NULL;
+	data.stack[S_B].array = (int *)malloc(sizeof(int) * data.stack[S_A].size);
 	if (!data.stack[S_B].array || !data.stack[S_A].array)
 		err_and_exit(&data, NULL, E_NOMEM);
 	if (data.flags[S_FLAG])
