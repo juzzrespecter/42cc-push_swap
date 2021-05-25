@@ -1,31 +1,7 @@
 #include "push_swap.h"
 
-int	stack_element(t_stack stack_s, int pos)
-{
-	return (stack_s.array[stack_s.size - (pos + 1)]);
-}
 
-/*void	print_instr(int instr_i, t_data *data)
-{
-	static char	*instr_array[11] = {
-		"sa: swapped the first two elements in stack a\n",
-		"sb: swapped the first two elements in stack b\n",
-		"ss: swapped the first two elements in stack a and stack b\n",
-		"pa: pushed the first element of stack b into stack a\n",
-		"pb: pushed the first element of stack a in stack b\n",
-		"ra: rotated stack a\n",
-		"rb: rotated stack b\n",
-		"rr: rotated stack a and stack b\n",
-		"rra: reverse rotated stack a\n",
-		"rrb: reverse rotated stack b\n",
-		"rrr: reverse rotated stack a and stack b\n"
-	};
-
-	ft_putstr_fd(data->purse.left_margin, data->save_fd);
-	ft_putstr_fd(instr_array[instr_i], data->save_fd);
-}*/
-
-void	print_instr(int instr_id, int stack_id)
+static void	print_instr(int instr_id, int stack_id)
 {
 	static const char	instr_array[2][3] = {
 		{'s', 'p', 'r'},
@@ -40,9 +16,22 @@ void	print_instr(int instr_id, int stack_id)
 	ft_putchar('\n');
 }
 
-void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data)
+void	print_instr_loop(t_data *data)
 {
-	int	i;
+	t_list	*instr_n;
+	int	*ids;
+
+	instr_n = data->instr_list_head;
+	while (instr_n)
+	{
+		ids = (int *)instr_n->content;
+		print_instr(ids[0], ids[1]);
+		instr_n = instr_n->next;
+	}
+}
+
+void	exec_instr(int instr_id, int stack_id, t_data *data)
+{
 	static void (*instr_table[])(int, t_data *) = {
 		swap,
 		push,
@@ -50,22 +39,23 @@ void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data)
 		rev_rotate
 	};
 
+	instr_table[instr_id](stack_id, data);
+}
+
+void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data)
+{
+	int	i;
+
 	i = 0;
 	while (i < n)
 	{
-		instr_table[instr_id](stack_id, data);
-		print_instr(instr_id, stack_id);
-		if (data->flags[V_FLAG])
-			print_verbose(instr_id, stack_id, data);
-		if (data->flags[S_FLAG])
-			print_instr(instr_id, stack_id);
+		exec_instr(instr_id, stack_id, data);
+		save_instr_init(NULL, instr_id, stack_id, data);
 		i++;
 	}
 }
 
-/*
- *
- *	check print_instr ();
- *
- *
- */
+int	stack_element(t_stack stack_s, int pos)
+{
+	return (stack_s.array[stack_s.size - (pos + 1)]);
+}

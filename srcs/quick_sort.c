@@ -37,45 +37,6 @@ static double	choose_pivot(t_stack stack, int recorrido)
 	return (median);
 }
 
-static double tema(t_stack stack, int r)
-{
-	double lo, mid, hi;
-	double	ret;
-
-	lo = stack_element(stack, 0);
-	mid = stack_element(stack, r/2);
-	hi = stack_element(stack, r - 1);
-
-	ret = lo > mid ? lo : mid;
-	ret = hi > ret ? hi : ret;
-	return (lo);
-}
-
-/*static int	check(t_stack stack, int size, double pivot)
-  {
-  int lo, hi;
-  int i;
-
-  i = 0;
-  while (i < size)
-  {
-  if (stack_element(stack, i) < pivot)
-  lo = i;
-  i++;
-  }
-  i = 0;
-  while (i < size)
-  {
-  if (stack_element(stack, size - (i + 1)) >= pivot)
-  hi = size - i;
-  i++;
-  }
-//printf("lo (%d) - (%d)\nhi (%d) - (%d)\nr(%d)\n", lo, stack_element(stack, lo), hi, stack_element(stack, hi), size);
-if (lo < hi)
-return (!lo ? 1 : lo);
-return (0);
-}*/
-
 static int	particion(int recorrido, t_data *data)
 {
 	double	pivot;
@@ -85,8 +46,6 @@ static int	particion(int recorrido, t_data *data)
 	int	j;
 	int	test = 0;
 
-	pivot = choose_pivot(data->stack[S_A], recorrido); // best
-	pivot = (double)tema(data->stack[S_A], recorrido);
 	pivot = choose_pivot(data->stack[S_A], recorrido); // best
 	tmp = 0;
 	i = 0;

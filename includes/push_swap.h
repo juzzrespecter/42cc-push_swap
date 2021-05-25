@@ -2,10 +2,7 @@
 # define PUSH_SWAP_H
 # include <unistd.h>
 # include <stdlib.h>
-# include <sys/wait.h>
-# include <fcntl.h>
 # include <limits.h>
-# include <time.h>
 # include "libft.h"
 
 # define E_DUPL 0 
@@ -15,10 +12,11 @@
 # define E_NOMEM 4
 # define E_NOFLAG 5 
 # define E_NOINSTR 6
+# define E_NORAND 7
 
 # define V_FLAG 0
 # define R_FLAG 1
-# define S_FLAG 2
+# define C_FLAG 2
 # define H_FLAG 3
 
 # define SWAP_ID 0
@@ -36,25 +34,13 @@ typedef struct	s_stack
 	int	size;
 }		t_stack;
 
-typedef struct	s_print_info
-{
-	int	height;
-	int	width;
-	int	width_stack;
-	char	*left_margin;
-	int	padding;
-	char	wall;
-	char	margin;
-}		t_print_info;
-
 typedef struct	s_data
 {
 	t_stack	stack[2];
 	t_list	*instr_list_head;
 	int		flags[4];
-	char	*filename;
-	t_print_info	purse;
 	int	save_fd;
+	void	*bonus_misc;
 }	t_data;
 
 void	swap(int stack_id, t_data *data);
@@ -68,27 +54,15 @@ void	rev_rotate_both(int stack_id, t_data *data);
 void	free_data(t_data *data);
 void	err_and_exit(t_data *data, char *err_token, int err_code);
 t_data	init_data(char **argv);
-void	parse_args(int i, char **argv);
 void	parse_element(int i, int stack_size, char **argv);
 void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data);
-void	print_instr(int instr_id, int stack_id);
+void	exec_instr(int instr_id, int stack_id, t_data *data);
 int	stack_element(t_stack stack_s, int pos);
+t_stack	fill_stack(int start, char **argv);
+void	print_instr_loop(t_data *data);
+void	save_instr_init(char *instr, int instr_id, int stack_id, t_data *data);
 
 void	insertion_sort(t_data *data);
 void	quick_sort(int recorrido, t_data *data);
-
-int		checker_if_valid_instr(char *instr);
-void	checker_exec_instr_loop(t_data *data);
-void	checker_save_instr(char *instr, t_data *data);
-void	checker_stack_order(t_data *data);
-void	checker_parse_args(int argc, char **argv);
-
-void	print_help_and_exit(void);
-t_stack	fill_stack_with_rand(int start, char **argv);
-int	init_savefile(char *filename);
-t_print_info	init_print_cmd(t_stack stack_s);
-void	print_verbose(int instr_id, int stack_id, t_data *data);
-void	print_margin(t_print_info purse);
-void	print_body(t_print_info purse, t_data *data);
 
 #endif

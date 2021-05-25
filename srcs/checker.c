@@ -12,13 +12,74 @@
 	 * caso de error, imprime error.
 	 */
 
+static int	checker_if_valid_instr(char *instr)
+{
+	int	instr_len;
+
+	instr_len = ft_strlen(instr);
+	if (instr_len == 2)
+	{
+		if (instr[0] == 'p' && ft_strchr("ab", instr[1]))
+			return (1);
+		if (instr[0] == 'r' && ft_strchr("abr", instr[1]))
+			return (1);
+		if (instr[0] == 's' && ft_strchr("abs", instr[1]))
+			return (1);
+	}
+	if (instr_len == 3)
+	{
+		if (instr[0] != 'r' || instr[1] != 'r')
+			return (0);
+		if (ft_strchr("rab", instr[2]))
+			return (1);
+	}
+	return (0);
+}
+
+static void	checker_exec_instr_loop(t_data *data)
+{
+	t_list *instr_n;
+	int	*ids;
+
+	instr_n = data->instr_list_head;
+	while (instr_n)
+	{
+		ids = (int *)instr_n->content;
+		exec_instr(ids[0], ids[1], data);
+		instr_n = instr_n->next;
+	}
+}
+static void	checker_stack_res(t_data *data, char *res)
+{
+	ft_putstr(res);
+	free_data(data);
+	exit(EXIT_SUCCESS);
+}
+
+static void	checker_stack_order(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->stack[S_B].size != 0 || data->stack[S_A].size == 0)
+		checker_stack_res(data, "KO\n");
+	while (i < data->stack[S_A].size)
+	{
+		if (i > 0 && data->stack[S_A].array[i] > data->stack[S_A].array[i - 1])
+			checker_stack_res(data, "KO\n");
+		i++;
+	}
+	checker_stack_res(data, "OK\n");
+}
+
 int	main(int argc, char **argv)
 {
 	t_data		data;
 	int	ret;
 	char	*instr_buffer;
 
-	checker_parse_args(argc, argv);
+	(void) argc;
+	parse_element(1, 0, argv);
 	data = init_data(argv);
 	while (1)
 	{
@@ -29,7 +90,7 @@ int	main(int argc, char **argv)
 			err_and_exit(NULL, NULL, E_NOMEM);
 		if (!checker_if_valid_instr(instr_buffer))
 			err_and_exit(&data, instr_buffer, E_NOINSTR);
-		checker_save_instr(instr_buffer, &data);
+		save_instr_init(instr_buffer, 0, 0, &data);
 	}
 	checker_exec_instr_loop(&data);
 	checker_stack_order(&data);

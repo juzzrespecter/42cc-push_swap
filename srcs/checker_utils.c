@@ -33,50 +33,7 @@ void	checker_exec_instr_loop(t_data *data)
 	while (instr_n)
 	{
 		ids = (int *)instr_n->content;
-		exec_instr_loop(ids[0], ids[1], 1, data);
+		exec_instr(ids[0], ids[1], data);
 		instr_n = instr_n->next;
 	}
-}
-
-static int	*checker_save_instr_parser(char *instr)
-{
-	int	*ids;
-
-	ids = (int *)malloc(sizeof(int) * 2);
-	if (ft_strlen(instr) < 3)
-	{
-		ids[0] = SWAP_ID * (instr[0] == 's') + \
-				 PUSH_ID * (instr[0] == 'p') + \
-				 ROT_ID * (instr[0] == 'r');
-		ids[1] = S_A * (instr[1] == 'a') + \
-				 S_B * (instr[1] == 'b') + \
-				 S_BOTH * (instr[1] == 'r');
-		return (ids);
-	}
-	ids[0] = RROT_ID;
-	ids[1] = S_A * (instr[2] == 'a') + \
-			 S_B * (instr[2] == 'b') + \
-			 S_BOTH * (instr[2] == 'r');
-	return (ids);
-}
-
-void	checker_save_instr(char *instr, t_data *data)
-{
-	t_list	*instr_node;
-	t_list	*instr_head;
-	int	*ids;
-
-	ids = checker_save_instr_parser(instr);
-	free(instr);
-	if (!ids)
-		err_and_exit(data, NULL, E_NOMEM);
-	instr_head = data->instr_list_head;
-	instr_node = ft_lstnew(ids);
-	if (!instr_node)
-	{
-		free(ids);
-		err_and_exit(data, NULL, E_NOMEM);
-	}
-	ft_lstadd_back(&instr_head, instr_node);
-	data->instr_list_head = instr_head;
 }

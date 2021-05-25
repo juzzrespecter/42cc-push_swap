@@ -1,4 +1,4 @@
-#include "push_swap.h"
+#include "bonus_push_swap.h"
 
 static int	get_stack_width(t_stack stack_s)
 {
@@ -27,37 +27,102 @@ static int	get_stack_width(t_stack stack_s)
 	return (width);
 }
 
-void	print_verbose(int instr_id, int stack_id, t_data *data)
+int	ft_putc(int c)
+{
+	ft_putchar(c);
+	return ('f' + 'u' + 'c' + 'k' + 'y' + 'o' + 'u');
+}
+
+#include <stdio.h>
+
+void	print_verbose(t_data *data)
 {	
 	pid_t	pid_print;
-	char	buffer[1000]; // buscar una forma mas elegante pa hacer esto
+	t_print_info *purse;
+	t_list	*node;
+	int		*ids;
+	char	buffer[1];
+	t_data	fake_data;
+	int	ret;
 
+	purse = (t_print_info *)data->bonus_misc;
+	node = data->instr_list_head;
+	fake_data.stack[S_A].array = purse->stack_aux[S_A].array;
 	pid_print = fork();
 	if (pid_print == 0)
 	{
-		dup2(STDERR_FILENO, STDOUT_FILENO);	// check this
-		print_margin(data->purse);
-		print_body(data->purse, data);
-		print_margin(data->purse);
-		print_instr(instr_id, stack_id);
-		ft_putstr_fd("(press ENTER to continue...)\n", STDOUT_FILENO);
-		read(STDIN_FILENO, buffer, 1000);
-		exit(EXIT_SUCCESS);
-
+		tcsetattr(STDIN_FILENO, TCSANOW, &purse->print_mode_term);
+		dup2(STDERR_FILENO, STDOUT_FILENO);
+		while (node)
+		{
+			tputs(purse->cl, 1, ft_putc);
+			// falta aire por arriba, margenes minimos dentro del cubico
+			ids = (int *)node->content;	
+			exec_instr(ids[0], ids[1], &fake_data);
+			ft_putstr(purse->up_margin);
+			print_margin(purse);
+			print_body(purse);
+			print_margin(purse);
+			node = node->next;
+			//printf("fakedata (%d) (%d), purse (%d) (%d)\n", fake_data.stack[S_A].size, \
+					fake_data.stack[S_B].size, purse->stack_aux[S_A].size, \
+					purse->stack_aux[S_B].size);
+			sleep(1); // check this
+		}
+		ft_putstr_fd("(press ENTER to exit...)\n", STDOUT_FILENO);
+		while (1)
+		{
+			ret = read(STDIN_FILENO, buffer, 1);
+			if (buffer[0] == '\n')
+			{
+				tcsetattr(STDIN_FILENO, TCSANOW, &purse->original_term);
+				free_data(data);
+				exit(EXIT_SUCCESS);
+			}
+		}
 	}
 	wait(NULL);
 }
 
-t_print_info	init_print_cmd(t_stack stack_s)
+t_print_info	*init_print_info(t_stack stack_s, t_data *data)
 {
-	t_print_info purse;
+	t_print_info *purse;
+	int	aux;
 
-	purse.width_stack = get_stack_width(stack_s);
-	purse.left_margin = "\t\t\t";
-	purse.padding = 10;
-	purse.wall = '.';
-	purse.margin = '*';
-	purse.width = purse.width_stack * 2 + purse.padding * 2 + 3;
-	purse.height = stack_s.size;
+	purse = (t_print_info *)malloc(sizeof(t_print_info) * 1);
+	if (!purse)
+		err_and_exit(data, NULL, E_NOMEM);
+	ft_bzero(purse, sizeof(t_print_info));
+	purse->width_stack = get_stack_width(stack_s);
+	purse->left_margin = "\t\t\t";
+	purse->padding = 10;
+	purse->wall = '.';
+	purse->margin = '*';
+	purse->width = purse->width_stack * 2 + purse->padding * 2 + 3;
+	purse->height = stack_s.size > 15 ? stack_s.size : 15;
+	purse->up_margin = "\n\n\n\n\n";
+	// copy stack a, set up stack b
+	purse->stack_aux[0].array = (int *)malloc(sizeof(int) * stack_s.size);
+	purse->stack_aux[1].array = (int *)malloc(sizeof(int) * stack_s.size);
+	if (purse->stack_aux[0].array == 0 || purse->stack_aux[1].array == 0)
+		err_and_exit(data, NULL, E_NOMEM);
+	ft_memcpy(purse->stack_aux[0].array, stack_s.array, stack_s.size * sizeof(int));
+	purse->stack_aux[0].size = stack_s.size;
+	if (isatty(STDIN_FILENO))
+	{
+		purse->term_type = getenv("TERM");
+		aux = tgetent(STDIN_FILENO, purse->term_type);
+		if (!aux)
+			err_and_exit(data, NULL, E_NOMEM);
+		tcgetattr(STDIN_FILENO, &purse->original_term);
+		tcgetattr(STDIN_FILENO, &purse->print_mode_term);
+		// aqui configurar el print_mode_term: no muestre input, reciba senyales una tras otra, no procese nada excepto enter al final
+		// noncanonical , time = 0, min = 0, no echo, si isig
+		//ft_bzero(&purse->print_mode_term, sizeof(struct termios));
+		purse->print_mode_term.c_lflag &= ~(ECHO | ICANON);
+		purse->print_mode_term.c_lflag |= ISIG;
+		purse->cl = tgetstr("cl", NULL);
+		purse->cr = tgetstr("cr", NULL);
+	}
 	return (purse);
 }
