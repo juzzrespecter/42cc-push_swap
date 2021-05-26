@@ -1,56 +1,71 @@
 #include "bonus_push_swap.h"
 
-static void	print_padding(int padding, int neg)
+static void	print_padding(int padding)
 {
 	int	i;
 
 	i = 0;
-	while (i + neg < padding)
+	while ((i + 1) < padding)
 	{
 		ft_putchar(' ');
 		i++;
 	}
 }
 
-static void	print_stack(int i, int n, t_print_info *purse,  t_stack stack_s)
+#include <stdio.h>
+
+static void	print_stack(int i, t_print_info *purse,  t_stack stack_s, int c_flag)
 {
+	int	n;
 	int	count;
-	int	written;
-	char	*element;
+	char	*n_str;
+	int	n_len;
+	static char	*color_set[] = {
+		"\033[52m",
+		"\033[53m",
+		"\033[54m",
+		"\033[55m",
+		"\033[56m",
+		"\033[57m",
+		"\033[0m"
+	};
 
 	count = 0;
-	written = 0;
+	n_len = 0;
+	n = stack_element(stack_s, i - (purse->height - stack_s.size));
+	if (n > 0)
+		ft_putchar(' ');
 	if (purse->height - (i + 1) < stack_s.size)
 	{
-		element = ft_itoa(n);
-		ft_putstr(element);
-		written = ft_strlen(element);
+		n_str = ft_itoa(n);
+		if (c_flag)
+			ft_putstr(color_set[0]); //test
+		ft_putstr(n_str);
+		if (c_flag)
+			ft_putstr(color_set[6]);
+		ft_strlen(n_str);
 	}
-	written -= (n < 0);
-	while (count + written < purse->width_stack)
+	while (count + n_len < purse->width_stack)
 	{
 		ft_putchar(' ');
 		count++;
 	}
 }
 
-void	print_body(t_print_info *purse)
+void	print_body(int c_flag, t_print_info *purse, t_data *dummy)
 {
 	int	i;
-	int	n;
 
 	i = 0;
 	while (i < purse->height)
 	{
 		ft_putstr(purse->left_margin);
 		ft_putchar(purse->wall);
-		n = stack_element(purse->stack_aux[S_A], i - (purse->height - purse->stack_aux[S_A].size));
-		print_padding(purse->padding, (n < 0));
-		print_stack(i, n, purse, purse->stack_aux[S_A]);
+		print_padding(purse->padding);
+		print_stack(i, purse, dummy->stack[S_A], c_flag);
 		ft_putstr(" | ");
-		n = stack_element(purse->stack_aux[S_B], i - (purse->height - purse->stack_aux[S_B].size));
-		print_stack(i, n, purse, purse->stack_aux[S_B]);
-		print_padding(purse->padding, (n < 0));
+		print_stack(i, purse, dummy->stack[S_B], c_flag);
+		print_padding(purse->padding);
 		ft_putchar(purse->wall);
 		ft_putchar('\n');
 		tputs(purse->cr, 1, ft_putc);

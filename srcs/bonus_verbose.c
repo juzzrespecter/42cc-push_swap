@@ -42,37 +42,41 @@ void	print_verbose(t_data *data)
 	t_list	*node;
 	int		*ids;
 	char	buffer[1];
-	t_data	fake_data;
-	int	ret;
+	t_data	dummy;
 
 	purse = (t_print_info *)data->bonus_misc;
 	node = data->instr_list_head;
-	fake_data.stack[S_A].array = purse->stack_aux[S_A].array;
+	ft_putstr("testtt\n");
+	sleep(1);
+	dummy.stack[0].array = (int *)malloc(sizeof(int) * purse->stack_aux[0].size);
+	dummy.stack[1].array = (int *)malloc(sizeof(int) * purse->stack_aux[0].size);
+	if (dummy.stack[0].array == 0 || dummy.stack[1].array == 0)
+		err_and_exit(data, NULL, E_NOMEM);
+	ft_memcpy(dummy.stack[0].array, purse->stack_aux[0].array, purse->stack_aux[0].size * sizeof(int));
+	purse->stack_aux[0].size = purse->stack_aux[0].size;
 	pid_print = fork();
+	printf("(%d) (%d)\n", dummy.stack[0].size, dummy.stack[1].size);
 	if (pid_print == 0)
 	{
-		tcsetattr(STDIN_FILENO, TCSANOW, &purse->print_mode_term);
+		//tcsetattr(STDIN_FILENO, TCSANOW, &purse->print_mode_term);
 		dup2(STDERR_FILENO, STDOUT_FILENO);
 		while (node)
 		{
-			tputs(purse->cl, 1, ft_putc);
+			//tputs(purse->cl, 1, ft_putc);
 			// falta aire por arriba, margenes minimos dentro del cubico
 			ids = (int *)node->content;	
-			exec_instr(ids[0], ids[1], &fake_data);
+			exec_instr(ids[0], ids[1], &dummy);
 			ft_putstr(purse->up_margin);
 			print_margin(purse);
-			print_body(purse);
+			print_body(data->flags[C_FLAG], purse, &dummy);
 			print_margin(purse);
 			node = node->next;
-			//printf("fakedata (%d) (%d), purse (%d) (%d)\n", fake_data.stack[S_A].size, \
-					fake_data.stack[S_B].size, purse->stack_aux[S_A].size, \
-					purse->stack_aux[S_B].size);
 			sleep(1); // check this
 		}
 		ft_putstr_fd("(press ENTER to exit...)\n", STDOUT_FILENO);
 		while (1)
 		{
-			ret = read(STDIN_FILENO, buffer, 1);
+			read(STDIN_FILENO, buffer, 1);
 			if (buffer[0] == '\n')
 			{
 				tcsetattr(STDIN_FILENO, TCSANOW, &purse->original_term);

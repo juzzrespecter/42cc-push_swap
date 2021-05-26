@@ -30,7 +30,7 @@ t_data init_data_with_flags(char **argv);
 t_stack	fill_stack_with_rand(int start, char **argv);
 t_print_info	*init_print_info(t_stack stack_s, t_data *data);
 void	print_verbose(t_data *data);
-void	print_body(t_print_info *purse);
+void	print_body(int c_flag, t_print_info *purse, t_data *dummy);
 void	print_margin(t_print_info *purse);
 int	ft_putc(int c);
 
