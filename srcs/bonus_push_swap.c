@@ -46,7 +46,7 @@ int	main(int argc, char **argv)
 	//	insertion_sort(&data);
 	quick_sort(data.stack[S_A].size, &data);
 	if (data.flags[V_FLAG])
-		print_verbose(&data);
+		print_visualizer_init(&data);
 	else
 		print_instr_loop(&data);
 	return (EXIT_SUCCESS);

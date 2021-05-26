@@ -18,14 +18,15 @@ typedef struct	s_bonus_table
 	int	padding;
 	char	wall;
 	char	margin;
-	char	*term_type; //tmp
-	t_stack	stack_aux;
+	t_data	dummy;
+	int		r_max;
+	int		r_min;
 }		t_bonus_table;
 
 t_data init_data_with_flags(char **argv);
 t_stack	fill_stack_with_rand(int start, char **argv);
 t_bonus_table	*init_bonus_table(t_stack stack_s, t_data *data);
-void	print_verbose(t_data *data);
+void	print_visualizer_init(t_data *data);
 void	print_body(int c_flag, t_bonus_table *purse, t_data *dummy);
 void	print_margin(t_bonus_table *purse);
 int	ft_putc(int c);

@@ -19,10 +19,11 @@ SRCS			= parse_element.c \
 			  quick_sort.c
 
 SRCS_BONUS		= bonus_push_swap.c \
-			  bonus_verbose.c \
-			  bonus_verbose_utils.c \
+			  bonus_visualizer.c \
+			  bonus_visualizer_utils.c \
 			  bonus_rand.c \
-			  bonus_init_data.c
+			  bonus_init_data.c \
+			  bonus_init_table.c
 
 CHECKER_MAIN		= checker.c
 
