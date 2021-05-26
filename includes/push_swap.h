@@ -17,7 +17,6 @@
 # define V_FLAG 0
 # define R_FLAG 1
 # define C_FLAG 2
-# define H_FLAG 3
 
 # define SWAP_ID 0
 # define PUSH_ID 1 
@@ -38,8 +37,7 @@ typedef struct	s_data
 {
 	t_stack	stack[2];
 	t_list	*instr_list_head;
-	int		flags[4];
-	int	save_fd;
+	int		flags[3]; //tmp
 	void	*bonus_misc;
 }	t_data;
 

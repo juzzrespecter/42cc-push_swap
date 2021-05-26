@@ -31,7 +31,7 @@ static t_stack	flag_manager(char **argv, t_data *data)
 	else
 		stack_s = fill_stack(argv_start, argv);
 	if (data->flags[V_FLAG])
-		data->bonus_misc = (void *)init_print_info(stack_s, data);
+		data->bonus_misc = (void *)init_bonus_table(stack_s, data);
 	return (stack_s);
 }
 

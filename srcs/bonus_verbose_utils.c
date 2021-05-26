@@ -14,45 +14,59 @@ static void	print_padding(int padding)
 
 #include <stdio.h>
 
-static void	print_stack(int i, t_print_info *purse,  t_stack stack_s, int c_flag)
+static char	*print_stack_color(int n)
+{
+	static char	*color_set[] = {
+		"\x1b[31m",
+		"\x1b[91m",
+		"\x1b[33m",
+		"\x1b[93m",
+		"\x1b[92m",
+		"\x1b[32m"
+	};
+	long index;
+	long aux = INT_MAX;
+
+	index = (long)n + aux;
+	index /= (aux * 2) / 6L;
+	return (color_set[index]);
+}	
+
+static void	print_stack(int i, t_bonus_table *purse,  t_stack stack_s, int c_flag)
 {
 	int	n;
 	int	count;
 	char	*n_str;
 	int	n_len;
-	static char	*color_set[] = {
-		"\033[52m",
-		"\033[53m",
-		"\033[54m",
-		"\033[55m",
-		"\033[56m",
-		"\033[57m",
-		"\033[0m"
-	};
+	int neg;
 
 	count = 0;
 	n_len = 0;
+	neg = 0;
 	n = stack_element(stack_s, i - (purse->height - stack_s.size));
-	if (n > 0)
+	if (n < 0)
+		neg = 1;
+	if (!neg)
 		ft_putchar(' ');
 	if (purse->height - (i + 1) < stack_s.size)
 	{
 		n_str = ft_itoa(n);
 		if (c_flag)
-			ft_putstr(color_set[0]); //test
+			ft_putstr(print_stack_color(n)); //test
 		ft_putstr(n_str);
 		if (c_flag)
-			ft_putstr(color_set[6]);
-		ft_strlen(n_str);
+			ft_putstr("\x1b[0m"); //test
+		n_len = ft_strlen(n_str);
+		free(n_str);
 	}
-	while (count + n_len < purse->width_stack)
+	while (count + n_len < purse->width_stack + neg)
 	{
 		ft_putchar(' ');
 		count++;
 	}
 }
 
-void	print_body(int c_flag, t_print_info *purse, t_data *dummy)
+void	print_body(int c_flag, t_bonus_table *purse, t_data *dummy)
 {
 	int	i;
 
@@ -68,12 +82,12 @@ void	print_body(int c_flag, t_print_info *purse, t_data *dummy)
 		print_padding(purse->padding);
 		ft_putchar(purse->wall);
 		ft_putchar('\n');
-		tputs(purse->cr, 1, ft_putc);
+		tputs(tgetstr("cr", NULL), 1, ft_putc);
 		i++;
 	}
 }
 
-void	print_margin(t_print_info *purse)
+void	print_margin(t_bonus_table *purse)
 {
 	int	i;
 
