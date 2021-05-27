@@ -8,7 +8,7 @@ int	main(int argc, char **argv)
 	parse_element(1, 0, argv);
 	data = init_data(argv);
 //	insertion_sort(&data);
-	quick_sort(data.stack[S_A].size, &data);
+	quick_sort_init(&data);
 	print_instr_loop(&data);
 	return (EXIT_SUCCESS);
 }

@@ -1,6 +1,6 @@
 #include "bonus_push_swap.h"
 
-static void bonus_table_vis_info(t_bonus_table *b_table, t_stack stack)
+static void bonus_table_vis_info(t_bonus *b_table, t_stack stack)
 {
 	char	*max_width_str;
 
@@ -19,7 +19,7 @@ static void bonus_table_vis_info(t_bonus_table *b_table, t_stack stack)
 	b_table->up_margin = "\n\n\n";
 }
 
-static void	bonus_table_copy_stack(t_bonus_table *b_table, t_stack stack, t_data *data)
+static void	bonus_table_copy_stack(t_bonus *b_table, t_stack stack, t_data *data)
 {
 	b_table->dummy.stack[S_A].array = (int *)malloc(sizeof(int) * stack.size);
 	b_table->dummy.stack[S_B].array = (int *)malloc(sizeof(int) * stack.size);
@@ -43,15 +43,15 @@ static void	bonus_table_init_termcaps(t_data *data)
 		err_and_exit(data, NULL, E_NOMEM);
 }
 
-static void	bonus_table_stack_range(t_bonus_table *b_table, t_stack stack)
+static void	bonus_table_stack_range(t_bonus *b_table, t_stack stack)
 {
 	int	i;
 	int	r_min;
 	int	r_max;
 
 	i = 0;
-	r_min = 1;
-	r_max = 1;
+	r_min = stack.array[i];
+	r_max = r_min;
 	while (i < stack.size)
 	{
 		if (stack.array[i] < r_min)
@@ -64,14 +64,14 @@ static void	bonus_table_stack_range(t_bonus_table *b_table, t_stack stack)
 	b_table->r_min = r_min;
 }
 
-t_bonus_table	*init_bonus_table(t_stack stack, t_data *data)
+t_bonus	*init_bonus_table(t_stack stack, t_data *data)
 {
-	t_bonus_table *b_table;
+	t_bonus *b_table;
 
-	b_table = (t_bonus_table *)malloc(sizeof(t_bonus_table) * 1);
+	b_table = (t_bonus *)malloc(sizeof(t_bonus) * 1);
 	if (!b_table)
 		err_and_exit(data, NULL, E_NOMEM);
-	ft_bzero(b_table, sizeof(t_bonus_table));
+	ft_bzero(b_table, sizeof(t_bonus));
 	bonus_table_stack_range(b_table, stack);
 	bonus_table_vis_info(b_table, stack);
 	bonus_table_copy_stack(b_table, stack, data);

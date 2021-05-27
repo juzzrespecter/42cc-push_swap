@@ -33,9 +33,22 @@ static double	choose_pivot(t_stack stack, int recorrido)
 		median += stack_element(stack, i);
 		i++;
 	}
-	median /= (float)recorrido;
+	median /= (double)recorrido;
 	return (median);
 }
+
+/*static int	finished_criba(t_stack stack, int i_rest, int rec, double pivot)
+  {
+  int	count = 1;
+
+  while (i_rest + count < rec)
+  {
+  if ((double)stack_element(stack, count) < pivot)
+  return (0);
+  count++;
+  }
+  return (1);
+  }*/
 
 static int	particion(int recorrido, t_data *data)
 {
@@ -62,14 +75,20 @@ static int	particion(int recorrido, t_data *data)
 		if ((double)stack_element(data->stack[S_A], j) < pivot)
 		{
 			tmp += j;
-			exec_instr_loop(ROT_ID, S_A, j, data); /* se pasa del valor de recorrido, checkar estoo */
+			exec_instr_loop(ROT_ID, S_A, j, data);
+			//			if (!finished_criba(data->stack[S_A], i, recorrido, pivot))
+			//			{
 			exec_instr_loop(PUSH_ID, S_B, 1, data);
+			// checkear cuando pushea de mas
 			j = 0;
+			//			}
+			//			else
 		}
 		else
 			j++;
 		i++;
 	}
+
 	n = data->stack[S_B].size == 0 ? 1 : data->stack[S_B].size;
 	if (test == 0)
 		exec_instr_loop(RROT_ID, S_A, tmp, data);
@@ -77,7 +96,32 @@ static int	particion(int recorrido, t_data *data)
 	return (n);
 }
 
-void	quick_sort(int recorrido, t_data *data)
+/*static void	check_three(int first, int second, int third, t_data *data)
+{
+	if (first < second && second < third)
+		return ;
+	if (second > first && second < third)
+	{
+		exec_instr_loop(SWAP_ID, S_A, 1, data);
+		return ;
+	}
+	if (second > first && second > third)
+	{
+		exec_instr_loop(PUSH_ID, S_B, 1, data);
+		exec_instr_loop(SWAP_ID, S_A, 1, data);
+		exec_instr_loop(PUSH_ID, S_A, 1, data);
+		return ; 
+	}
+	exec_instr_loop(PUSH_ID, S_B, 1, data);
+	exec_instr_loop(PUSH_ID, S_B, 1, data);
+	exec_instr_loop(SWAP_ID, S_B, 1, data);
+	exec_instr_loop(PUSH_ID, S_A, 1, data);
+	exec_instr_loop(PUSH_ID, S_A, 1, data);
+	return ;
+
+}*/
+
+/*static void	quick_sort(int recorrido, t_data *data)
 {	
 	int	n;
 
@@ -87,17 +131,94 @@ void	quick_sort(int recorrido, t_data *data)
 	//size = 0 a n (a calcular) -> small sort
 	//size = n a inf (de momento) -> quick sort
 
-	if (recorrido < 2)
+	// recorrido == 3
+	// recorrido == 4
+	// recorrido == 5
+	// recorrido == 6
+
+	if (recorrido ==  1)
 	{
 		exec_instr_loop(ROT_ID, S_A, 1, data);
 		return ;
 	}
-	/*
+	*
 	 * if recorrido == 2
 	 * 	cosas
 	 *
-	 */
+	 *
+	if (check_already_sorted(data->stack[S_A], recorrido))
+	{
+		exec_instr_loop(ROT_ID, S_A, recorrido, data);
+		return ;
+	}
+	if (recorrido == 2)
+	{
+		if (stack_element(data->stack[S_A], 0) > stack_element(data->stack[S_A], 1))
+			exec_instr_loop(SWAP_ID, S_A, 1, data);
+		if (!(data->stack[S_A].size == recorrido))
+			exec_instr_loop(ROT_ID, S_A, 2, data);
+		return ;
+	}
+	if (recorrido == 3)
+	{
+		check_three(stack_element(data->stack[S_A], 0), \
+				stack_element(data->stack[S_A], 1), \
+				stack_element(data->stack[S_A], 2), \
+				data);
+		if (!(data->stack[S_A].size == recorrido))
+			exec_instr_loop(ROT_ID, S_A, 3, data);
+		return ;
+	}
 	n = particion(recorrido, data);
 	quick_sort(n, data);
 	quick_sort(recorrido - n, data);
+} */
+
+/*static void	stack_three()
+{
+	func check_if_only_three(); // metemos rr
+	...;
 }
+
+static void	stack_four()
+{
+	
+}*/
+
+static void quick_sort(int recorrido, t_data *data)
+{
+	int	n;
+
+
+}
+
+void	quick_sort_init(t_data *data)
+{
+	if (check_already_sorted(data->stack[S_A], data->stack[S_A].size))
+	{
+		free_data(data);
+		exit(EXIT_SUCCESS);
+	}
+	quick_sort(data->stack[S_A].size, data);
+}
+
+/*
+ *
+ * A = 1; ret
+ * A = 2; s, ret
+ * A = 3; { n = 3, n != 3, rr }
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */

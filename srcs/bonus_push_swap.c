@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 	parse_args(1, argv);
 	data = init_data_with_flags(argv);
 	//	insertion_sort(&data);
-	quick_sort(data.stack[S_A].size, &data);
+	quick_sort_init(&data);
 	if (data.flags[V_FLAG])
 		print_visualizer_init(&data);
 	else

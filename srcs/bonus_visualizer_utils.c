@@ -29,22 +29,23 @@ static char	*print_stack_color(long n, long r_max, long r_min)
 	return (color_set[(int)index]);
 }	
 
-static int	print_element(int n, int c_flag)
+static int	print_element(int n, int c_flag, t_bonus *b_table)
 {
 	char *n_str;
 	int	n_len;
 
 	n_str = ft_itoa(n);
 	if (c_flag)
-		ft_putstr(print_stack_color(n, b_table->r_max, b_table->r_min)); //test
+		ft_putstr(print_stack_color(n, b_table->r_max, b_table->r_min));
 	ft_putstr(n_str);
 	if (c_flag)
-		ft_putstr("\x1b[0m"); //test
+		ft_putstr("\x1b[0m");
 	n_len = ft_strlen(n_str);
 	free(n_str);
+	return (n_len);
 }
 
-static void	print_stack(int i, t_bonus_table *b_table,  t_stack stack_s, int c_flag)
+static void	print_stack(int i, t_bonus *b_table,  t_stack stack_s, int c_flag)
 {
 	int	n;
 	int	n_len;
@@ -54,7 +55,7 @@ static void	print_stack(int i, t_bonus_table *b_table,  t_stack stack_s, int c_f
 	if (!(n < 0))
 		ft_putchar(' ');
 	if (b_table->height - (i + 1) < stack_s.size)
-		n_len = print_element(n, c_flag);
+		n_len = print_element(n, c_flag, b_table);
 	while (n_len < b_table->width_stack + (n < 0))
 	{
 		ft_putchar(' ');
@@ -62,7 +63,7 @@ static void	print_stack(int i, t_bonus_table *b_table,  t_stack stack_s, int c_f
 	}
 }
 
-void	print_body(int c_flag, t_bonus_table *b_table, t_data *dummy)
+void	print_body(int c_flag, t_bonus *b_table, t_data *dummy)
 {
 	int	i;
 
@@ -80,18 +81,4 @@ void	print_body(int c_flag, t_bonus_table *b_table, t_data *dummy)
 		ft_putchar('\n');
 		i++;
 	}
-}
-
-void	print_margin(t_bonus_table *b_table)
-{
-	int	i;
-
-	i = 0;
-	ft_putstr(b_table->left_margin);
-	while (i < b_table->width)
-	{
-		ft_putchar(b_table->margin);
-		i++;
-	}
-	ft_putstr("\n");
 }

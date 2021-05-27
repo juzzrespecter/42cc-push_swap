@@ -41,7 +41,7 @@ static void	save_array(int *array, int size)
 	int	fd;
 	int	i;
 
-	fd = open("randstack", O_CREAT | O_RDWR, 0666);
+	fd = open("randstack", O_CREAT | O_RDWR | O_TRUNC, 0666);
 	i = 0;
 	while (i < size)
 	{

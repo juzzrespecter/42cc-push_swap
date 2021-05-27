@@ -19,8 +19,8 @@ void	err_and_exit(t_data *data, char *err_token, int err_code)
 		": argument overflows integer limits.\n",
 		"Not enough memory space on system.\n",
 		": unknown flag.\n",
-		": not a valid instruction.\n"
-		": bad random flag format ( usage = { -r [N_RANGE] ([BEST_CASE | WORST_CASE]) }\n"
+		": not a valid instruction.\n",
+		"Bad random flag format ( usage =  -r [N_RANGE] ([BEST_CASE | WORST_CASE])  )\n"
 	};
 
 	ft_putstr_fd("Error\n", STDERR_FILENO);

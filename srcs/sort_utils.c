@@ -1,61 +1,31 @@
 #include "push_swap.h"
 
-
-static void	print_instr(int instr_id, int stack_id)
-{
-	static const char	instr_array[2][3] = {
-		{'s', 'p', 'r'},
-		{'a', 'b', 'r'}
-	};
-	
-	if (instr_id == 3)
-		ft_putstr("rr");
-	else
-		ft_putchar(instr_array[0][instr_id]);
-	ft_putchar(instr_array[1][stack_id]);
-	ft_putchar('\n');
-}
-
-void	print_instr_loop(t_data *data)
-{
-	t_list	*instr_n;
-	int	*ids;
-
-	instr_n = data->instr_list_head;
-	while (instr_n)
-	{
-		ids = (int *)instr_n->content;
-		print_instr(ids[0], ids[1]);
-		instr_n = instr_n->next;
-	}
-}
-
-void	exec_instr(int instr_id, int stack_id, t_data *data)
-{
-	static void (*instr_table[])(int, t_data *) = {
-		swap,
-		push,
-		rotate,
-		rev_rotate
-	};
-
-	instr_table[instr_id](stack_id, data);
-}
-
-void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data)
+int	check_already_sorted(t_stack stack, int rec)
 {
 	int	i;
 
 	i = 0;
-	while (i < n)
+	if (rec == 1)
+		return (1);
+	while ((i + 1) < rec)
 	{
-		exec_instr(instr_id, stack_id, data);
-		save_instr_init(NULL, instr_id, stack_id, data);
+		if (stack.array[stack.size - (i + 1)] > stack.array[stack.size - (i + 2)])
+			return (0);
 		i++;
 	}
+	return (1);
 }
 
-int	stack_element(t_stack stack_s, int pos)
+void	small_sort(t_data *data)
 {
-	return (stack_s.array[stack_s.size - (pos + 1)]);
+	(void) data;
+	// 1. choose pivot
+	// 2. mueve (n < pivot) a stack b
+	// 3. busca primer desorden en cada stack (i, j)
+	// 4. mueve a primer desorden: (ra, rra) & (rb, rrb)
+	// 5. a: (n[i] > n[i + 1] -> sa) b: (n[j] < n[j + 1] -> sb) hasta recorrer todo el stack (checkthis)
+	// comprueba orden: OK -> exit, KO -> 4.
+	// 6. OK -> pa * stack_b.size
+	//
+	// basicamente: 1 paso de quick sort, bubble sort a los dos stacks
 }

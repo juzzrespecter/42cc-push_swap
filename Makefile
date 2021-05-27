@@ -15,11 +15,13 @@ SRCS			= parse_element.c \
 			  instructions.c \
 			  save_instr.c \
 			  insertion_sort.c \
+			  utils.c \
 			  sort_utils.c \
-			  quick_sort.c
+			  quick_sort.c 
 
 SRCS_BONUS		= bonus_push_swap.c \
 			  bonus_visualizer.c \
+			  bonus_visualizer_step.c \
 			  bonus_visualizer_utils.c \
 			  bonus_rand.c \
 			  bonus_init_data.c \
