@@ -83,15 +83,20 @@ void	quick_sort(int recorrido, t_data *data)
 
 	// caso ya ordenado
 	//
-	// caso n == 3
-	// caso n == 5
-	// caso n == 100
-	// caso n == 500
+	//init sort: escoge algoritmo depende del input:
+	//size = 0 a n (a calcular) -> small sort
+	//size = n a inf (de momento) -> quick sort
+
 	if (recorrido < 2)
 	{
 		exec_instr_loop(ROT_ID, S_A, 1, data);
 		return ;
 	}
+	/*
+	 * if recorrido == 2
+	 * 	cosas
+	 *
+	 */
 	n = particion(recorrido, data);
 	quick_sort(n, data);
 	quick_sort(recorrido - n, data);

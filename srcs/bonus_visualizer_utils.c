@@ -23,46 +23,42 @@ static char	*print_stack_color(long n, long r_max, long r_min)
 		"\x1b[91m",
 		"\x1b[31m"
 	};
-	long n_long;
 	double index;
 
-	n_long = n - r_min;
-	index = n_long / (double)(r_max - r_min);
-	index = index * 5;
+	index = ((double)(n - r_min) / (double)(r_max - r_min)) * 5;
 	return (color_set[(int)index]);
 }	
+
+static int	print_element(int n, int c_flag)
+{
+	char *n_str;
+	int	n_len;
+
+	n_str = ft_itoa(n);
+	if (c_flag)
+		ft_putstr(print_stack_color(n, b_table->r_max, b_table->r_min)); //test
+	ft_putstr(n_str);
+	if (c_flag)
+		ft_putstr("\x1b[0m"); //test
+	n_len = ft_strlen(n_str);
+	free(n_str);
+}
 
 static void	print_stack(int i, t_bonus_table *b_table,  t_stack stack_s, int c_flag)
 {
 	int	n;
-	int	count;
-	char	*n_str;
 	int	n_len;
-	int neg;
 
-	count = 0;
 	n_len = 0;
-	neg = 0;
 	n = stack_element(stack_s, i - (b_table->height - stack_s.size));
-	if (n < 0)
-		neg = 1;
-	if (!neg)
+	if (!(n < 0))
 		ft_putchar(' ');
 	if (b_table->height - (i + 1) < stack_s.size)
-	{
-		n_str = ft_itoa(n);
-		if (c_flag)
-			ft_putstr(print_stack_color(n, b_table->r_max, b_table->r_min)); //test
-		ft_putstr(n_str);
-		if (c_flag)
-			ft_putstr("\x1b[0m"); //test
-		n_len = ft_strlen(n_str);
-		free(n_str);
-	}
-	while (count + n_len < b_table->width_stack + neg)
+		n_len = print_element(n, c_flag);
+	while (n_len < b_table->width_stack + (n < 0))
 	{
 		ft_putchar(' ');
-		count++;
+		n_len++;
 	}
 }
 

@@ -15,8 +15,8 @@ static void bonus_table_vis_info(t_bonus_table *b_table, t_stack stack)
 	b_table->wall = '.';
 	b_table->margin = '*';
 	b_table->width = b_table->width_stack * 2 + b_table->padding * 2 + 3;
-	b_table->height = 15 * (stack.size < 15) + stack.size * (stack.size >= 15);
-	b_table->up_margin = "\n\n\n\n\n";
+	b_table->height = 12 * (stack.size < 12) + stack.size * (stack.size >= 12);
+	b_table->up_margin = "\n\n\n";
 }
 
 static void	bonus_table_copy_stack(t_bonus_table *b_table, t_stack stack, t_data *data)

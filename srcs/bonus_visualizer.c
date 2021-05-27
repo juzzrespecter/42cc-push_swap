@@ -70,7 +70,8 @@ static void	print_visualizer(t_data *data)
 	dummy = b_table->dummy;
 	node = data->instr_list_head;
 	req.tv_sec = 0;
-	req.tv_nsec = 100000000;
+	req.tv_nsec = 300000000 - dummy.stack[S_A].size * 10000000;
+	req.tv_nsec = req.tv_nsec < 100000000 ? 100000000 : req.tv_nsec;
 	printf("%d, %d\n", dummy.stack[0].size, dummy.stack[1].size);
 	printf("%d, %d\n", dummy.stack[0].array[0], dummy.stack[0].array[1]);
 	print_visualizer_step(b_table, data->flags[C_FLAG], &dummy);
