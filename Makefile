@@ -14,7 +14,7 @@ SRCS			= parse_element.c \
 			  err_and_exit.c \
 			  instructions.c \
 			  save_instr.c \
-			  insertion_sort.c \
+			  selection_sort.c \
 			  utils.c \
 			  sort_utils.c \
 			  quick_sort.c 

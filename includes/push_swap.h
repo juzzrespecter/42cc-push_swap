@@ -60,7 +60,7 @@ t_stack	fill_stack(int start, char **argv);
 void	print_instr_loop(t_data *data);
 void	save_instr_init(char *instr, int instr_id, int stack_id, t_data *data);
 
-void	insertion_sort(t_data *data);
+void	selection_sort(t_data *data);
 void	quick_sort_init(t_data *data);
 int		check_already_sorted(t_stack stack, int rec);
 

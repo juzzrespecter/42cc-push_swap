@@ -45,7 +45,7 @@ static void	save_array(int *array, int size)
 	i = 0;
 	while (i < size)
 	{
-		element = ft_itoa(array[i]);
+		element = ft_itoa(array[size - (i + 1)]);
 		ft_putstr_fd(element, fd);
 		ft_putchar_fd('\n', fd);	
 		free(element);
