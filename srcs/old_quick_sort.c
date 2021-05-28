@@ -189,6 +189,16 @@ static void quick_sort(int recorrido, t_data *data)
 {
 	int	n;
 
+	if (recorrido == 1)
+	{
+		exec_instr_loop(ROT_ID, S_A, 1, data);
+		return ;
+	}
+	if (recorrido == 2)
+	{
+		if (stack_element(0;
+	}
+
 
 }
 
