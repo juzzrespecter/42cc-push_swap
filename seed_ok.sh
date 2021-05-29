@@ -12,5 +12,6 @@ fi
 if [ ! -f "$BIN" ]; then
 	make bonus
 fi
-./push_swap -r "$1" | ./checker $(cat randstack)
-rm randstack
+./push_swap -r "$1" > tmp
+./checker $(cat .randstack) < tmp
+rm randstack tmp
