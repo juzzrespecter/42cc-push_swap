@@ -104,7 +104,7 @@ static void	selection_sort_step(t_data *data)
 	else
 		exec_instr_loop(RROT_ID, S_A, data->stack[S_A].size - pos, data);
 	exec_instr_loop(PUSH_ID, S_B, 1, data);
-	selection_sort(data);
+	selection_sort_step(data);
 }
 
 void	selection_sort(t_data *data)

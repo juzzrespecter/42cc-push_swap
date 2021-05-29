@@ -13,5 +13,5 @@ if [ ! -f "$BIN" ]; then
 	make bonus
 fi
 ./push_swap -r "$1" > tmp
-./checker $(cat .randstack) < tmp
-rm randstack tmp
+./checker_Mac $(cat .randstack) < tmp
+rm .randstack tmp
