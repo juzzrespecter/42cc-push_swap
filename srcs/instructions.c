@@ -2,10 +2,10 @@
 
 void	push(int stack_id, t_data *data)
 {
-	t_stack *stack_push;
+	t_stack	*stack_push;
 	t_stack	*stack_pop;
-	int	size_pop;
-	int	size_push;
+	int		size_pop;
+	int		size_push;
 
 	stack_push = &data->stack[stack_id];
 	stack_pop = &data->stack[1 * (stack_id == 0)];
@@ -21,8 +21,8 @@ void	push(int stack_id, t_data *data)
 
 void	swap(int stack_id, t_data *data)
 {
-	t_stack *stack_s;
-	int	aux;
+	t_stack	*stack_s;
+	int		aux;
 
 	stack_s = &data->stack[stack_id - 2 * (stack_id == 2)];
 	if (stack_s->size < 2)
@@ -37,9 +37,9 @@ void	swap(int stack_id, t_data *data)
 void	rotate(int stack_id, t_data *data)
 {
 	t_stack	*stack_s;
-	int	size;
-	int	aux;
-	int	i;
+	int		size;
+	int		aux;
+	int		i;
 
 	stack_s = &data->stack[stack_id - 2 * (stack_id == 2)];
 	size = stack_s->size;
@@ -60,9 +60,9 @@ void	rotate(int stack_id, t_data *data)
 void	rev_rotate(int stack_id, t_data *data)
 {
 	t_stack	*stack_s;
-	int	size;
-	int	aux;
-	int	i;
+	int		size;
+	int		aux;
+	int		i;
 
 	stack_s = &data->stack[stack_id - 2 * (stack_id == 2)];
 	size = stack_s->size;

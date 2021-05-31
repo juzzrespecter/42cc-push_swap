@@ -23,7 +23,7 @@ static char	*print_stack_color(long n, long r_max, long r_min)
 		"\x1b[91m",
 		"\x1b[31m"
 	};
-	double index;
+	double		index;
 
 	index = ((double)(n - r_min) / (double)(r_max - r_min)) * 5;
 	return (color_set[(int)index]);
@@ -31,8 +31,8 @@ static char	*print_stack_color(long n, long r_max, long r_min)
 
 static int	print_element(int n, int c_flag, t_bonus *b_table)
 {
-	char *n_str;
-	int	n_len;
+	char	*n_str;
+	int		n_len;
 
 	n_str = ft_itoa(n);
 	if (c_flag)
@@ -45,13 +45,13 @@ static int	print_element(int n, int c_flag, t_bonus *b_table)
 	return (n_len);
 }
 
-static void	print_stack(int i, t_bonus *b_table,  t_stack stack_s, int c_flag)
+static void	print_stack(int i, t_bonus *b_table, t_stack stack_s, int c_flag)
 {
 	int	n;
 	int	n_len;
 
 	n_len = 0;
-	n = stack_element(stack_s, i - (b_table->height - stack_s.size));
+	n = stack_ud(stack_s, i - (b_table->height - stack_s.size));
 	if (!(n < 0))
 		ft_putchar(' ');
 	if (b_table->height - (i + 1) < stack_s.size)

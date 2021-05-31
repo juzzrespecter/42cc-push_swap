@@ -1,6 +1,5 @@
 #include "push_swap.h"
 
-
 static void	print_instr(int instr_id, int stack_id)
 {
 	static const char	instr_array[2][3] = {
@@ -55,7 +54,7 @@ void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data)
 	}
 }
 
-int	stack_element(t_stack stack_s, int pos)
+int	stack_ud(t_stack stack, int pos)
 {
-	return (stack_s.array[stack_s.size - (pos + 1)]);
+	return (stack.array[stack.size - (pos + 1)]);
 }

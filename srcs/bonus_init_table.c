@@ -1,6 +1,6 @@
 #include "bonus_push_swap.h"
 
-static void bonus_table_vis_info(t_bonus *b_table, t_stack stack)
+static void	bonus_table_vis_info(t_bonus *b_table, t_stack stack)
 {
 	char	*max_width_str;
 
@@ -19,20 +19,24 @@ static void bonus_table_vis_info(t_bonus *b_table, t_stack stack)
 	b_table->up_margin = "\n\n\n";
 }
 
-static void	bonus_table_copy_stack(t_bonus *b_table, t_stack stack, t_data *data)
+static void	copy_stack(t_bonus *b_table, t_stack stack, t_data *data)
 {
-	b_table->dummy.stack[S_A].array = (int *)malloc(sizeof(int) * stack.size);
-	b_table->dummy.stack[S_B].array = (int *)malloc(sizeof(int) * stack.size);
-	if (b_table->dummy.stack[S_A].array == 0 || b_table->dummy.stack[S_B].array == 0)
+	unsigned int	malloc_stack_size;
+
+	malloc_stack_size = stack.size * sizeof(int);
+	b_table->dummy.stack[S_A].array = (int *)malloc(malloc_stack_size);
+	b_table->dummy.stack[S_B].array = (int *)malloc(malloc_stack_size);
+	if (b_table->dummy.stack[S_A].array == 0
+		|| !b_table->dummy.stack[S_B].array)
 		err_and_exit(data, NULL, E_NOMEM);
-	ft_memcpy(b_table->dummy.stack[S_A].array, stack.array, stack.size * sizeof(int));
+	ft_memcpy(b_table->dummy.stack[S_A].array, stack.array, malloc_stack_size);
 	b_table->dummy.stack[S_A].size = stack.size;
 	b_table->dummy.stack[S_B].size = 0;
 }
 
 static void	bonus_table_init_termcaps(t_data *data)
 {
-	int	ret_getent;
+	int		ret_getent;
 	char	*term_type;
 
 	if (!isatty(STDIN_FILENO))
@@ -66,7 +70,7 @@ static void	bonus_table_stack_range(t_bonus *b_table, t_stack stack)
 
 t_bonus	*init_bonus_table(t_stack stack, t_data *data)
 {
-	t_bonus *b_table;
+	t_bonus	*b_table;
 
 	b_table = (t_bonus *)malloc(sizeof(t_bonus) * 1);
 	if (!b_table)
@@ -74,7 +78,7 @@ t_bonus	*init_bonus_table(t_stack stack, t_data *data)
 	ft_bzero(b_table, sizeof(t_bonus));
 	bonus_table_stack_range(b_table, stack);
 	bonus_table_vis_info(b_table, stack);
-	bonus_table_copy_stack(b_table, stack, data);
+	copy_stack(b_table, stack, data);
 	bonus_table_init_termcaps(data);
 	return (b_table);
 }

@@ -15,7 +15,8 @@ static void	parse_rand(int i, char **argv)
 	}
 	if (argv[i + 1])
 	{
-		if (ft_strncmp(argv[i + 1], "BEST_CASE", 10) && ft_strncmp(argv[i + 1], "WORST_CASE", 11))
+		if (ft_strncmp(argv[i + 1], "BEST_CASE", 10) && \
+			   ft_strncmp(argv[i + 1], "WORST_CASE", 11))
 			err_and_exit(NULL, NULL, E_NORAND);
 	}
 	return ;
@@ -43,11 +44,9 @@ int	main(int argc, char **argv)
 	(void) argc;
 	parse_args(1, argv);
 	data = init_data_with_flags(argv);
-	//	insertion_sort(&data);
 	quick_sort_init(&data);
 	if (data.flags[V_FLAG])
 		print_visualizer_init(&data);
-	else
-		print_instr_loop(&data);
+	print_instr_loop(&data);
 	return (EXIT_SUCCESS);
 }

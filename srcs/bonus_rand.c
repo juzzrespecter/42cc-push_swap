@@ -1,9 +1,9 @@
 #include "bonus_push_swap.h"
 
-static t_stack fill_stack_with_case(int n_elem, int id)
+static t_stack	fill_stack_with_case(int n_elem, int id)
 {
 	t_stack	stack_a;
-	int	i;
+	int		i;
 
 	stack_a.size = n_elem;
 	stack_a.array = (int *)malloc(sizeof(int) * n_elem);
@@ -38,8 +38,8 @@ static int	is_duplicate(int to_add, int *array, int array_pos)
 static void	save_array(int *array, int size)
 {
 	char	*element;
-	int	fd;
-	int	i;
+	int		fd;
+	int		i;
 
 	fd = open(".randstack", O_CREAT | O_RDWR | O_TRUNC, 0666);
 	i = 0;
@@ -47,7 +47,7 @@ static void	save_array(int *array, int size)
 	{
 		element = ft_itoa(array[size - (i + 1)]);
 		ft_putstr_fd(element, fd);
-		ft_putchar_fd('\n', fd);	
+		ft_putchar_fd('\n', fd);
 		free(element);
 		i++;
 	}
@@ -56,10 +56,10 @@ static void	save_array(int *array, int size)
 
 t_stack	fill_stack_with_rand(int start, char **argv)
 {
-	t_stack stack_a;
-	int	n_elem;
-	int	to_add;
-	int	i;
+	t_stack	stack_a;
+	int		n_elem;
+	int		to_add;
+	int		i;
 
 	n_elem = ft_atoi(argv[start]);
 	if (argv[start + 1] != NULL)

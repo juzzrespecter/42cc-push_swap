@@ -27,6 +27,8 @@
 # define S_B 1
 # define S_BOTH 2
 
+# include <stdio.h>
+
 typedef struct	s_stack
 {
 	int	*array;
@@ -55,12 +57,13 @@ t_data	init_data(char **argv);
 void	parse_element(int i, int stack_size, char **argv);
 void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data);
 void	exec_instr(int instr_id, int stack_id, t_data *data);
-int	stack_element(t_stack stack_s, int pos);
+int	stack_ud(t_stack stack_s, int pos);
 t_stack	fill_stack(int start, char **argv);
 void	print_instr_loop(t_data *data);
 void	save_instr_init(char *instr, int instr_id, int stack_id, t_data *data);
 
 void	selection_sort(t_data *data);
+void	insertion_sort(t_data *data);
 void	quick_sort_init(t_data *data);
 int		check_already_sorted(t_stack stack, int rec);
 

@@ -1,89 +1,59 @@
 #include "push_swap.h"
 
-/*
- * Quick sort:
- * 		algortmo de ordenacion recursivo por comparacion, escoge un elemento 'pivot' que se usara
- * 		para separar el array en dos sub-arrays, un conteniendo todos los elementos
- * 		menores que el elemento pivot, y otro conteniendo los elementos mayores, para 
- * 		despues llamar a quick sort en cada uno de estos sub-arrays que ordenaran
- * 		en distintos sub-arrays de forma recursiva hasta alcanzar la condicion de salida
- * 		en la que el rango del sub-array es menor que 2 (la menor unidad posible)
- *
- * pivot: A [ hi ] como pivot provoca complejidad O ( n^2 ) en casos de array con tendencia a ordenacion inversa
- * 
- * para acercar la complejidad del algoritmo al caso estandar O( n * log(n) ), pueden usarse otros criterios de seleccion de pivot:
- * -> escoger un elemento aleatorio de la lista
- * -> precalcular el elemento que se situara en la mitad de la lista (asegurando un comportamiento O(n * log(n)) para cualquier caso)
- * -> comparar entre el primer elemento, el elemento de mitad de la lista y el ultimo, usando el valor del medio como pivot
- */
-
-#include <stdio.h>
-
-/*static int	push_front(t_stack stack, double pivot)
-{
-	int	pos;
-
-	pos = 0;
-	while (pos < stack.size)
-	{
-		if ((double)stack_element(stack, pos) < pivot)
-			return (pos);
-		pos++;
-	}
-	return (-1);
-}*/
-
 static double	choose_pivot(t_stack stack, int recorrido)
 {
 	double	median;
-	int count;
-	int i;
+	int		i;
 
 	median = 0;
-	count = 0;
 	i = 0;
-	while (i < recorrido && count < recorrido/2)
+	while (i < recorrido)
 	{
-		median += stack_element(stack, i);
+		median += stack_ud(stack, i);
 		i++;
 	}
 	median /= (double)recorrido;
 	return (median);
 }
 
-static int	particion(int recorrido, t_data *data)
+static int	push_next_pos(int recorrido, t_stack stack, double pivot)
 {
+	int	pos;
+
+	pos = 0;
+	while (pos < recorrido)
+	{
+		if ((double)stack_ud(stack, pos) < pivot)
+			return (pos);
+		pos++;
+	}
+	return (-1);
+}
+
+static int	partition(int recorrido, t_data *data)
+{
+	int		i;
+	int		pos;
+	int		rot_n;
+	int		first_step;
 	double	pivot;
-	int	tmp;
-	int	n;
-	int	i;
-	int	j;
-	int	test = 0;
 
-	pivot = choose_pivot(data->stack[S_A], recorrido); // best
-	tmp = 0;
 	i = 0;
-	j = 0;
-
-	if (recorrido == data->stack[S_A].size)
-		test = 1;
+	rot_n = 0;
+	pivot = choose_pivot(data->stack[S_A], recorrido);
+	first_step = 1 * (recorrido == data->stack[S_A].size);
 	while (i < recorrido)
 	{
-		if ((double)stack_element(data->stack[S_A], j) < pivot)
-		{
-			tmp += j;
-			exec_instr_loop(ROT_ID, S_A, j, data);
-			exec_instr_loop(PUSH_ID, S_B, 1, data);
-			j = 0;
-		}
-		else
-			j++;
-		i++;
+		pos = push_next_pos(recorrido - i, data->stack[S_A], pivot);
+		if (pos == -1)
+			break ;
+		rot_n += pos;
+		i += pos + 1;
+		exec_instr_loop(ROT_ID, S_A, pos, data);
+		exec_instr_loop(PUSH_ID, S_B, 1, data);
 	}
-	n = data->stack[S_B].size == 0 ? 1 : data->stack[S_B].size;
-	if (test == 0)
-		exec_instr_loop(RROT_ID, S_A, tmp, data);
-	return (n);
+	exec_instr_loop(RROT_ID, S_A, rot_n * (!first_step), data);
+	return (data->stack[S_B].size + 1 * (data->stack[S_B].size == 0));
 }
 
 static int	find_biggest(t_stack stack)
@@ -93,12 +63,12 @@ static int	find_biggest(t_stack stack)
 	int	biggest_pos;
 
 	i = 0;
-	biggest = stack_element(stack, 0);
+	biggest = stack_ud(stack, 0);
 	while (i < stack.size)
 	{
-		if (stack_element(stack, i) > biggest)
+		if (stack_ud(stack, i) > biggest)
 		{
-			biggest = stack_element(stack, i);
+			biggest = stack_ud(stack, i);
 			biggest_pos = i;
 		}
 		i++;
@@ -108,65 +78,27 @@ static int	find_biggest(t_stack stack)
 
 static void	selection_sort_subarray(t_data *data)
 {
-	int pos;
+	int		pos;
+	t_stack	stack;
 
-	if (data->stack[S_B].size == 0)
+	stack = data->stack[S_B];
+	if (stack.size == 0)
 		return ;
-	if (data->stack[S_B].size == 2)
+	if (stack.size == 2)
 	{
-		if (stack_element(data->stack[S_B], 0) < stack_element(data->stack[S_B], 1))
+		if (stack_ud(stack, 0) < stack_ud(stack, 1))
 			exec_instr_loop(SWAP_ID, S_B, 1, data);
 		exec_instr_loop(PUSH_ID, S_A, 2, data);
 		return ;
 	}
 	pos = find_biggest(data->stack[S_B]);
-	if (pos < data->stack[S_B].size / 2)
+	if (pos < stack.size / 2)
 		exec_instr_loop(ROT_ID, S_B, pos, data);
 	else
-		exec_instr_loop(RROT_ID, S_B, data->stack[S_B].size - pos, data);
+		exec_instr_loop(RROT_ID, S_B, stack.size - pos, data);
 	exec_instr_loop(PUSH_ID, S_A, 1, data);
 	selection_sort_subarray(data);
 }
-
-/*static int	push_back(t_stack stack, double pivot)
-{
-	int	pos;
-
-	pos = 0;
-	while (pos < stack.size)
-	{
-		if ((double)stack.array[pos] < pivot)
-			return (pos);
-		pos++;
-	}
-	return (-1);
-}*/
-
-/*static	int exec_first_step(t_data *data)
-{
-	double	pivot;
-	int	count;
-	int	rec;
-	int	i, j;
-
-	pivot = choose_pivot(data->stack[S_A], data->stack[S_A].size);
-	count = 0;
-	rec = data->stack[S_A].size;
-	while (count < rec)
-	{
-		i = push_front(data->stack[S_A], pivot);
-		if (i == -1)
-			break ;
-		j = push_back(data->stack[S_A], pivot);
-		if (i > j)
-			exec_instr_loop(RROT_ID, S_A, j + 1, data);
-		else
-			exec_instr_loop(ROT_ID, S_A, i, data);
-		exec_instr_loop(PUSH_ID, S_B, 1, data);
-		count++;
-	}
-	return (data->stack[S_B].size);
-}*/
 
 static void	quick_sort(int recorrido, t_data *data)
 {	
@@ -177,11 +109,8 @@ static void	quick_sort(int recorrido, t_data *data)
 		exec_instr_loop(ROT_ID, S_A, recorrido, data);
 		return ;
 	}
-//	if (recorrido == data->stack[S_A].size)
-//		n = exec_first_step(data);
-	else
-		n = particion(recorrido, data);
-	if (data->stack[S_B].size <= 30)
+	n = partition(recorrido, data);
+	if (data->stack[S_B].size <= 40)
 	{
 		n = data->stack[S_B].size;
 		selection_sort_subarray(data);
@@ -189,11 +118,6 @@ static void	quick_sort(int recorrido, t_data *data)
 	else
 		exec_instr_loop(PUSH_ID, S_A, data->stack[S_B].size, data);
 	quick_sort(n, data);
-	if (recorrido - n <= 30)
-	{
-		exec_instr_loop(PUSH_ID, S_B, recorrido - n, data);
-		selection_sort_subarray(data);
-	}
 	quick_sort(recorrido - n, data);
 }
 
@@ -204,7 +128,7 @@ void	quick_sort_init(t_data *data)
 		free_data(data);
 		exit(EXIT_SUCCESS);
 	}
-	if (data->stack[S_A].size <= 30)
+	if (data->stack[S_A].size < 2000)
 		selection_sort(data);
 	else
 		quick_sort(data->stack[S_A].size, data);

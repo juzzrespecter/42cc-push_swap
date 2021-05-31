@@ -26,8 +26,8 @@ int	checker_if_valid_instr(char *instr)
 
 void	checker_exec_instr_loop(t_data *data)
 {
-	t_list *instr_n;
-	int	*ids;
+	t_list	*instr_n;
+	int		*ids;
 
 	instr_n = data->instr_list_head;
 	while (instr_n)

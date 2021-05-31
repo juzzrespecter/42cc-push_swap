@@ -33,11 +33,10 @@ static void	print_visualizer_exec(t_list *node, t_data *dummy)
 
 static void	print_visualizer(t_data *data)
 {
-
-	t_bonus	*b_table;
+	t_bonus			*b_table;
 	struct timespec	req;
-	t_list	*node;
-	t_data	dummy;
+	t_list			*node;
+	t_data			dummy;
 
 	dup2(STDERR_FILENO, STDOUT_FILENO);
 	b_table = (t_bonus *)data->bonus_misc;
@@ -51,7 +50,7 @@ static void	print_visualizer(t_data *data)
 		print_visualizer_exec(node, &dummy);
 		print_visualizer_step(b_table, data->flags[C_FLAG], &dummy);
 		node = node->next;
-		nanosleep(&req, NULL); // check this
+		nanosleep(&req, NULL);
 	}
 	print_visualizer_wait("exit");
 	free_data(data);

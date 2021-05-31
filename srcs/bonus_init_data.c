@@ -1,9 +1,9 @@
 #include "bonus_push_swap.h"
 
-static int	init_flags(char **argv, t_data *data) // no
+static int	init_flags(char **argv, t_data *data)
 {
 	int	i;
-	
+
 	i = 1;
 	while (argv[i])
 	{
@@ -22,17 +22,17 @@ static int	init_flags(char **argv, t_data *data) // no
 
 static t_stack	flag_manager(char **argv, t_data *data)
 {
-	int	argv_start;
-	t_stack	stack_s;
+	int		argv_start;
+	t_stack	stack;
 
 	argv_start = init_flags(argv, data);
 	if (data->flags[R_FLAG])
-		stack_s = fill_stack_with_rand(argv_start, argv);
+		stack = fill_stack_with_rand(argv_start, argv);
 	else
-		stack_s = fill_stack(argv_start, argv);
+		stack = fill_stack(argv_start, argv);
 	if (data->flags[V_FLAG])
-		data->bonus_misc = (void *)init_bonus_table(stack_s, data);
-	return (stack_s);
+		data->bonus_misc = (void *)init_bonus_table(stack, data);
+	return (stack);
 }
 
 t_data	init_data_with_flags(char **argv)

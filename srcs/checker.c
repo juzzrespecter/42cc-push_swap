@@ -38,8 +38,8 @@ static int	checker_if_valid_instr(char *instr)
 
 static void	checker_exec_instr_loop(t_data *data)
 {
-	t_list *instr_n;
-	int	*ids;
+	t_list	*instr_n;
+	int		*ids;
 
 	instr_n = data->instr_list_head;
 	while (instr_n)
@@ -49,6 +49,7 @@ static void	checker_exec_instr_loop(t_data *data)
 		instr_n = instr_n->next;
 	}
 }
+
 static void	checker_stack_res(t_data *data, char *res)
 {
 	ft_putstr(res);
@@ -74,8 +75,8 @@ static void	checker_stack_order(t_data *data)
 
 int	main(int argc, char **argv)
 {
-	t_data		data;
-	int	ret;
+	t_data	data;
+	int		ret;
 	char	*instr_buffer;
 
 	(void) argc;
@@ -85,7 +86,7 @@ int	main(int argc, char **argv)
 	{
 		ret = get_next_line(STDIN_FILENO, &instr_buffer);
 		if (ret == 0)
-			break;
+			break ;
 		if (ret < 0)
 			err_and_exit(NULL, NULL, E_NOMEM);
 		if (!checker_if_valid_instr(instr_buffer))
