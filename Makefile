@@ -16,7 +16,9 @@ SRCS			= parse_element.c \
 			  save_instr.c \
 			  utils.c \
 			  sort_utils.c \
-			  quick_selection_sort.c
+			  quick_selection_sort.c \
+			  small_sort.c \
+			  medium_sort.c
 
 SRCS_BONUS		= bonus_push_swap.c \
 			  bonus_visualizer.c \
