@@ -40,8 +40,10 @@ static int	partition_less(t_data *data, int from, int to, int rec, double pivot)
 	int	i = 0;
 	int	pos = 0;
 
+	printf("------------------------------------------------------------------------------\n");
 	while (i < rec)
 	{
+		printf("step... (%d) (%d) (%lf)\n", rec, stack_ud(data->stack[from], pos), pivot);
 		if (stack_ud(data->stack[from], pos) < pivot)
 		{
 			exec_instr_loop(ROT_ID, from, pos, data);
@@ -143,6 +145,12 @@ void	quick_sort_init(t_data *data)
 	 * 6.- push b -> a
 	 *
 	 */
+
+/*
+ *
+ * check pivot criteria (max - min) / 2
+ *
+ */
 
 	double pivot;
 	int n_a;
