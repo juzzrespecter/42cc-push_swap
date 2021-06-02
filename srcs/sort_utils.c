@@ -1,47 +1,5 @@
 #include "push_swap.h"
 
-int	find_smallest_number(t_stack stack,  int pass)
-{
-	int	i;
-	int	smallest;
-	int	smallest_pos;
-
-	i = 0;
-	smallest = stack_ud(stack, 0);
-	smallest_pos = 0;
-	while (i < pass)
-	{
-		if (smallest > stack_ud(stack, i))
-		{
-			smallest_pos = i;
-			smallest = stack_ud(stack, i);
-		}
-		i++;
-	}
-	return (smallest_pos);
-}
-
-int	find_biggest_number(t_stack stack,  int pass)
-{
-	int	i;
-	int	biggest;
-	int	biggest_pos;
-
-	i = 0;
-	biggest = stack_ud(stack, 0);
-	biggest_pos = 0;
-	while (i < pass)
-	{
-		if (biggest < stack_ud(stack, i))
-		{
-			biggest_pos = i;
-			biggest = stack_ud(stack, i);
-		}
-		i++;
-	}
-	return (biggest_pos);
-}
-
 int	check_if_sorted(t_stack stack, int pass)
 {
 	int	i;
@@ -72,3 +30,40 @@ int	find_next_up(double pivot, int pass, t_stack stack)
 	return (-1);
 }
 
+int	find_biggest_number(t_stack stack, int pass)
+{
+	int stack_aux;
+	int	index;
+	int i;
+
+	i = 0;
+	stack_aux = stack_ud(stack, 0);
+	index = 0;
+	while (i < pass)
+	{
+		stack_aux = stack_ud(stack, i);
+		if (stack_aux > stack_ud(stack, index))
+			index = i;
+		i++;
+	}
+	return (index);
+}
+
+int	find_smallest_number(t_stack stack, int pass)
+{
+	int stack_aux;
+	int	index;
+	int i;
+
+	stack_aux = stack_ud(stack, 0);
+	index = 0;
+	i = 0;
+	while (i < pass)
+	{
+		stack_aux = stack_ud(stack, i);
+		if (stack_aux < stack_ud(stack, index))
+			index = i;
+		i++;
+	}
+	return (index);
+}

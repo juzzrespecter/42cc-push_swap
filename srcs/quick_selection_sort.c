@@ -1,6 +1,6 @@
 #include "push_swap.h"
 # define SMALL_LIMIT 15 
-# define MEDIUM_LIMIT 150 
+# define MEDIUM_LIMIT 1500 
 
 static void	choose_stack_bounds(int *bounds, t_stack stack,  int pass)
 {
@@ -56,13 +56,9 @@ static void	quick_sort(t_data *data,  int pass)
 		exec_instr_loop(ROT_ID, S_A, pass, data);
 		return ;
 	}
-	if (pass < 50)
-	{
-		selection_sort_medium(data, pass);
-		exec_instr_loop(ROT_ID, S_A, pass, data);
-		return ;
-	}
 	n_b = quick_sort_partition(data, pass);
+	if (n_b < 50)
+		selection_sort_small(data, S_B, data->stack[S_B].size);
 	exec_instr_loop(PUSH_ID, S_A, n_b, data);
 	quick_sort(data, n_b);
 	quick_sort(data, pass - n_b);

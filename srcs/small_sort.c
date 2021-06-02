@@ -13,9 +13,13 @@ static void	sort_three(t_data *data)
 
 void	selection_sort_small(t_data *data, int stack_id, int pass)
 {
+	static int	( *check_redundant_rot[])(t_stack, int) = {
+		find_smallest_number,
+		find_biggest_number
+	};
 	int	push_index;
 
-	if (pass == 0)
+	if (pass == 1)
 		return ;
 	if (pass == 2 && stack_id == S_A)
 	{
@@ -28,14 +32,11 @@ void	selection_sort_small(t_data *data, int stack_id, int pass)
 		sort_three(data);
 		return ;
 	}
-	if (stack_id == S_A)
-		push_index = find_smallest_number(data->stack[stack_id], pass);
-	else
-		push_index = find_biggest_number(data->stack[stack_id], pass);
+	push_index = check_redundant_rot[stack_id](data->stack[stack_id], pass);
 	if (push_index > pass / 2)
 		exec_instr_loop(RROT_ID, stack_id, pass - push_index, data);
 	else
 		exec_instr_loop(ROT_ID, stack_id, push_index, data);
-	exec_instr_loop(PUSH_ID, 1 * (stack_id == 0), 1, data);
-	selection_sort_small(data, stack_id, pass - 1);
+	exec_instr_loop(PUSH_ID, 1 * (stack_id == 0), 1 , data);
+	selection_sort_small(data, stack_id, pass - 1 - (push_index == -1));	
 }

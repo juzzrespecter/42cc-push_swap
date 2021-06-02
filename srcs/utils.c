@@ -31,7 +31,7 @@ void	print_instr_loop(t_data *data)
 
 void	exec_instr(int instr_id, int stack_id, t_data *data)
 {
-	static void (*instr_table[])(int, t_data *) = {
+	static void ( *instr_table[])(int, t_data *) = {
 		swap,
 		push,
 		rotate,

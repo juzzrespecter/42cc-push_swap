@@ -62,13 +62,13 @@ t_stack	fill_stack(int start, char **argv);
 void	print_instr_loop(t_data *data);
 void	save_instr_init(char *instr, int instr_id, int stack_id, t_data *data);
 
+int	find_biggest_number(t_stack stack, int pass);
+int	find_smallest_number(t_stack stack, int pass);
 void	selection_sort_small(t_data *data, int stack_id, int pass);
 void	selection_sort_medium(t_data *data, int pass);
 void	insertion_sort(t_data *data);
 void	quick_sort_init(t_data *data);
 int		check_if_sorted(t_stack stack, int rec);
-int	find_smallest_number(t_stack stack, int pass);
-int	find_biggest_number(t_stack stack, int pass);
 int	find_next_up(double pivot, int pass, t_stack stack);
 
 #endif
