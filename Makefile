@@ -73,7 +73,7 @@ fclean:			clean
 	make fclean -C $(LIBFT_DIR)
 	rm -f $(CHECKER) $(PUSH_SWAP)
 
-bonus:		$(PUSH_SWAP_BONUS)
+debug:		$(PUSH_SWAP_BONUS)
 
 $(PUSH_SWAP_BONUS):	$(OBJS) $(OBJS_BONUS) $(INCLUDE_DIR)bonus_push_swap.h 
 	make -C $(LIBFT_DIR)	
