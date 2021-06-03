@@ -19,7 +19,7 @@ void	selection_sort_small(t_data *data, int stack_id, int pass)
 	};
 	int	push_index;
 
-	if (pass == 1)
+	if (pass < 1)
 		return ;
 	if (pass == 2 && stack_id == S_A)
 	{
@@ -39,4 +39,53 @@ void	selection_sort_small(t_data *data, int stack_id, int pass)
 		exec_instr_loop(ROT_ID, stack_id, push_index, data);
 	exec_instr_loop(PUSH_ID, 1 * (stack_id == 0), 1 , data);
 	selection_sort_small(data, stack_id, pass - 1 - (push_index == -1));	
+}
+
+/*
+ * rotaciones redundantes:
+ *
+ * pos_2 < pos_1 en la misma mitad del stack
+ * [ 0 -> pos_2], [pos_2 -> pos_1]
+ * 		r * { [ 0 -> pos_2 ] + [pos_2 -> pos_1] }
+ *		p
+ *		rr * [pos_2 ->pos_1]
+ *		p
+ *
+ *		r * [0 -> pos_2 ]
+ *		p
+ *		r * [pos_2 -> pos_1]
+ *		p
+ *		s
+ *
+ */
+
+void	test_save_rotations()
+{
+	//find_1(); -> find biggest / smallest
+	//find_2(); -> find second biggest / smallest
+	int on_lower_half;
+
+	int pos_1;
+	int pos_2;
+
+	pos_1 = pos_finder[stack_id](data->stack[stack_id], step, -1);
+	pos_2 = pos_finder[stack_id](data->stack[stack_id], step, pos_1);
+	on_lower_half = (pos_2 > size / 2 && pos_1 > size / 2);
+
+	if (pos_2 < pos_1 && !on_lower_half)
+	{
+		rot(pos_2);
+		push();
+		rot(pos_1 - pos_2);
+		push();
+	swap();
+	}
+	if (pos_2 > pos_1 && on_lower_half)
+	{
+		rrot(size - pos_2);
+		push();
+		rrot(size - pos_2 - pos_1);
+		push();
+	swap();
+	}
 }

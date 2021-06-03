@@ -1,12 +1,40 @@
 #include "push_swap.h"
 # define N_PASOS 6 
 
-static int	find_next_down(double pivot, int pass, int index, t_stack stack)
+void	print_heap(int *heap, int n) // delete when finished
+{
+	int i = 0;
+	while (i < n) { printf("(%d)\n", heap[i]); i++; }
+}
+
+static void	init_pivot_array(t_stack stack, int *pivot_array)
+{
+	int	i;
+	int	*heap;
+
+	i = 0;
+	heap = heap_sort(stack.array, stack.size, stack.size);
+	while (i < N_PASOS)
+	{
+		pivot_array[i] = heap[(i + 1) * (stack.size / N_PASOS) - 1];
+		i++;
+	}
+	/* debug: print heap, print pivots 
+	printf("pre calc: (%d) (%d) (%d) [size, n_pasos, division]\n", stack.size, N_PASOS,\
+			stack.size / N_PASOS);
+	print_heap(heap, stack.size);
+	printf("0: (%d), 1: (%d), 2: (%d), 3: (%d), 4: (%d), 5(%d)\n",\
+			pivot_array[0], pivot_array[1], pivot_array[2], pivot_array[3], pivot_array[4], \
+			pivot_array[5]); */
+	free(heap);
+}
+
+static int	find_next_down(int pivot, int chunk_size, int index, t_stack stack)
 {
 	int	pos;
 
 	pos = 0;
-	while (pos < pass)
+	while (pos < chunk_size)
 	{
 		if (stack_ud(stack, index - pos) < pivot)
 			return (pos + 1);
@@ -15,7 +43,7 @@ static int	find_next_down(double pivot, int pass, int index, t_stack stack)
 	return (-1);
 }
 
-static void	selection_sort_medium_step(double pivot, t_data *data)
+static void	selection_sort_medium_step(int pivot, t_data *data)
 {
 	int	next_up;
 	int	next_down;
@@ -34,21 +62,22 @@ static void	selection_sort_medium_step(double pivot, t_data *data)
 	}
 }
 
-static double ft_abs(double a, double b) { if (a < 0) { a *= -1; } return ((a + b)); }
+//static int ft_abs(int a, int b) { if (a < 0) { a *= -1; } return ((a + b)); }
 
-void	selection_sort_medium(t_data *data, int pass)
+void	selection_sort_medium(t_data *data)
 {
-	double pivot;
-	int	bounds[2];
+	int pivot[N_PASOS];
+//	int	bounds[2];
 	int	i;
 
-	bounds[0] = stack_ud(data->stack[S_A], find_smallest_number(data->stack[S_A], pass));
-	bounds[1] = stack_ud(data->stack[S_A], find_biggest_number(data->stack[S_A], pass));
+//	bounds[0] = stack_ud(data->stack[S_A], find_smallest_number(data->stack[S_A], chunk_size));
+//	bounds[1] = stack_ud(data->stack[S_A], find_biggest_number(data->stack[S_A], chunk_size));
+	init_pivot_array(data->stack[S_A], pivot);
 	i = 0;
 	while (i < (N_PASOS - 1))
 	{
-		pivot = bounds[0] + ( (i + 1) * ft_abs(bounds[0], bounds[1]) ) / N_PASOS;
-		selection_sort_medium_step(pivot, data);
+		//pivot = bounds[0] + ( (i + 1) * ft_abs(bounds[0], bounds[1]) ) / N_PASOS;
+		selection_sort_medium_step(pivot[i], data);
 		i++;
 	}
 	selection_sort_small(data, S_A, data->stack[S_A].size);
