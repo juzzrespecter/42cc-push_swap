@@ -9,7 +9,7 @@ do
 	echo "--------- input $i ----------"
 	while [ $x -le 5 ]
 	do
-		./push_swap -r $i | wc
+		./push_swap_test -r $i | wc
 		sleep 1
 		x=$(( $x + 1 ))
 	done

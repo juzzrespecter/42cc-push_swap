@@ -4,7 +4,7 @@ CHECKER		= checker
 
 PUSH_SWAP		= push_swap
 
-PUSH_SWAP_BONUS = push_swap_bonus
+PUSH_SWAP_BONUS = push_swap_test
 
 SRCS_DIR		= ./srcs/
 
@@ -72,13 +72,12 @@ clean:
 
 fclean:			clean
 	make fclean -C $(LIBFT_DIR)
-	rm -f $(CHECKER) $(PUSH_SWAP)
+	rm -f $(CHECKER) $(PUSH_SWAP) $(PUSH_SWAP_TEST)
 
 debug:		$(PUSH_SWAP_BONUS)
 
 $(PUSH_SWAP_BONUS):	$(OBJS) $(OBJS_BONUS) $(INCLUDE_DIR)bonus_push_swap.h 
 	make -C $(LIBFT_DIR)	
 	$(GCC) -o $(PUSH_SWAP_BONUS) -g $(OBJS) $(OBJS_BONUS) $(LIB) -ltermcap
-	mv $(PUSH_SWAP_BONUS) $(PUSH_SWAP)
 
 re:			fclean all
