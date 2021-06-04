@@ -4,7 +4,7 @@ CHECKER		= checker
 
 PUSH_SWAP		= push_swap
 
-PUSH_SWAP_BONUS = push_swap_test
+PUSH_SWAP_TEST = push_swap_test
 
 SRCS_DIR		= ./srcs/
 
@@ -17,7 +17,7 @@ SRCS			= parse_element.c \
 			  utils.c \
 			  sort_utils.c \
 			  quick_selection_sort.c \
-			  small_sort.c \
+			 small_sort.c \
 			  medium_sort.c \
 			  heap_sort_pivot.c
 
@@ -74,7 +74,7 @@ fclean:			clean
 	make fclean -C $(LIBFT_DIR)
 	rm -f $(CHECKER) $(PUSH_SWAP) $(PUSH_SWAP_TEST)
 
-debug:		$(PUSH_SWAP_BONUS)
+debug:		$(PUSH_SWAP_TEST)
 
 $(PUSH_SWAP_BONUS):	$(OBJS) $(OBJS_BONUS) $(INCLUDE_DIR)bonus_push_swap.h 
 	make -C $(LIBFT_DIR)	

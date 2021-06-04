@@ -1,6 +1,28 @@
 #include "push_swap.h"
 
 int	test_save_rotations(int stack_id, t_data *data, int step);
+typedef struct	s_count { int ROT, RROT, PUSH, SWAP; } t_count;
+
+static t_count notario = { .ROT = 0,
+	.RROT = 0,
+	.PUSH = 0,
+	.SWAP = 0
+};
+
+/*void	print_instr(t_count n)
+{
+	printf("N ROT: (%d)\nN RROT: (%d)\nN PUSH (%d)\nN SWAP: (%d)\n",\
+			n.ROT, n.RROT, n.PUSH, n.SWAP);
+	printf("-------\nTOTAL: (%d)\n-------\n", n.ROT + n.RROT + n.PUSH + n.SWAP);
+	notario = (t_count) { .ROT = 0,
+		.RROT = 0,
+		.PUSH = 0,
+		.SWAP = 0
+	};
+}*/
+
+void print_stack(t_stack stack, int size) { int i = 0; while (i < size) { printf("%d\n", stack_ud(stack, i)); i++; } }
+
 
 static void	sort_three(t_data *data)
 {
@@ -16,33 +38,52 @@ static void	sort_three(t_data *data)
 void	selection_sort_small(t_data *data, int stack_id, int pass)
 {
 	/*static int	( *check_redundant_rot[])(t_stack, int) = {
-		find_smallest_number,
-		find_biggest_number
-	};*/
+	  find_smallest_number,
+	  find_biggest_number
+	  };*/
 	int	push_index;
 
 	if (pass < 1)
+	{
+//		print_instr(notario);
 		return ;
+	}
 	if (pass == 2 && stack_id == S_A)
 	{
 		if (stack_ud(data->stack[stack_id], 0) > stack_ud(data->stack[stack_id], 1))
 			exec_instr_loop(SWAP_ID, stack_id, 1, data);
+//		print_instr(notario);
 		return ;
 	}
 	if (pass == 3 && stack_id == S_A)
 	{
 		sort_three(data);
+//		print_instr(notario);
+		return ;
+	}
+	if (check_if_sorted(data->stack[stack_id], pass) && (stack_id == S_A)) {
+//		print_instr(notario);
 		return ;
 	}
 	//push_index = check_redundant_rot[stack_id](data->stack[stack_id], pass);
+//	printf("----------------- pass (%d) --------------------\n", pass);
+//	print_stack(data->stack[stack_id], data->stack[stack_id].size);
 	push_index = test_save_rotations(stack_id, data, pass);
 	if (push_index != -1)
 	{
-	if (push_index > pass / 2)
-		exec_instr_loop(RROT_ID, stack_id, pass - push_index, data);
-	else
-		exec_instr_loop(ROT_ID, stack_id, push_index, data);
-	exec_instr_loop(PUSH_ID, 1 * (stack_id == 0), 1 , data);
+		if (push_index > pass / 2)
+		{
+			exec_instr_loop(RROT_ID, stack_id, pass - push_index, data);
+			notario.RROT += pass - push_index;
+		}
+		else
+		{
+			exec_instr_loop(ROT_ID, stack_id, push_index, data);
+			notario.ROT += push_index;
+		}
+		exec_instr_loop(PUSH_ID, 1 * (stack_id == 0), 1 , data);
+		notario.PUSH += 1;
+//	print_instr(notario);
 	}
 	selection_sort_small(data, stack_id, pass - 1 - (push_index == -1));	
 }
@@ -65,7 +106,6 @@ void	selection_sort_small(t_data *data, int stack_id, int pass)
  *
  */
 
-typedef struct	s_count { int ROT, RROT, PUSH, SWAP; } t_count;
 
 int	cool_find_bignum(t_stack stack, int step, int no_i)
 {
@@ -103,8 +143,7 @@ int	test_save_rotations(int stack_id, t_data *data, int step)
 {
 	//find_1(); -> find biggest / smallest
 	//find_2(); -> find second biggest / smallest
-	int on_lower_half;
-	t_count	notario;
+	int on_lower_half, on_upper_half;
 
 	int pos_1;
 	int pos_2;
@@ -112,47 +151,58 @@ int	test_save_rotations(int stack_id, t_data *data, int step)
 	t_stack stack = data->stack[stack_id];
 
 	static int	(* pos_finder[])(t_stack, int, int) = {
-		cool_find_bignum,
-		cool_find_smallnum
+		cool_find_smallnum,
+		cool_find_bignum
 	};
-
-	ft_bzero(&notario, sizeof(t_count));
 
 	pos_1 = pos_finder[stack_id](data->stack[stack_id], step, -1);
 	pos_2 = pos_finder[stack_id](data->stack[stack_id], step, pos_1);
 	on_lower_half = (pos_2 > stack.size / 2 && pos_1 > stack.size / 2);
+	on_upper_half = (pos_2 < stack.size / 2 && pos_1 < stack.size / 2);
 
-	if (pos_2 < pos_1 && !on_lower_half)
+	//printf("pos_1: (%d, [%d]), pos_2: (%d, [%d])\n", pos_1, stack_ud(stack, pos_1), pos_2, stack_ud(stack, pos_2));
+	if (pos_2 < pos_1 && on_upper_half)
 	{
-			//rot(pos_2);
-		exec_instr_loop(ROT_ID, stack_id, pos_1, data);
-		notario.ROT = pos_1;
-			//push();
-		exec_instr_loop(PUSH_ID, (stack_id == 0), 1, data);
-		notario.PUSH = 1;
-			//rot(pos_1 - pos_2);
-		exec_instr_loop(ROT_ID, stack_id, pos_1, data);
-		notario.ROT = pos_1 - pos_2;
-			//push();
+	//	printf("rot test:\n");
+		//rot(pos_2);
+		exec_instr_loop(ROT_ID, stack_id, pos_2, data);
+		notario.ROT += pos_2;
+		//push();
 		exec_instr_loop(PUSH_ID, (stack_id == 0), 1, data);
 		notario.PUSH += 1;
-			//swap();
+		//rot(pos_1 - pos_2);
+		exec_instr_loop(ROT_ID, stack_id, pos_1 - pos_2 - 1, data);
+		notario.ROT += pos_1 - pos_2 - 1;
+		//push();
+		exec_instr_loop(PUSH_ID, (stack_id == 0), 1, data);
+		notario.PUSH += 1;
+		//swap();
 		exec_instr_loop(SWAP_ID, (stack_id == 0), 1, data);
-		notario.SWAP = 1;
+		notario.SWAP += 1;
+	//	print_instr(notario);
 		return (-1);
 	}
 	if (pos_2 > pos_1 && on_lower_half)
 	{
-			//rrot(size - pos_2);
+	//	printf("rrot test:\n");
+		//rrot(size - pos_2);
 		exec_instr_loop(RROT_ID, stack_id, stack.size - pos_2, data);
-			//push();
+		notario.RROT = stack.size - pos_2;
+		//push();
 		exec_instr_loop(PUSH_ID, (stack_id == 0), 1, data);
-			//rrot(size - pos_2 - pos_1);
-		exec_instr_loop(RROT_ID, stack_id, stack.size - pos_2 - pos_1, data);
-			//push();
+		notario.PUSH += 1;
+		//rrot(size - pos_2 - pos_1);
+	//	printf("rec_0->2 : (%d), rec_0->1 : (%d), rec_2->1 : (%d)\n",\
+	//		   	(stack.size - pos_2), (stack.size - pos_1), (stack.size - pos_1) - (stack.size - pos_2));
+		exec_instr_loop(RROT_ID, stack_id, (stack.size - pos_1) - (stack.size - pos_2), data);
+		notario.RROT += (stack.size - pos_1) - (stack.size - pos_2);
+		//push();
 		exec_instr_loop(PUSH_ID, (stack_id == 0), 1, data);
-			//swap();
+		notario.PUSH += 1;
+		//swap();
 		exec_instr_loop(SWAP_ID, (stack_id == 0), 1, data);
+		notario.SWAP += 1;
+	//	print_instr(notario);
 		return (-1);
 	}
 	return (pos_1);
