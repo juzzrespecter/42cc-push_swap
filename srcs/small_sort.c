@@ -141,8 +141,6 @@ int	cool_find_smallnum(t_stack stack, int step, int no_i)
 
 int	test_save_rotations(int stack_id, t_data *data, int step)
 {
-	//find_1(); -> find biggest / smallest
-	//find_2(); -> find second biggest / smallest
 	int on_lower_half, on_upper_half;
 
 	int pos_1;
@@ -160,49 +158,32 @@ int	test_save_rotations(int stack_id, t_data *data, int step)
 	on_lower_half = (pos_2 > stack.size / 2 && pos_1 > stack.size / 2);
 	on_upper_half = (pos_2 < stack.size / 2 && pos_1 < stack.size / 2);
 
-	//printf("pos_1: (%d, [%d]), pos_2: (%d, [%d])\n", pos_1, stack_ud(stack, pos_1), pos_2, stack_ud(stack, pos_2));
 	if (pos_2 < pos_1 && on_upper_half)
 	{
-	//	printf("rot test:\n");
-		//rot(pos_2);
 		exec_instr_loop(ROT_ID, stack_id, pos_2, data);
 		notario.ROT += pos_2;
-		//push();
 		exec_instr_loop(PUSH_ID, (stack_id == 0), 1, data);
 		notario.PUSH += 1;
-		//rot(pos_1 - pos_2);
 		exec_instr_loop(ROT_ID, stack_id, pos_1 - pos_2 - 1, data);
 		notario.ROT += pos_1 - pos_2 - 1;
-		//push();
 		exec_instr_loop(PUSH_ID, (stack_id == 0), 1, data);
 		notario.PUSH += 1;
-		//swap();
 		exec_instr_loop(SWAP_ID, (stack_id == 0), 1, data);
 		notario.SWAP += 1;
-	//	print_instr(notario);
 		return (-1);
 	}
 	if (pos_2 > pos_1 && on_lower_half)
 	{
-	//	printf("rrot test:\n");
-		//rrot(size - pos_2);
 		exec_instr_loop(RROT_ID, stack_id, stack.size - pos_2, data);
 		notario.RROT = stack.size - pos_2;
-		//push();
 		exec_instr_loop(PUSH_ID, (stack_id == 0), 1, data);
 		notario.PUSH += 1;
-		//rrot(size - pos_2 - pos_1);
-	//	printf("rec_0->2 : (%d), rec_0->1 : (%d), rec_2->1 : (%d)\n",\
-	//		   	(stack.size - pos_2), (stack.size - pos_1), (stack.size - pos_1) - (stack.size - pos_2));
 		exec_instr_loop(RROT_ID, stack_id, (stack.size - pos_1) - (stack.size - pos_2), data);
 		notario.RROT += (stack.size - pos_1) - (stack.size - pos_2);
-		//push();
 		exec_instr_loop(PUSH_ID, (stack_id == 0), 1, data);
 		notario.PUSH += 1;
-		//swap();
 		exec_instr_loop(SWAP_ID, (stack_id == 0), 1, data);
 		notario.SWAP += 1;
-	//	print_instr(notario);
 		return (-1);
 	}
 	return (pos_1);

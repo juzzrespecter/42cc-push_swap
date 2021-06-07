@@ -76,8 +76,8 @@ fclean:			clean
 
 debug:		$(PUSH_SWAP_TEST)
 
-$(PUSH_SWAP_BONUS):	$(OBJS) $(OBJS_BONUS) $(INCLUDE_DIR)bonus_push_swap.h 
+$(PUSH_SWAP_TEST):	$(OBJS) $(OBJS_BONUS) $(INCLUDE_DIR)bonus_push_swap.h 
 	make -C $(LIBFT_DIR)	
-	$(GCC) -o $(PUSH_SWAP_BONUS) -g $(OBJS) $(OBJS_BONUS) $(LIB) -ltermcap
+	$(GCC) -o $(PUSH_SWAP_TEST) -g $(OBJS) $(OBJS_BONUS) $(LIB) -ltermcap
 
 re:			fclean all
