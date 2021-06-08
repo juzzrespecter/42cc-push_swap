@@ -19,15 +19,8 @@ SRCS			= parse_element.c \
 			  quick_selection_sort.c \
 			 small_sort.c \
 			  medium_sort.c \
-			  heap_sort_pivot.c
-
-SRCS_BONUS		= bonus_push_swap.c \
-			  bonus_visualizer.c \
-			  bonus_visualizer_step.c \
-			  bonus_visualizer_utils.c \
-			  bonus_rand.c \
-			  bonus_init_data.c \
-			  bonus_init_table.c
+			  heap_sort_pivot.c \
+			  ins_sort_relative_order.c
 
 CHECKER_MAIN		= checker.c
 
@@ -73,11 +66,5 @@ clean:
 fclean:			clean
 	make fclean -C $(LIBFT_DIR)
 	rm -f $(CHECKER) $(PUSH_SWAP) $(PUSH_SWAP_TEST)
-
-debug:		$(PUSH_SWAP_TEST)
-
-$(PUSH_SWAP_TEST):	$(OBJS) $(OBJS_BONUS) $(INCLUDE_DIR)bonus_push_swap.h 
-	make -C $(LIBFT_DIR)	
-	$(GCC) -o $(PUSH_SWAP_TEST) -g $(OBJS) $(OBJS_BONUS) $(LIB) -ltermcap
 
 re:			fclean all

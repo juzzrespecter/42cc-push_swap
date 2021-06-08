@@ -5,6 +5,7 @@ void	print_array(int **array_table)
 {
 	int index = 0;
 
+	printf("-------\n");
 	while (index < 10)
 	{
 		printf("(%d, %d)\n",\
@@ -12,6 +13,7 @@ void	print_array(int **array_table)
 				array_table[index][1]);
 		index++;
 	}
+	printf("-------\n\n");
 }
 
 void	insertion_sort(int **array_table, int index)
@@ -19,12 +21,12 @@ void	insertion_sort(int **array_table, int index)
 	int	*aux_node;
 	int	i;
 
-	if (index > 9)
+	if (index > 8)
 		return ;
 	aux_node = array_table[index + 1];
 	i = 0;
 	while (i < (index + 1) && \
-		       array_table[(index - i) + 1][0] < array_table[(index - i)][0])
+		       array_table[(index - i)][0] > aux_node[0])
 	{
 		array_table[(index - i) + 1] = array_table[(index - i)];
 		i++;
@@ -60,5 +62,13 @@ int	main()
 		53, 2, 3, 6, 4,
 		9, -1, 0, 8, 24
 	};
+	/*int		array[] = {
+		9, 8, 7, 6, 5,
+		4, 3, 2, 1, 0
+	};*/
+	/*int		array[] = {
+		0, 1, 2, 3, 4,
+		5, 6, 7, 8, 9
+	};*/
 	insertion_test(array);
 }

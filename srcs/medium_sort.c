@@ -1,21 +1,6 @@
 #include "push_swap.h"
 #define N_PASOS 5
 
-typedef struct { int ROT, RROT, PUSH, SWAP; } t_count;
-static t_count hola = { .ROT = 0, .RROT = 0, .PUSH = 0, .SWAP = 0};
-/*static void	print_hola(void) {
-	printf("N ROT = %d\nN RROT = %d\nN PUSH = %d\nN SWAP = %d\n",\
-			hola.ROT, hola.RROT, hola.PUSH, hola.SWAP );
-	printf("-----\nTOTAL: (%d)\n-----\n",\
-			hola.ROT + hola.RROT + hola.PUSH + hola.SWAP);
-	hola = (t_count) {
-		.ROT = 0,
-		.RROT = 0,
-		.PUSH = 0,
-		.SWAP = 0
-	};
-}*/
-
 void	print_heap(int *heap, int n) // delete when finished
 {
 	int i = 0;
@@ -34,13 +19,6 @@ static void	init_pivot_array(t_stack stack, int *pivot_array)
 		pivot_array[i] = heap[(i + 1) * (stack.size / N_PASOS) - 1];
 		i++;
 	}
-	/* debug: print heap, print pivots 
-	printf("pre calc: (%d) (%d) (%d) [size, n_pasos, division]\n", stack.size, N_PASOS,\
-			stack.size / N_PASOS);
-	print_heap(heap, stack.size);
-	printf("0: (%d), 1: (%d), 2: (%d), 3: (%d), 4: (%d), 5(%d)\n",\
-			pivot_array[0], pivot_array[1], pivot_array[2], pivot_array[3], pivot_array[4], \
-			pivot_array[5]); */
 	free(heap);
 }
 
@@ -70,43 +48,25 @@ static void	selection_sort_medium_step(int pivot, t_data *data)
 		if (next_down == -1 && next_up == -1)
 			break ;
 		if ((next_down < next_up && next_down != -1) || (next_up == -1 && next_down != -1))
-		{
 			exec_instr_loop(RROT_ID, S_A, next_down, data);
-			hola.RROT += next_down;
-		}
 		else
-		{
 			exec_instr_loop(ROT_ID, S_A, next_up, data);
-			hola.ROT += next_up;
-		}
 		exec_instr_loop(PUSH_ID, S_B, 1, data);
-		hola.PUSH += 1;
 	}
-//		print_hola();
 }
-
-//static int ft_abs(int a, int b) { if (a < 0) { a *= -1; } return ((a + b)); }
 
 void	selection_sort_medium(t_data *data)
 {
 	int pivot[N_PASOS];
-//	int	bounds[2];
 	int	i;
 
-//	bounds[0] = stack_ud(data->stack[S_A], find_smallest_number(data->stack[S_A], chunk_size));
-//	bounds[1] = stack_ud(data->stack[S_A], find_biggest_number(data->stack[S_A], chunk_size));
 	init_pivot_array(data->stack[S_A], pivot);
 	i = 0;
-//	printf("stack total size in A: (%d)\n", data->stack[S_A].size);
 	while (i < (N_PASOS - 1))
 	{
-		//pivot = bounds[0] + ( (i + 1) * ft_abs(bounds[0], bounds[1]) ) / N_PASOS;
 		selection_sort_medium_step(pivot[i], data);
 		i++;
 	}
 	selection_sort_small(data, S_A, data->stack[S_A].size);
-//	printf("last: PUSH - (%d)\n", data->stack[S_A].size);
-//	exec_instr_loop(PUSH_ID, S_B, data->stack[S_A].size, data);
-//	printf("stack total size in B: (%d)\n", data->stack[S_B].size);
 	selection_sort_small(data, S_B, data->stack[S_B].size);
 }

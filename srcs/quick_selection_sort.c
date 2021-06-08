@@ -1,6 +1,6 @@
 #include "push_swap.h"
-# define SMALL_LIMIT 1500 
-# define MEDIUM_LIMIT 1501 
+# define SMALL_LIMIT 15 
+# define MEDIUM_LIMIT 150 
 
 static int	choose_pivot_as_median(t_stack stack, int chunk_size)
 {
