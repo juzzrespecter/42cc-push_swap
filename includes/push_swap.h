@@ -27,7 +27,10 @@
 # define S_B 1
 # define S_BOTH 2
 
+# define SMALL_LIMIT 15
+
 # include <stdio.h>
+# include "./debug.h"
 
 typedef struct	s_stack
 {
@@ -66,6 +69,7 @@ int	find_biggest_number(t_stack stack, int pass);
 int	find_smallest_number(t_stack stack, int pass);
 void	selection_sort_small(t_data *data, int stack_id, int pass);
 void	selection_sort_medium(t_data *data);
+void	selection_sort_bufas(t_data *data, int step_size);
 void	quick_sort_init(t_data *data);
 int		check_if_sorted(t_stack stack, int rec);
 int	find_next_up(double pivot, int pass, t_stack stack);

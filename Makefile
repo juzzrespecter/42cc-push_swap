@@ -13,7 +13,6 @@ SRCS			= parse_element.c \
 			  save_instr.c \
 			  utils.c \
 			  sort_utils.c \
-			  quick_selection_sort.c \
 			  small_sort.c \
 			  medium_sort.c \
 			  heap_sort_pivot.c \
@@ -33,40 +32,39 @@ DIR_LIB			= libft/
 GCC			= gcc -Wall -Werror -Wextra
 
 # --- graph utils ---
-SRCS_N			= echo $(SRCS) | wc | awk '{print $1}'
-COUNT			= 1
-L_GREEN			= \e[1;31m
-GREEN			= \e[0;32m
-RED			= \e[0;31m
-END			= \e[0m
+L_GREEN			= \033[92m
+GREEN			= \033[32m
+RED			= \033[91m
+END			= \033[0m
 # --- ----------- ---
 
 all:			$(CHECKER) $(PUSH_SWAP)
 
 $(CHECKER):		$(OBJS) $(OBJ_CHECKER)
-	@make -C $(DIR_LIB)
-	@echo -n "Creating $(@F)..."
+	@make -C $(DIR_LIB) >/dev/null
 	@$(GCC) -o $(CHECKER) $(OBJS) $(OBJ_CHECKER) $(LIB)
-	@echo "$(GREEN)OK$(END)"
+	@echo "$(L_GREEN)[OK]$(GREEN)\tCreated $(@F)$(END)"
 
 $(PUSH_SWAP):		$(OBJS) $(OBJ_PUSH_SWAP)
-	@make -C $(DIR_LIB)
-	@echo -n "Creating $(@F)..."
+	@make -C $(DIR_LIB) >/dev/null
 	@$(GCC) -o $(PUSH_SWAP) -g $(OBJS) $(OBJ_PUSH_SWAP) $(LIB)
-	@echo "$(GREEN)OK$(END)"
+	@echo "$(L_GREEN)[OK]$(GREEN)\tCreated $(@F)$(END)"
 
 $(DIR_OBJS)%.o:		$(DIR_SRCS)%.c $(DIR_INC)push_swap.h
 	@$(GCC) -c $< -g -I$(DIR_INC) 
-	@echo "Compiling $<...\t\t$(GREEN)[OK]$(END)"
+	@echo "$(L_GREEN)[OK]$(END)\tCompiled $<"
 	@mkdir -p $(DIR_OBJS)
 	@mv $(@F) $(DIR_OBJS)
 
 clean:
-	make clean -C $(DIR_LIB)
-	rm -rf $(DIR_OBJS)
+	@make clean -C $(DIR_LIB)
+	@rm -rf $(DIR_OBJS)
+	@echo "$(RED)[RM]$(END)\tRemoved $(DIR_OBJS)"
 
 fclean:			clean
-	make fclean -C $(DIR_LIB)
-	rm -f $(CHECKER) $(PUSH_SWAP) $(PUSH_SWAP_TEST)
+	@make fclean -C $(DIR_LIB)
+	@rm -f $(CHECKER) $(PUSH_SWAP)
+	@echo "$(RED)[RM]$(END)\tRemoved $(CHECKER)"
+	@echo "$(RED)[RM]$(END)\tRemoved $(PUSH_SWAP)"
 
 re:			fclean all

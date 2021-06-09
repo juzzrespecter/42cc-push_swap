@@ -1,6 +1,5 @@
 #include "push_swap.h"
 # define SMALL_LIMIT 15 
-# define MEDIUM_LIMIT 150 
 
 static int	choose_pivot_as_median(t_stack stack, int chunk_size)
 {
@@ -53,9 +52,11 @@ static void	quick_sort(t_data *data,  int chunk_size)
 		exec_instr_loop(ROT_ID, S_A, chunk_size, data);
 		return ;
 	}
+	if (chunk_size < 100)
+		selection_sort_bufas(data, chunk_size);
 	n_b = quick_sort_partition(data, chunk_size);
-	if (n_b < 50)
-		selection_sort_small(data, S_B, data->stack[S_B].size);
+//	if (n_b < 50)
+//		selection_sort_small(data, S_B, data->stack[S_B].size);
 	exec_instr_loop(PUSH_ID, S_A, n_b, data);
 	quick_sort(data, n_b);
 	quick_sort(data, chunk_size - n_b);
@@ -70,8 +71,6 @@ void	quick_sort_init(t_data *data)
 		selection_sort_small(data, S_A, data->stack[S_A].size);
 		exec_instr_loop(PUSH_ID, S_A, data->stack[S_B].size, data);
 	}
-	else if (data->stack[S_A].size < MEDIUM_LIMIT)
-		selection_sort_medium(data);
 	else
-		quick_sort(data, data->stack[S_A].size);
+		selection_sort_medium(data);
 }
