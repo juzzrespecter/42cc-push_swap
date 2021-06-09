@@ -4,7 +4,7 @@ PUSH_SWAP		= push_swap
 CHECKER			= checker
 
 CHECKER_MAIN		= checker.c
-PUSH_SWAP_MAIN		= push_swap.c
+PUSH_SWAP_MAIN		= push_swap_debug.c
 SRCS			= parse_element.c \
 			  checker_utils.c \
 			  init_data.c \
@@ -13,10 +13,10 @@ SRCS			= parse_element.c \
 			  save_instr.c \
 			  utils.c \
 			  sort_utils.c \
-			  small_sort.c \
-			  medium_sort.c \
 			  heap_sort_pivot.c \
-			  ins_sort_relative_order.c
+			  ins_sort_relative_order.c \
+			  small_sort_debug.c \
+			  medium_sort_debug.c
 
 OBJS			= $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))
 OBJ_CHECKER		= $(patsubst %.c, $(DIR_OBJS)%.o, $(CHECKER_MAIN))

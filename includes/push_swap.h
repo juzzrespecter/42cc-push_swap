@@ -30,7 +30,7 @@
 # define SMALL_LIMIT 15
 
 # include <stdio.h>
-# include "./debug.h"
+# include "debug.h"
 
 typedef struct	s_stack
 {
