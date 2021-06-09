@@ -1,13 +1,10 @@
 .PHONY:			clean fclean re all
 
-CHECKER		= checker
-
 PUSH_SWAP		= push_swap
+CHECKER			= checker
 
-PUSH_SWAP_TEST = push_swap_test
-
-SRCS_DIR		= ./srcs/
-
+CHECKER_MAIN		= checker.c
+PUSH_SWAP_MAIN		= push_swap.c
 SRCS			= parse_element.c \
 			  checker_utils.c \
 			  init_data.c \
@@ -17,54 +14,59 @@ SRCS			= parse_element.c \
 			  utils.c \
 			  sort_utils.c \
 			  quick_selection_sort.c \
-			 small_sort.c \
+			  small_sort.c \
 			  medium_sort.c \
 			  heap_sort_pivot.c \
 			  ins_sort_relative_order.c
 
-CHECKER_MAIN		= checker.c
+OBJS			= $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))
+OBJ_CHECKER		= $(patsubst %.c, $(DIR_OBJS)%.o, $(CHECKER_MAIN))
+OBJ_PUSH_SWAP		= $(patsubst %.c, $(DIR_OBJS)%.o, $(PUSH_SWAP_MAIN))
 
-PUSH_SWAP_MAIN		= push_swap.c
+LIB			= -L$(DIR_LIB) -lft
 
-INCLUDE_DIR			= ./includes/
-
-OBJS_DIR		= ./objs/
-
-OBJS			= $(patsubst %.c, $(OBJS_DIR)%.o, $(SRCS))
-
-OBJS_BONUS		= $(patsubst %.c, $(OBJS_DIR)%.o, $(SRCS_BONUS))
-
-CHECKER_OBJ		= $(patsubst %.c, $(OBJS_DIR)%.o, $(CHECKER_MAIN))
-
-PUSH_SWAP_OBJ		= $(patsubst %.c, $(OBJS_DIR)%.o, $(PUSH_SWAP_MAIN))
+DIR_SRCS		= srcs/
+DIR_OBJS		= objs/
+DIR_INC			= includes/
+DIR_LIB			= libft/
 
 GCC			= gcc -Wall -Werror -Wextra
 
-LIBFT_DIR		= ./libft/
-
-LIB			= -L$(LIBFT_DIR) -lft
+# --- graph utils ---
+SRCS_N			= echo $(SRCS) | wc | awk '{print $1}'
+COUNT			= 1
+L_GREEN			= \e[1;31m
+GREEN			= \e[0;32m
+RED			= \e[0;31m
+END			= \e[0m
+# --- ----------- ---
 
 all:			$(CHECKER) $(PUSH_SWAP)
 
-$(CHECKER):			$(OBJS) $(CHECKER_OBJ)
-	make -C $(LIBFT_DIR)
-	$(GCC) -o $(CHECKER) $(OBJS) $(CHECKER_OBJ) $(LIB)
+$(CHECKER):		$(OBJS) $(OBJ_CHECKER)
+	@make -C $(DIR_LIB)
+	@echo -n "Creating $(@F)..."
+	@$(GCC) -o $(CHECKER) $(OBJS) $(OBJ_CHECKER) $(LIB)
+	@echo "$(GREEN)OK$(END)"
 
-$(PUSH_SWAP):		$(OBJS) $(PUSH_SWAP_OBJ)
-	make -C $(LIBFT_DIR)
-	$(GCC) -o $(PUSH_SWAP) -g $(OBJS) $(PUSH_SWAP_OBJ) $(LIB)
+$(PUSH_SWAP):		$(OBJS) $(OBJ_PUSH_SWAP)
+	@make -C $(DIR_LIB)
+	@echo -n "Creating $(@F)..."
+	@$(GCC) -o $(PUSH_SWAP) -g $(OBJS) $(OBJ_PUSH_SWAP) $(LIB)
+	@echo "$(GREEN)OK$(END)"
 
-$(OBJS_DIR)%.o:		$(SRCS_DIR)%.c $(INCLUDE_DIR)push_swap.h
-	$(GCC) -c $< -g -I$(INCLUDE_DIR) 
-	@mkdir -p $(OBJS_DIR)
-	@mv $(@F) $(OBJS_DIR)
+$(DIR_OBJS)%.o:		$(DIR_SRCS)%.c $(DIR_INC)push_swap.h
+	@$(GCC) -c $< -g -I$(DIR_INC) 
+	@echo "Compiling $<...\t\t$(GREEN)[OK]$(END)"
+	@mkdir -p $(DIR_OBJS)
+	@mv $(@F) $(DIR_OBJS)
 
 clean:
-	make clean -C $(LIBFT_DIR)
-	rm -rf $(OBJS_DIR)
+	make clean -C $(DIR_LIB)
+	rm -rf $(DIR_OBJS)
 
 fclean:			clean
-	make fclean -C $(LIBFT_DIR)
+	make fclean -C $(DIR_LIB)
 	rm -f $(CHECKER) $(PUSH_SWAP) $(PUSH_SWAP_TEST)
 
 re:			fclean all

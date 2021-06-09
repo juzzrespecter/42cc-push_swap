@@ -42,9 +42,7 @@ static int	*set_up_element(int stack_id, t_stack stack, int stack_size)
 {
 	int		**index_table;
 	int	*element;
-	int	i;
 
-	i = 0;
 	index_table = get_index_table(stack.array, stack_size);
 	element = (int *)malloc(sizeof(int) * 2);
 	ft_bzero(element, sizeof(int) * 2);
@@ -60,10 +58,8 @@ static int	*set_up_element(int stack_id, t_stack stack, int stack_size)
 
 static void	insert_next(int stack_id, t_data *data)
 {
-	int	i;
 	int	*element;
 
-	i = 0;
 	element = set_up_element(stack_id, data->stack[stack_id], data->stack[stack_id].size);
 	exec_instr_loop(ROT_ID + (element[1] == 1), stack_id, element[0], data);
 	exec_instr_loop(PUSH_ID, (stack_id == S_A), 1, data);
