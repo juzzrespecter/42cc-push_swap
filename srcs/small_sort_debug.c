@@ -1,9 +1,9 @@
 #include "push_swap.h"
-static t_debug libreta = (t_debug) {
+/*static t_debug libreta = (t_debug) {
 	.ROT = 0,
 		.PUSH = 0,
 		.SWAP = 0
-};
+};*/
 
 void print_stack(t_stack stack, int size) { int i = 0; while (i < size) { printf("%d\n", stack_ud(stack, i)); i++; } }
 

@@ -1,10 +1,10 @@
 #include "push_swap.h"
-#define N_PASOS 15 
-static t_debug libreta = (t_debug) {
+#define N_PASOS 6 
+/*static t_debug libreta = (t_debug) {
 	.ROT = 0,
 		.PUSH = 0,
 		.SWAP = 0
-};
+};*/
 
 void reset(void) {
 	printf("---\nROT: (%d)\nPSH: (%d)\nSWP: (%d)\n---\n",\
@@ -148,6 +148,11 @@ void	selection_sort_medium(t_data *data) // limite de stack_size para quick
 	int	pivot_array_step[3];
 	int	index;
 
+	libreta = (t_debug) {
+		.ROT = 0,
+		.SWAP = 0,
+		.PUSH = 0
+	};
 	init_pivot_array(data->stack[S_A], pivot_array);
 //	print_heap(data->stack[S_A].array, data->stack[S_A].size);
 //	print_pivot_array(pivot_array);
@@ -164,9 +169,9 @@ void	selection_sort_medium(t_data *data) // limite de stack_size para quick
 //	print_heap(data->stack[S_A].array, data->stack[S_A].size);
 	libreta.PUSH += data->stack[S_A].size;
 	exec_instr_loop(PUSH_ID, S_B, data->stack[S_A].size, data);  // check this
-	reset();
-	selection_sort_small(data, S_B, data->stack[S_B].size);
-	reset();
+//	reset();
+	selection_sort_small(data, S_B, data->stack[S_B].size / 2, data->stack[S_B].size);
+//	reset();
 }
 void	quick_sort_init(t_data *data)
 {
@@ -174,7 +179,7 @@ void	quick_sort_init(t_data *data)
 		return ;
 	if (data->stack[S_A].size < SMALL_LIMIT)
 	{
-		selection_sort_small(data, S_A, data->stack[S_A].size);
+		selection_sort_small(data, S_A, data->stack[S_A].size / 2, data->stack[S_A].size);
 		exec_instr_loop(PUSH_ID, S_A, data->stack[S_B].size, data);
 	}
 	else

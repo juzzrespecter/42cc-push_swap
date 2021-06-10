@@ -1,22 +1,15 @@
 #include "push_swap.h"
-#define N_PASOS 15 
 
-void	print_heap(int *heap, int n) // delete when finished
-{
-	int i = 0;
-	while (i < n) { printf("(%d)\n", heap[n - (i + 1)]); i++; }
-}
-
-static void	init_pivot_array(t_stack stack, int *pivot_array)
+static void	init_pivot_array(t_stack stack, int *pivot_array, int n_pasos)
 {
 	int	i;
 	int	*heap;
 
 	i = 0;
 	heap = heap_sort(stack.array, stack.size, stack.size);
-	while (i < N_PASOS)
+	while (i < n_pasos)
 	{
-		pivot_array[i] = heap[i  * (stack.size / N_PASOS)];
+		pivot_array[i] = heap[i  * (stack.size / n_pasos)];
 		i++;
 	}
 	free(heap);
@@ -79,16 +72,12 @@ static void	selection_sort_medium_step(int pivot_array[3], t_data *data)
 		ft_bzero(pos_array[2], sizeof(int) * 3);
 		ft_bzero(pos_array[3], sizeof(int) * 3);
 
-		// search for elements and store them:
-
 		pos_array[0][0] = next_upper_half(pivot_array[0], pivot_array[1], data->stack[S_A]);
 		pos_array[0][0] += 1 * (pos_array[0][0] != -1);
 		pos_array[1][0] = next_lower_half(pivot_array[0], pivot_array[1], data->stack[S_A]);
 		pos_array[1][0] += 1 * (pos_array[1][0] != -1);
 		pos_array[2][0] = next_upper_half(pivot_array[1], pivot_array[2], data->stack[S_A]);
 		pos_array[3][0] = next_lower_half(pivot_array[1], pivot_array[2], data->stack[S_A]);
-
-		// more info
 
 		pos_array[0][2] = 1;
 		pos_array[1][2] = 1;
@@ -101,53 +90,37 @@ static void	selection_sort_medium_step(int pivot_array[3], t_data *data)
 			index++;
 		if (index == 4 && pos_array[index - 1][0] == -1)
 			break ;
-		// rot
 		exec_instr_loop(ROT_ID + (pos_array[index][1] == 1), S_A, pos_array[index][0] - (pos_array[index][2] == 1), data);
-		// push
 		exec_instr_loop(PUSH_ID, S_B, 1, data);
-		// rot if needed
 		if (pos_array[index][2] == 1)
 			exec_instr_loop(ROT_ID, S_B, 1, data);
 	}
 }
 
-void	print_pivot_array(int p[N_PASOS])
+void	selection_sort_medium(t_data *data, int n_pasos) // limite de stack_size para quick
 {
-	int i = 0;
-	printf("[ ");
-	while (i < N_PASOS + 1)
-	{
-		printf(" %d", p[i]);
-		i++;
-	}
-	printf(" ]\n");
-}
-
-void	selection_sort_medium(t_data *data) // limite de stack_size para quick
-{
-	int pivot_array[N_PASOS];
+	int pivot_array[n_pasos];
 	int	pivot_array_step[3];
 	int	index;
 
-	init_pivot_array(data->stack[S_A], pivot_array);
-//	print_heap(data->stack[S_A].array, data->stack[S_A].size);
-//	print_pivot_array(pivot_array);
+	init_pivot_array(data->stack[S_A], pivot_array, n_pasos);
 	ft_bzero(pivot_array_step, sizeof(int) * 3);
 	index = 0;
-	while (index < N_PASOS / 2 )
+	while (index < n_pasos / 2 )
 	{
-		pivot_array_step[0] = pivot_array[(N_PASOS / 2) - (index + 1)];
-		pivot_array_step[1] = pivot_array[N_PASOS / 2];
-		pivot_array_step[2] = pivot_array[(N_PASOS / 2) + (index + 1)];
+		pivot_array_step[0] = pivot_array[(n_pasos / 2) - (index + 1)];
+		pivot_array_step[1] = pivot_array[n_pasos / 2];
+		pivot_array_step[2] = pivot_array[(n_pasos / 2) + (index + 1)];
 		selection_sort_medium_step(pivot_array_step, data);
 		index++;
 	}
-//	print_heap(data->stack[S_A].array, data->stack[S_A].size);
 	exec_instr_loop(PUSH_ID, S_B, data->stack[S_A].size, data);  // check this
 	selection_sort_small(data, S_B, data->stack[S_B].size);
 }
 void	quick_sort_init(t_data *data)
 {
+	int n_pasos = (data->stack[S_A].size > 150) ? 16 : 6;
+
 	if (check_if_sorted(data->stack[S_A], data->stack[S_A].size))
 		return ;
 	if (data->stack[S_A].size < SMALL_LIMIT)
@@ -156,5 +129,5 @@ void	quick_sort_init(t_data *data)
 		exec_instr_loop(PUSH_ID, S_A, data->stack[S_B].size, data);
 	}
 	else
-		selection_sort_medium(data);
+		selection_sort_medium(data, n_pasos);
 }
