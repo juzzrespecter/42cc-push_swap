@@ -15,7 +15,7 @@ SRCS			= parse_element.c \
 			  sort_utils.c \
 			  heap_sort_pivot.c \
 			  ins_sort_relative_order.c \
-			  small_sort.c \
+			  new_small_sort.c \
 			  medium_sort.c
 
 OBJS			= $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))

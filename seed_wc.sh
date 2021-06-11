@@ -29,3 +29,4 @@ do
 	done
 	echo "-----------------------------"
 done
+rm .instr .args

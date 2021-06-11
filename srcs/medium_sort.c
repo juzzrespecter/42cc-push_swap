@@ -115,7 +115,8 @@ void	selection_sort_medium(t_data *data, int n_pasos) // limite de stack_size pa
 		index++;
 	}
 	exec_instr_loop(PUSH_ID, S_B, data->stack[S_A].size, data);  // check this
-	selection_sort_small(data, S_B, data->stack[S_B].size);
+	//selection_sort_small(data, S_B, data->stack[S_B].size);
+	small_sort(data, S_B);
 }
 void	quick_sort_init(t_data *data)
 {
@@ -125,7 +126,8 @@ void	quick_sort_init(t_data *data)
 		return ;
 	if (data->stack[S_A].size < SMALL_LIMIT)
 	{
-		selection_sort_small(data, S_A, data->stack[S_A].size);
+		//selection_sort_small(data, S_A, data->stack[S_A].size);
+		small_sort(data, S_A);
 		exec_instr_loop(PUSH_ID, S_A, data->stack[S_B].size, data);
 	}
 	else

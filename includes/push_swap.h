@@ -30,7 +30,6 @@
 # define SMALL_LIMIT 30
 
 # include <stdio.h>
-# include "debug.h"
 
 typedef struct	s_stack
 {
@@ -77,5 +76,6 @@ int	*heap_sort(int *stack_array, int stack_size, int chunk_size);
 void	insertion_sort(int **stack_table, int stack_size, int index);
 int	**get_index_table(int *array, int stack_size);
 void	free_index_table(int **index_table, int table_size);
+void	small_sort(t_data *data, int id);
 
 #endif
