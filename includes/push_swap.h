@@ -27,9 +27,19 @@
 # define S_B 1
 # define S_BOTH 2
 
-# define SMALL_LIMIT 30
+# define SMALL_LIMIT 50
 
-# include <stdio.h>
+# include <stdio.h> // tmp
+
+typedef struct	s_instr
+{
+	int	P1;
+	int	C1;
+	int C2;
+	int	fp;
+	int	fc;
+	int	next;
+}				t_instr;
 
 typedef struct	s_stack
 {
@@ -41,8 +51,9 @@ typedef struct	s_data
 {
 	t_stack	stack[2];
 	t_list	*instr_list_head;
-	int		flags[3]; //tmp
-	void	*bonus_misc;
+	t_instr	instr_set;
+	int	n_steps;
+	int	n_ins;
 }	t_data;
 
 void	swap(int stack_id, t_data *data);
@@ -64,18 +75,14 @@ t_stack	fill_stack(int start, char **argv);
 void	print_instr_loop(t_data *data);
 void	save_instr_init(char *instr, int instr_id, int stack_id, t_data *data);
 
-int	find_biggest_number(t_stack stack, int pass);
-int	find_smallest_number(t_stack stack, int pass);
-void	selection_sort_small(t_data *data, int stack_id, int pass);
-//void	selection_sort_small(t_data *data, int stack_id, int n,int pass);
-void	selection_sort_medium(t_data *data, int n_pasos);
-void	quick_sort_init(t_data *data);
+void	sort_start(t_data *data);
 int		check_if_sorted(t_stack stack, int rec);
-int	find_next_up(double pivot, int pass, t_stack stack);
 int	*heap_sort(int *stack_array, int stack_size, int chunk_size);
 void	insertion_sort(int **stack_table, int stack_size, int index);
 int	**get_index_table(int *array, int stack_size);
 void	free_index_table(int **index_table, int table_size);
-void	small_sort(t_data *data, int id);
+void	selection_sort(t_data *data, int id);
+
+int	find_biggest_number(t_stack stack, int step);
 
 #endif

@@ -4,7 +4,7 @@ PUSH_SWAP		= push_swap
 CHECKER			= checker
 
 CHECKER_MAIN		= checker.c
-PUSH_SWAP_MAIN		= push_swap_debug.c
+PUSH_SWAP_MAIN		= push_swap.c
 SRCS			= parse_element.c \
 			  checker_utils.c \
 			  init_data.c \
@@ -15,8 +15,8 @@ SRCS			= parse_element.c \
 			  sort_utils.c \
 			  heap_sort_pivot.c \
 			  ins_sort_relative_order.c \
-			  new_small_sort.c \
-			  medium_sort.c
+			  sort_selection.c \
+			  sort_start.c
 
 OBJS			= $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))
 OBJ_CHECKER		= $(patsubst %.c, $(DIR_OBJS)%.o, $(CHECKER_MAIN))
@@ -66,5 +66,12 @@ fclean:			clean
 	@rm -f $(CHECKER) $(PUSH_SWAP)
 	@echo "$(RED)[RM]$(END)\tRemoved $(CHECKER)"
 	@echo "$(RED)[RM]$(END)\tRemoved $(PUSH_SWAP)"
+
+test:		$(PUSH_SWAP) $(CHECKER)
+	@./test.sh
+
+normi:
+	@echo "NORM VERS: $(norminette -v)"
+	@norminette includes/*.h srcs/*.c libft/srcs/*.c libft/includes/*.h
 
 re:			fclean all

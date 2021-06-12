@@ -29,5 +29,8 @@ t_data	init_data(char **argv)
 	data.stack[S_B].array = (int *)malloc(sizeof(int) * data.stack[S_A].size);
 	if (!data.stack[S_B].array || !data.stack[S_A].array)
 		err_and_exit(&data, NULL, E_NOMEM);
+	ft_bzero(&data.instr_set, sizeof(t_instr));
+	data.n_steps = (data.stack[S_A].size / 100) + 6;
+	data.n_ins = (data.stack[S_A].size / 300) + 2;
 	return (data);
 }

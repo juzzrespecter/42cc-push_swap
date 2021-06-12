@@ -7,8 +7,7 @@ int	main(int argc, char **argv)
 	(void) argc;
 	parse_element(1, 0, argv);
 	data = init_data(argv);
-//	insertion_sort(&data);
-	quick_sort_init(&data);
+	sort_start(&data);
 	print_instr_loop(&data);
 	return (EXIT_SUCCESS);
 }
