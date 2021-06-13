@@ -25,12 +25,12 @@ t_data	init_data(char **argv)
 	t_data	data;
 
 	ft_bzero(&data, sizeof(t_data));
-	data.stack[S_A] = fill_stack(1, argv);
-	data.stack[S_B].array = (int *)malloc(sizeof(int) * data.stack[S_A].size);
-	if (!data.stack[S_B].array || !data.stack[S_A].array)
+	data.stack[STACK_ID_A] = fill_stack(1, argv);
+	data.stack[STACK_ID_B].array = (int *)malloc(sizeof(int) * data.stack[STACK_ID_A].size);
+	if (!data.stack[STACK_ID_B].array || !data.stack[STACK_ID_A].array)
 		err_and_exit(&data, NULL, E_NOMEM);
 	ft_bzero(&data.instr_set, sizeof(t_instr));
-	data.n_steps = (data.stack[S_A].size / 100) + 6;
-	data.n_ins = (data.stack[S_A].size / 300) + 2;
+	data.n_steps = (data.stack[STACK_ID_A].size / 100) + 6;
+	data.n_ins = (data.stack[STACK_ID_A].size / 300) + 2;
 	return (data);
 }

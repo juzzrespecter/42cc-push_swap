@@ -7,15 +7,15 @@ static int	*checker_save_instr_parser(char *instr, int *ids)
 		ids[0] = SWAP_ID * (instr[0] == 's') + \
 				 PUSH_ID * (instr[0] == 'p') + \
 				 ROT_ID * (instr[0] == 'r');
-		ids[1] = S_A * (instr[1] == 'a') + \
-				 S_B * (instr[1] == 'b') + \
-				 S_BOTH * (instr[1] == 'r');
+		ids[1] = STACK_ID_A * (instr[1] == 'a') + \
+				 STACK_ID_B * (instr[1] == 'b') + \
+				 STACK_ID_BOTH * (instr[1] == 'r');
 		return (ids);
 	}
 	ids[0] = RROT_ID;
-	ids[1] = S_A * (instr[2] == 'a') + \
-			 S_B * (instr[2] == 'b') + \
-			 S_BOTH * (instr[2] == 'r');
+	ids[1] = STACK_ID_A * (instr[2] == 'a') + \
+			 STACK_ID_B * (instr[2] == 'b') + \
+			 STACK_ID_BOTH * (instr[2] == 'r');
 	return (ids);
 }
 

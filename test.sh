@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 make
 STEPS="5"
 #step=(1 3 5 10 100)
@@ -16,7 +16,7 @@ do
 		ruby -e "puts (0..$i - 1).to_a.shuffle.join(' ')" > .args
 		./push_swap $(cat .args) > .instr
 		RES_N="$(cat .instr | wc | awk '{print $1}')" 
-		echo -n "\tn of instr: $RES_N "
+		echo -n "Number of instr: $RES_N "
 		RES_OK=$(./checker $(cat .args) <.instr)
 		if [ $RES_OK = "OK" ]; then
 			echo -e -n "${GREEN}[$RES_OK]"

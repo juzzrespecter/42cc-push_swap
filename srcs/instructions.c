@@ -31,7 +31,7 @@ void	swap(int stack_id, t_data *data)
 	stack_s->array[stack_s->size - 1] = stack_s->array[stack_s->size - 2];
 	stack_s->array[stack_s->size - 2] = aux;
 	if (stack_id == 2)
-		swap(S_B, data);
+		swap(STACK_ID_B, data);
 }
 
 void	rotate(int stack_id, t_data *data)
@@ -54,7 +54,7 @@ void	rotate(int stack_id, t_data *data)
 	}
 	stack_s->array[0] = aux;
 	if (stack_id == 2)
-		rotate(S_B, data);
+		rotate(STACK_ID_B, data);
 }
 
 void	rev_rotate(int stack_id, t_data *data)
@@ -77,5 +77,5 @@ void	rev_rotate(int stack_id, t_data *data)
 	}
 	stack_s->array[size - 1] = aux;
 	if (stack_id == 2)
-		rev_rotate(S_B, data);
+		rev_rotate(STACK_ID_B, data);
 }

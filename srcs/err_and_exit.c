@@ -2,10 +2,10 @@
 
 void	free_data(t_data *data)
 {
-	if (data->stack[S_A].array)
-		free(data->stack[S_A].array);
-	if (data->stack[S_B].array)
-		free(data->stack[S_B].array);
+	if (data->stack[STACK_ID_A].array)
+		free(data->stack[STACK_ID_A].array);
+	if (data->stack[STACK_ID_B].array)
+		free(data->stack[STACK_ID_B].array);
 	if (data->instr_list_head)
 		ft_lstclear(&data->instr_list_head, &free);
 }

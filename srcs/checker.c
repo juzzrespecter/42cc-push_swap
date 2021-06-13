@@ -62,11 +62,11 @@ static void	checker_stack_order(t_data *data)
 	int	i;
 
 	i = 0;
-	if (data->stack[S_B].size != 0 || data->stack[S_A].size == 0)
+	if (data->stack[STACK_ID_B].size != 0 || data->stack[STACK_ID_A].size == 0)
 		checker_stack_res(data, "KO\n");
-	while (i < data->stack[S_A].size)
+	while (i < data->stack[STACK_ID_A].size)
 	{
-		if (i > 0 && data->stack[S_A].array[i] > data->stack[S_A].array[i - 1])
+		if (i > 0 && data->stack[STACK_ID_A].array[i] > data->stack[STACK_ID_A].array[i - 1])
 			checker_stack_res(data, "KO\n");
 		i++;
 	}

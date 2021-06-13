@@ -23,9 +23,9 @@
 # define ROT_ID 2
 # define RROT_ID 3
 
-# define S_A 0
-# define S_B 1
-# define S_BOTH 2
+# define STACK_ID_A 0
+# define STACK_ID_B 1
+# define STACK_ID_BOTH 2
 
 # define SMALL_LIMIT 50
 
@@ -77,10 +77,9 @@ void	save_instr_init(char *instr, int instr_id, int stack_id, t_data *data);
 
 void	sort_start(t_data *data);
 int		check_if_sorted(t_stack stack, int rec);
-int	*heap_sort(int *stack_array, int stack_size, int chunk_size);
-void	insertion_sort(int **stack_table, int stack_size, int index);
+int	**heap_sort(int **heap, int heap_size);
 int	**get_index_table(int *array, int stack_size);
-void	free_index_table(int **index_table, int table_size);
+void	free_table(int **index_table, int table_size);
 void	selection_sort(t_data *data, int id);
 
 int	find_biggest_number(t_stack stack, int step);

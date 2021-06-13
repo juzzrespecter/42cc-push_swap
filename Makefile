@@ -1,4 +1,4 @@
-.PHONY:			clean fclean re all
+.PHONY:			clean fclean re all test normi
 
 PUSH_SWAP		= push_swap
 CHECKER			= checker
@@ -13,8 +13,7 @@ SRCS			= parse_element.c \
 			  save_instr.c \
 			  utils.c \
 			  sort_utils.c \
-			  heap_sort_pivot.c \
-			  ins_sort_relative_order.c \
+			  heap_sort.c \
 			  sort_selection.c \
 			  sort_start.c
 
@@ -32,6 +31,7 @@ DIR_LIB			= libft/
 GCC			= gcc -Wall -Werror -Wextra
 
 # --- graph utils ---
+CYAN			= \033[1;36m
 L_GREEN			= \033[92m
 GREEN			= \033[32m
 RED			= \033[91m
@@ -71,7 +71,7 @@ test:		$(PUSH_SWAP) $(CHECKER)
 	@./test.sh
 
 normi:
-	@echo "NORM VERS: $(norminette -v)"
+	@echo "$(CYAN)NORMINETTE V.$(END): `norminette -v`\n"
 	@norminette includes/*.h srcs/*.c libft/srcs/*.c libft/includes/*.h
 
 re:			fclean all
