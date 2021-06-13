@@ -1,11 +1,11 @@
 #!/bin/bash
 make
 STEPS="5"
-#step=(1 3 5 10 100)
-step=(1 3 5 10 49 51 100)
+step=(1 3 5 10  100)
 RED="\e[31m"
 GREEN="\e[32m"
 YELLOW="\e[1;33m"
+ORANGE="..."
 END="\e[0m"
 for i in "${step[@]}"
 do
