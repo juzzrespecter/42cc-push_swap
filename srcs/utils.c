@@ -6,7 +6,7 @@ static void	print_instr(int instr_id, int stack_id)
 		{'s', 'p', 'r'},
 		{'a', 'b', 'r'}
 	};
-	
+
 	if (instr_id == 3)
 		ft_putstr("rr");
 	else
@@ -18,7 +18,7 @@ static void	print_instr(int instr_id, int stack_id)
 void	print_instr_loop(t_data *data)
 {
 	t_list	*instr_n;
-	int	*ids;
+	int		*ids;
 
 	instr_n = data->instr_list_head;
 	while (instr_n)
@@ -31,7 +31,7 @@ void	print_instr_loop(t_data *data)
 
 void	exec_instr(int instr_id, int stack_id, t_data *data)
 {
-	static void ( *instr_table[])(int, t_data *) = {
+	static	void	(*instr_table[])(int, t_data *) = {
 		swap,
 		push,
 		rotate,

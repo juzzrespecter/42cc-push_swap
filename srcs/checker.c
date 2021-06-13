@@ -66,7 +66,8 @@ static void	checker_stack_order(t_data *data)
 		checker_stack_res(data, "KO\n");
 	while (i < data->stack[STACK_ID_A].size)
 	{
-		if (i > 0 && data->stack[STACK_ID_A].array[i] > data->stack[STACK_ID_A].array[i - 1])
+		if (i > 0 && data->stack[STACK_ID_A].array[i] > \
+				data->stack[STACK_ID_A].array[i - 1])
 			checker_stack_res(data, "KO\n");
 		i++;
 	}
@@ -81,7 +82,7 @@ int	main(int argc, char **argv)
 
 	(void) argc;
 	parse_element(1, 0, argv);
-	data = init_data(argv);
+	data = stack_data_init(argv);
 	while (1)
 	{
 		ret = get_next_line(STDIN_FILENO, &instr_buffer);

@@ -6,7 +6,7 @@ int	main(int argc, char **argv)
 
 	(void) argc;
 	parse_element(1, 0, argv);
-	data = init_data(argv);
+	data = stack_data_init(argv);
 	sort_start(&data);
 	print_instr_loop(&data);
 	return (EXIT_SUCCESS);

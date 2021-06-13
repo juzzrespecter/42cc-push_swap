@@ -7,7 +7,8 @@ CHECKER_MAIN		= checker.c
 PUSH_SWAP_MAIN		= push_swap.c
 SRCS			= parse_element.c \
 			  checker_utils.c \
-			  init_data.c \
+			  stack_fill.c \
+			  stack_data_init.c \
 			  err_and_exit.c \
 			  instructions.c \
 			  save_instr.c \
@@ -15,6 +16,7 @@ SRCS			= parse_element.c \
 			  sort_utils.c \
 			  heap_sort.c \
 			  sort_selection.c \
+			  sort_selection_catcher.c \
 			  sort_start.c
 
 OBJS			= $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))

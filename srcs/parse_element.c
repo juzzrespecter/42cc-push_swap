@@ -3,8 +3,8 @@
 static void	parse_element_duplicates(int start, char **argv)
 {
 	char	*to_cmp;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (argv[start + i])
@@ -37,7 +37,8 @@ static void	parse_element_overflow(char *element)
 		return ;
 	if (len > 11)
 		err_and_exit(NULL, element, E_INTOVF);
-	if (len == 10 && ft_strncmp(element + i, "2147483647", len) > 0 && *element != '-')
+	if (len == 10 && ft_strncmp(element + i, "2147483647", len) > 0 && \
+			*element != '-')
 		err_and_exit(NULL, element, E_INTOVF);
 	if (len == 10 && ft_strncmp(element + i, "2147483648", len) > 0)
 		err_and_exit(NULL, element, E_INTOVF);
@@ -55,9 +56,13 @@ void	parse_element(int i, int stack_size, char **argv)
 		parse_element_duplicates(i - stack_size, argv);
 		return ;
 	}
+	while (argv[i][count] == ' ' && argv[i][count])
+		count++;
+	if (!argv[i][count])
+		parse_element(i + 1, stack_size, argv);
 	if (argv[i][count] == '-')
 		count++;
-	while (argv[i][count]) 
+	while (argv[i][count])
 	{
 		if (!ft_isdigit(argv[i][count]))
 			err_and_exit(NULL, argv[i], E_NONUM);

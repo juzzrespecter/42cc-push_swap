@@ -12,15 +12,13 @@ void	free_data(t_data *data)
 
 void	err_and_exit(t_data *data, char *err_token, int err_code)
 {
-	static char	*err_descrp[8] = {
+	static char	*err_descrp[6] = {
 		": duplicate argument.\n",
 		"No arguments given to the program.\n",
 		": not a valid argument.\n",
 		": argument overflows integer limits.\n",
 		"Not enough memory space on system.\n",
-		": unknown flag.\n",
-		": not a valid instruction.\n",
-		"Bad random flag format ( usage =  -r [N_RANGE] ([BEST_CASE | WORST_CASE])  )\n"
+		": not a valid instruction.\n"
 	};
 
 	ft_putstr_fd("Error\n", STDERR_FILENO);
