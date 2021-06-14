@@ -47,16 +47,42 @@ static int	next_lower_half(int pivot_min, int pivot_max, t_stack stack)
 	return (-1);
 }
 
+static int	**selection_sort_prev_table(int pivot_a[3], t_data *data)
+{
+	int	**next_table;
+	int	index;
+
+	index = 0;
+	next_table = (int **)malloc(sizeof(int *) * 3);
+	while (index < 4)
+	{
+		next_table[index] = (int *)malloc(sizeof(int) * 3);
+		ft_bzero(next_table[index], sizeof(int) * 3);
+		if (!(index % 2))
+			next_table[index][0] = next_upper_half(pivot_a[0 + (index > 1)], \
+					pivot_a[1 + (index > 1)], data->stack[STACK_ID_A]);
+		if (index % 2)
+		{
+			next_table[index][0] = next_lower_half(pivot_a[0 + (index > 1)], \
+					pivot_a[1 + (index > 1)], data->stack[STACK_ID_A]);
+			next_table[index][1] = 1;
+		}
+		next_table[index][0] += 1 * (pos_array[index][0] != -1) * !(index > 1);
+		next_table[index][2] = !(index > 1);
+	}
+	return (next_table);
+}
+
 static void	selection_sort_prev_step(int pivot_a[3], t_data *data)
 {
-	int	**pos_array;
+	int	**next_table;
 	int	index;
 
 	while (1)
 	{
-		pos_array = (int **)malloc(sizeof(int *) * 4);
-		index = 0;
-		while (index < 4)
+//		pos_array = (int **)malloc(sizeof(int *) * 4);
+//		index = 0;
+/*		while (index < 4)
 		{
 			pos_array[index] = (int *)malloc(sizeof(int) * 3);
 			ft_bzero(pos_array[index], sizeof(int) * 3);
@@ -73,22 +99,23 @@ static void	selection_sort_prev_step(int pivot_a[3], t_data *data)
 			pos_array[index][2] = !(index > 1);
 			index++;
 		}
-
-		heap_sort(pos_array, 4);
+*/
 		index = 0;
-		while (index < 4 && pos_array[index][0] == -1)
+		next_table = selection_sort_prev_table(pivot_a, data);
+		heap_sort(next_table, 4);
+		while (index < 4 && next_table[index][0] == -1)
 			index++;
-		if (index == 4 && pos_array[index - 1][0] == -1)
+		if (index == 4 && next_table[index - 1][0] == -1)
 			break ;
 		index = (index > 3) ? 3 : index; // ??
-		exec_instr_loop(ROT_ID + (pos_array[index][1] == 1), STACK_ID_A, \
-				pos_array[index][0] - (pos_array[index][2] == 1), data);
+		exec_instr_loop(ROT_ID + (next_table[index][1] == 1), STACK_ID_A, \
+				next_table[index][0] - (next_table[index][2] == 1), data);
 		exec_instr_loop(PUSH_ID, STACK_ID_B, 1, data);
-		if (pos_array[index][2] == 1)
+		if (next_table[index][2] == 1)
 			exec_instr_loop(ROT_ID, STACK_ID_B, 1, data);
-		free_table(pos_array, 4);
+		free_table(next_table, 4);
 	}
-	free_table(pos_array, 4);
+	free_table(next_table, 4);
 }
 
 void	sort_start(t_data *data)

@@ -29,6 +29,23 @@ static void	sort_three(t_data *data, int step)
 		exec_instr_loop(SWAP_ID, STACK_ID_A, 1, data);
 }
 
+static int	**selection_sort_next(t_data *data, int id)
+{
+	int	**next_table;
+	int	index;
+
+	next_table = (int **)malloc(sizeof(int) * data->n_ins); 
+	index = 0;
+	while (i < data->n_ins)
+	{
+		next_table[i] = (int *)malloc(sizeof(int) * 2);
+		ft_bzero(next_table[i], sizeof(int) * 2);
+		if (data->stack[id].size > i)
+			next_table[i][0] = index_table[i * (id == STACK_ID_A) + \
+					   (data->stack[id].size - (i + 1)) * (id == STACK_ID_B)][1];
+	}
+}
+
 void	selection_sort(t_data *data, int id)
 {
 	int	**next_table;
