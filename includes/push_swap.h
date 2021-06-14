@@ -10,7 +10,7 @@
 # define E_NONUM 2
 # define E_INTOVF 3
 # define E_NOMEM 4
-# define E_NOINSTR 6
+# define E_NOINSTR 5 
 
 # define V_FLAG 0
 # define R_FLAG 1
@@ -55,7 +55,6 @@ typedef struct s_data
 {
 	t_stack		stack[2];
 	t_list		*instr_list_head;
-	t_instr		instr_set;
 	int			n_steps;
 	int			n_ins;
 }				t_data;
@@ -87,6 +86,8 @@ void	free_table(int **index_table, int table_size);
 void	selection_sort(t_data *data, int id);
 void	selection_sort_catcher(t_data *data, t_instr instr_set, int id);
 
-int		find_biggest_number(t_stack stack, int step);
-
+int		next_upper_half(int pivot_min, int pivot_max, t_stack stack);
+int		next_lower_half(int pivot_min, int pivot_max, t_stack stack);
+int		next_catcher(int n_to_push, int id, t_data *data);
+void	sort_three(t_data *data, t_stack stack);
 #endif

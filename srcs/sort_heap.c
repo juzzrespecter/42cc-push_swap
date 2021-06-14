@@ -9,21 +9,21 @@ static void	swap_in_array(int from, int to, int **heap)
 	heap[to - 1] = swap_aux;
 }
 
-static void	heapify(int index, int heap_limit, int **heap)
+static void	heapify(int i, int heap_limit, int **heap)
 {
-	int	h_index[3];
+	int	index[3];
 
-	h_index[0] = index * 2;
-	h_index[1] = index * 2 + 1;
-	h_index[2] = index;
-	if (h_index[0] <= heap_limit && heap[h_index[2] - 1][0] < heap[h_index[0] - 1][0])
-		h_index[2] = h_index[0];
-	if (h_index[1] <= heap_limit && heap[h_index[2] - 1][0] < heap[h_index[1] - 1][0])
-		h_index[2] = h_index[1];
-	if (h_index[2] == index)
+	index[0] = i * 2;
+	index[1] = i * 2 + 1;
+	index[2] = i;
+	if (index[0] <= heap_limit && heap[index[2] - 1][0] < heap[index[0] - 1][0])
+		index[2] = index[0];
+	if (index[1] <= heap_limit && heap[index[2] - 1][0] < heap[index[1] - 1][0])
+		index[2] = index[1];
+	if (index[2] == i)
 		return ;
-	swap_in_array(index, h_index[2], heap);
-	heapify(h_index[2], heap_limit, heap);
+	swap_in_array(i, index[2], heap);
+	heapify(index[2], heap_limit, heap);
 }
 
 int	**heap_sort(int **heap, int heap_size)

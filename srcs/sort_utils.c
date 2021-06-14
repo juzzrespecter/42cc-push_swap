@@ -14,56 +14,72 @@ int	check_if_sorted(t_stack stack, int pass)
 	return (1);
 }
 
-int	find_next_up(double pivot, int pass, t_stack stack)
+int	next_upper_half(int pivot_min, int pivot_max, t_stack stack)
 {
-	int	pos;
+	int	index;
+	int	n;
 
-	pos = 0;
-	if (pass < 1)
-		return (-1);
-	while (pos < pass)
+	index = 0;
+	while (index < stack.size / 2)
 	{
-		if (stack_ud(stack, pos) < pivot)
-			return (pos);
-		pos++;
+		n = stack_ud(stack, index);
+		if (n >= pivot_min && n <= pivot_max)
+			return (index);
+		index++;
 	}
 	return (-1);
 }
 
-int	find_biggest_number(t_stack stack, int pass)
+int	next_lower_half(int pivot_min, int pivot_max, t_stack stack)
 {
-	int stack_aux;
 	int	index;
-	int i;
+	int	n;
 
-	i = 0;
-	stack_aux = stack_ud(stack, 0);
 	index = 0;
-	while (i < pass)
+	while (index < stack.size / 2)
 	{
-		stack_aux = stack_ud(stack, i);
-		if (stack_aux > stack_ud(stack, index))
-			index = i;
-		i++;
+		n = stack_ud(stack, stack.size - (index + 1));
+		if (n >= pivot_min && n <= pivot_max)
+			return (index + 1);
+		index++;
 	}
-	return (index);
+	return (-1);
 }
 
-int	find_smallest_number(t_stack stack, int pass)
+int	next_catcher(int n_to_push, int id, t_data *data)
 {
-	int stack_aux;
-	int	index;
-	int i;
+	int	n_stack;
+	int	i;
 
-	stack_aux = stack_ud(stack, 0);
-	index = 0;
 	i = 0;
-	while (i < pass)
+	if (id == STACK_ID_A)
 	{
-		stack_aux = stack_ud(stack, i);
-		if (stack_aux < stack_ud(stack, index))
-			index = i;
-		i++;
+		n_stack = stack_ud(data->stack[!id], i);
+		while (i < data->stack[!id].size && n_stack > n_to_push)
+			i++;
 	}
-	return (index);
+	if (id == STACK_ID_B)
+	{
+		n_stack = stack_ud(data->stack[!id], i);
+		while (i < data->stack[!id].size && n_stack < n_to_push)
+			i++;
+	}
+	return (i);
+}
+
+void	sort_three(t_data *data, t_stack stack)
+{
+	int	**index_table;
+	int	rot_position;
+
+	index_table = get_index_table(stack.array, stack.size);
+	if (stack.size == 3)
+	{
+		rot_position = index_table[2][1];
+		if (rot_position != 2)
+			exec_instr_loop(ROT_ID + (rot_position == 1), STACK_ID_A, 1, data);
+	}
+	if (stack_ud(stack, 0) > stack_ud(stack, 1))
+		exec_instr_loop(SWAP_ID, STACK_ID_A, 1, data);
+	free_table(index_table, stack.size);
 }
