@@ -25,14 +25,12 @@ x=1
 while [ $x -le $STEPS ]
 do
 	ARGS="$(ruby -e "puts (0..0).to_a.shuffle.join(' ')")"
-	INSTR="$(./push_swap $(echo $ARGS))"
-	RES_N="$(echo $INSTR | wc | awk '{print $1}')" 
+	RES_N="$(./push_swap $(echo $ARGS) | wc | awk '{print $1}')"
 	echo -e -n "Number of instr: $RES_N "
-	RES_OK=$(echo $INSTR | ./checker $(echo $ARGS ))
 	if [ "$RES_OK" = "OK" ]; then
 		echo -e -n "${GREEN}[$RES_OK]"
 	else
-		echo -e "${GREEN} [OK]${END}"
+		echo -e -n "${GREEN} [OK]${END}"
 	fi
 	if [ "$RES_N" -ne 0 ]; then
 		echo -e "${RED} [KO]${END}"
@@ -48,14 +46,13 @@ x=1
 while [ $x -le $STEPS ]
 do
 	ARGS="$(ruby -e "puts (0..2).to_a.shuffle.join(' ')")"
-	INSTR="$(./push_swap $(echo $ARGS))"
-	RES_N="$(echo $INSTR | wc | awk '{print $1}')" 
+	RES_N="$(./push_swap $(echo $ARGS) | wc | awk '{print $1}')"
+	RES_OK=$(./push_swap $(echo $ARGS) | ./checker $(echo $ARGS))
 	echo -e -n "Number of instr: $RES_N "
-	RES_OK=$(echo $INSTR | ./checker $(echo $ARGS ))
-	if [ $RES_OK == "OK" ]; then
+	if [ "$RES_OK" = "OK" ]; then
 		echo -e -n "${GREEN}[$RES_OK]"
 	else
-		echo -e "${GREEN} [OK]${END}"
+		echo -e -n "${GREEN} [OK]${END}"
 	fi
 	if [ "$RES_N" -gt 2 ]; then
 		echo -e "${RED} [KO]${END}"
@@ -71,14 +68,13 @@ x=1
 while [ $x -le $STEPS ]
 do
 	ARGS="$(ruby -e "puts (0..4).to_a.shuffle.join(' ')")"
-	INSTR="$(./push_swap $(echo $ARGS))"
-	RES_N="$(echo $INSTR | wc | awk '{print $1}')" 
+	RES_N="$(./push_swap $(echo $ARGS) | wc | awk '{print $1}')"
+	RES_OK=$(./push_swap $(echo $ARGS) | ./checker $(echo $ARGS))
 	echo -e -n "Number of instr: $RES_N "
-	RES_OK=$(echo $INSTR | ./checker $(echo $ARGS ))
-	if [ $RES_OK == "OK" ]; then
+	if [ "$RES_OK" = "OK" ]; then
 		echo -e -n "${GREEN}[$RES_OK]"
 	else
-		echo -e "${GREEN} [OK]${END}"
+		echo -e -n "${GREEN}[OK]${END}"
 	fi
 	if [ "$RES_N" -gt 12 ]; then
 		echo -e "${RED} [KO]${END}"
@@ -101,11 +97,10 @@ do
 	while [ $x -le $STEPS ]
 	do
 		ARGS="$(ruby -e "puts (-$i..0 - 1).to_a.shuffle.join(' ')")"
-		INSTR="$(./push_swap $(echo $ARGS))"
-		RES_N="$(echo $INSTR | wc | awk '{print $1}')" 
+		RES_N="$(./push_swap $(echo $ARGS) | wc | awk '{print $1}')"
+		RES_OK=$(./push_swap $(echo $ARGS) | ./checker $(echo $ARGS))
 		echo -e -n "Number of instr: $RES_N "
-		RES_OK=$(echo $INSTR | ./checker $(echo $ARGS ))
-		if [ $RES_OK == "OK" ]; then
+		if [ "$RES_OK" = "OK" ]; then
 			echo -e -n "${GREEN}[$RES_OK]"
 		else
 			echo -e -n "${RED}[$RES_OK]"
@@ -140,12 +135,11 @@ do
 	echo "--------- input $i ----------"
 	while [ $x -le $STEPS ]
 	do
-		INSTR="$(ruby -e "puts (0..499).to_a.shuffle.join(' ')")"
-		ARGS="$(./push_swap $(cat .args) > $(echo INSTR))"
-		RES_N="$(echo $INSTR | wc | awk '{print $1}')" 
+		ARGS="$(ruby -e "puts (0..499).to_a.shuffle.join(' ')")"
+		RES_N="$(./push_swap $(echo $ARGS) | wc | awk '{print $1}')"
+		RES_OK=$(./push_swap $(echo $ARGS) | ./checker $(echo $ARGS))
 		echo -n -e "Number of instr: $RES_N "
-		RES_OK=$($(echo $INSTR) | ./checker $(echo $ARGS ))
-		if [ $RES_OK == "OK" ]; then
+		if [ "$RES_OK" = "OK" ]; then
 			echo -e -n "${GREEN}[$RES_OK]"
 		else
 			echo -e -n "${RED}[$RES_OK]"

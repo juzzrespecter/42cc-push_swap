@@ -7,9 +7,9 @@ static int	*init_pivot_a(t_stack stack, int n_steps)
 	int	i;
 
 	index_table = get_index_table(stack.array, stack.size);
-	pivot_a = (int *)malloc(sizeof(int) * (n_steps + 1));
+	pivot_a = (int *)malloc(sizeof(int) * n_steps);
 	i = 0;
-	while (i < n_steps + 1)
+	while (i < n_steps)
 	{
 		pivot_a[i] = index_table[i * ((stack.size / n_steps) - 1)][0];
 		i++;
@@ -59,7 +59,8 @@ static void	selection_sort_prev_step(int pivot_a[3], t_data *data)
 			index++;
 		if (index == 4 && next_table[index - 1][0] == -1)
 			break ;
-		index = (index > 3) ? 3 : index; // ??
+		if (index > 3)
+			index = 3;
 		exec_instr_loop(ROT_ID + (next_table[index][1] == 1), STACK_ID_A, \
 				next_table[index][0] - (next_table[index][2] == 1), data);
 		exec_instr_loop(PUSH_ID, STACK_ID_B, 1, data);
@@ -80,9 +81,8 @@ void	sort_start(t_data *data)
 		return ;
 	if (data->stack[STACK_ID_A].size < SMALL_LIMIT)
 	{
-		data->n_ins = 1; // tmp
 		selection_sort(data, STACK_ID_A);
-		exec_instr_loop(PUSH_ID, STACK_ID_A, data->stack[STACK_ID_B].size, data);
+		exec_instr_loop(PUSH_ID, 0, data->stack[STACK_ID_B].size, data);
 		return ;
 	}
 	pivot_a = init_pivot_a(data->stack[STACK_ID_A], data->n_steps);
