@@ -1,16 +1,5 @@
 #include "push_swap.h"
 
-void	p_a(int *a, int s)
-{
-	int i = 0;printf("[");while(i<s){printf(" %d ", a[i]);i++;}printf("]\n");
-}
-
-void	p_i(int **i, int s)
-{
-	int u = 0;printf("[");while(u<s){printf(" %d ", i[u][0]);u++;}printf("]\n");
-	u = 0;printf("[");while(u<s){printf(" %d ", i[u][1]);u++;}printf("]\n");
-}
-
 static int	*pivot_get(t_stack stack, int n_steps)
 {
 	int	i;
@@ -26,7 +15,7 @@ static int	*pivot_get(t_stack stack, int n_steps)
 		i_table = i * (stack.size / n_steps);
 		if (i == 0)
 			i_table = 0;
-		pivot[i] = index_table[i_table][0];
+		pivot[i] = index_table[i_table - (i_table == stack.size)][0];
 		i++;
 	}
 	free_table(index_table, stack.size);
@@ -86,7 +75,6 @@ static void	selection_sort_prev_step(int pivot[3], t_data *data)
 	free_table(next_table, 4);
 }
 
-
 static void	sort_start_loop(t_data *data)
 {
 	int	index;
@@ -97,13 +85,11 @@ static void	sort_start_loop(t_data *data)
 	index = 0;
 	median = ((data->n_steps + 1) / 2) - (data->n_steps % 2);
 	pivot = pivot_get(data->stack[STACK_ID_A], data->n_steps);
-//	p_a(pivot, data->n_steps + 1);
 	while (index < median)
 	{
 		pivot_step[0] = pivot[median - (index + 1)];
 		pivot_step[1] = pivot[median];
 		pivot_step[2] = pivot[median + (index + 1)];
-//		p_a(pivot_step, 3);
 		selection_sort_prev_step(pivot_step, data);
 		index++;
 	}

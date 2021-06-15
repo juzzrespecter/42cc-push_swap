@@ -25,9 +25,7 @@
 # define STACK_ID_B 1
 # define STACK_ID_BOTH 2
 
-# define SMALL_LIMIT 19 
-
-# include <stdio.h> // tmp
+# define SMALL_LIMIT 50 
 
 typedef struct s_stack_list
 {

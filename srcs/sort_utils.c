@@ -52,16 +52,20 @@ int	next_catcher(int n_to_push, int id, t_data *data)
 	int	i;
 
 	i = 0;
+	if (data->stack[!id].size == 0)
+		return (0);
 	n_stack = stack_ud(data->stack[!id], i);
 	while (i < data->stack[!id].size && n_stack > n_to_push && id == STACK_ID_A)
 	{
 		i++;
-		n_stack = stack_ud(data->stack[!id], i);
+		if (i < data->stack[!id].size)
+			n_stack = stack_ud(data->stack[!id], i);
 	}
 	while (i < data->stack[!id].size && n_stack < n_to_push && id == STACK_ID_B)
 	{
 		i++;
-		n_stack = stack_ud(data->stack[!id], i);
+		if (i < data->stack[!id].size)
+			n_stack = stack_ud(data->stack[!id], i);
 	}
 	return (i);
 }
