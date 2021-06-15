@@ -1,24 +1,39 @@
 #include "push_swap.h"
 
-static int	*init_pivot_a(t_stack stack, int n_steps)
+void	p_a(int *a, int s)
 {
-	int	**index_table;
-	int	*pivot_a;
-	int	i;
+	int i = 0;printf("[");while(i<s){printf(" %d ", a[i]);i++;}printf("]\n");
+}
 
-	index_table = get_index_table(stack.array, stack.size);
-	pivot_a = (int *)malloc(sizeof(int) * n_steps);
+void	p_i(int **i, int s)
+{
+	int u = 0;printf("[");while(u<s){printf(" %d ", i[u][0]);u++;}printf("]\n");
+	u = 0;printf("[");while(u<s){printf(" %d ", i[u][1]);u++;}printf("]\n");
+}
+
+static int	*pivot_get(t_stack stack, int n_steps)
+{
+	int	i;
+	int	i_table;
+	int	*pivot;
+	int	**index_table;
+
 	i = 0;
-	while (i < n_steps)
+	pivot = (int *)malloc(sizeof(int) * (n_steps + 1));
+	index_table = get_index_table(stack.array, stack.size);
+	while (i < (n_steps + 1))
 	{
-		pivot_a[i] = index_table[i * ((stack.size / n_steps) - 1)][0];
+		i_table = i * (stack.size / n_steps);
+		if (i == 0)
+			i_table = 0;
+		pivot[i] = index_table[i_table][0];
 		i++;
 	}
 	free_table(index_table, stack.size);
-	return (pivot_a);
+	return (pivot);
 }
 
-static int	**selection_sort_prev_table(int pivot_a[3], t_data *data)
+static int	**selection_sort_prev_table(int pivot[3], t_data *data)
 {
 	int	**next_table;
 	int	index;
@@ -30,12 +45,12 @@ static int	**selection_sort_prev_table(int pivot_a[3], t_data *data)
 		next_table[index] = (int *)malloc(sizeof(int) * 3);
 		ft_bzero(next_table[index], sizeof(int) * 3);
 		if (!(index % 2))
-			next_table[index][0] = next_upper_half(pivot_a[0 + (index > 1)], \
-					pivot_a[1 + (index > 1)], data->stack[STACK_ID_A]);
+			next_table[index][0] = next_upper_half(pivot[0 + (index > 1)], \
+					pivot[1 + (index > 1)], data->stack[STACK_ID_A]);
 		if (index % 2)
 		{
-			next_table[index][0] = next_lower_half(pivot_a[0 + (index > 1)], \
-					pivot_a[1 + (index > 1)], data->stack[STACK_ID_A]);
+			next_table[index][0] = next_lower_half(pivot[0 + (index > 1)], \
+					pivot[1 + (index > 1)], data->stack[STACK_ID_A]);
 			next_table[index][1] = 1;
 		}
 		next_table[index][0] += 1 * (next_table[index][0] != -1) * !(index > 1);
@@ -45,7 +60,7 @@ static int	**selection_sort_prev_table(int pivot_a[3], t_data *data)
 	return (next_table);
 }
 
-static void	selection_sort_prev_step(int pivot_a[3], t_data *data)
+static void	selection_sort_prev_step(int pivot[3], t_data *data)
 {
 	int	**next_table;
 	int	index;
@@ -53,7 +68,7 @@ static void	selection_sort_prev_step(int pivot_a[3], t_data *data)
 	while (data->stack[STACK_ID_A].size)
 	{
 		index = 0;
-		next_table = selection_sort_prev_table(pivot_a, data);
+		next_table = selection_sort_prev_table(pivot, data);
 		heap_sort(next_table, 4);
 		while (index < 4 && next_table[index][0] == -1)
 			index++;
@@ -71,14 +86,32 @@ static void	selection_sort_prev_step(int pivot_a[3], t_data *data)
 	free_table(next_table, 4);
 }
 
-#define EAED !(data->n_steps % 2) // hacerlo bonico
+
+static void	sort_start_loop(t_data *data)
+{
+	int	index;
+	int	median;
+	int	*pivot;
+	int	pivot_step[3];
+
+	index = 0;
+	median = ((data->n_steps + 1) / 2) - (data->n_steps % 2);
+	pivot = pivot_get(data->stack[STACK_ID_A], data->n_steps);
+//	p_a(pivot, data->n_steps + 1);
+	while (index < median)
+	{
+		pivot_step[0] = pivot[median - (index + 1)];
+		pivot_step[1] = pivot[median];
+		pivot_step[2] = pivot[median + (index + 1)];
+//		p_a(pivot_step, 3);
+		selection_sort_prev_step(pivot_step, data);
+		index++;
+	}
+	free(pivot);
+}
 
 void	sort_start(t_data *data)
 {
-	int	pivot_a_step[3];
-	int	*pivot_a;
-	int	index;
-
 	if (check_if_sorted(data->stack[STACK_ID_A], data->stack[STACK_ID_A].size))
 		return ;
 	if (data->stack[STACK_ID_A].size < SMALL_LIMIT)
@@ -87,17 +120,7 @@ void	sort_start(t_data *data)
 		exec_instr_loop(PUSH_ID, 0, data->stack[STACK_ID_B].size, data);
 		return ;
 	}
-	pivot_a = init_pivot_a(data->stack[STACK_ID_A], data->n_steps);
-	index = 0;
-	while (index < (data->n_steps - EAED) / 2)
-	{
-		pivot_a_step[0] = pivot_a[((data->n_steps / 2) - EAED) - (index + 1)];
-		pivot_a_step[1] = pivot_a[(data->n_steps / 2) - EAED];
-		pivot_a_step[2] = pivot_a[((data->n_steps / 2)- EAED) + (index + 1)];
-		selection_sort_prev_step(pivot_a_step, data);
-		index++;
-	}
-	free(pivot_a);
+	sort_start_loop(data);
 	exec_instr_loop(PUSH_ID, STACK_ID_B, data->stack[STACK_ID_A].size, data);
 	selection_sort(data, STACK_ID_B);
 }

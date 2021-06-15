@@ -25,7 +25,7 @@
 # define STACK_ID_B 1
 # define STACK_ID_BOTH 2
 
-# define SMALL_LIMIT 30 
+# define SMALL_LIMIT 19 
 
 # include <stdio.h> // tmp
 
