@@ -7,7 +7,7 @@ void	free_data(t_data *data)
 	if (data->stack[STACK_ID_B].array)
 		free(data->stack[STACK_ID_B].array);
 	if (data->instr_list_head)
-		ft_lstclear(&data->instr_list_head, &free);
+		ft_lstclear(&data->instr_list_head, free);
 }
 
 void	err_and_exit(t_data *data, char *err_token, int err_code)

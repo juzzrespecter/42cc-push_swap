@@ -23,7 +23,7 @@ static int	**selection_sort_prev_table(int pivot_a[3], t_data *data)
 	int	**next_table;
 	int	index;
 
-	next_table = (int **)malloc(sizeof(int *) * 3);
+	next_table = (int **)malloc(sizeof(int *) * 4);
 	index = 0;
 	while (index < 4)
 	{

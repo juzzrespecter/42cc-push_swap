@@ -9,5 +9,6 @@ int	main(int argc, char **argv)
 	data = stack_data_init(argv);
 	sort_start(&data);
 	print_instr_loop(&data);
+	free_data(&data);
 	return (EXIT_SUCCESS);
 }

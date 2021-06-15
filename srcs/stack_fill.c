@@ -25,6 +25,7 @@ static t_stack_list	*stack_list_get(char **argv)
 			l_node = (t_stack_list *)malloc(sizeof(t_stack_list) * 1);
 			ft_bzero(l_node, sizeof(t_stack_list));
 			l_node->stack_n = ft_atoi(argv[index]);
+			l_node->next = NULL;
 			ft_lstadd_back((t_list **)&l_head, (t_list *)l_node);
 		}
 		index++;
@@ -64,6 +65,7 @@ t_stack	stack_fill(int start, char **argv)
 {
 	int				i;
 	t_stack			stack;
+	t_stack_list	*stack_head;
 	t_stack_list	*stack_list;
 
 	i = 0;
@@ -72,12 +74,13 @@ t_stack	stack_fill(int start, char **argv)
 	stack.array = (int *)malloc(sizeof(int) * stack.size);
 	if (stack.array == NULL || stack_list == NULL)
 		err_and_exit(NULL, NULL, E_NOMEM);
+	stack_head = stack_list;
 	while (stack_list)
 	{
 		stack.array[stack.size - (i + 1)] = stack_list->stack_n;
 		stack_list = stack_list->next;
 		i++;
 	}
-	stack_list_del(stack_list);
+	stack_list_del(stack_head);
 	return (stack);
 }

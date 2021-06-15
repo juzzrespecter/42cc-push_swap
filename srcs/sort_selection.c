@@ -6,7 +6,7 @@ static int	**selection_sort_next(t_stack stack, int n_ins, int id)
 	int	**index_table;
 	int	i;
 
-	next_table = (int **)malloc(sizeof(int) * n_ins);
+	next_table = (int **)malloc(sizeof(int *) * n_ins);
 	index_table = get_index_table(stack.array, stack.size);
 	i = 0;
 	while (i < n_ins)
@@ -25,6 +25,7 @@ static int	**selection_sort_next(t_stack stack, int n_ins, int id)
 			next_table[i][0] = stack.size - next_table[i][0];
 		i++;
 	}
+	free_table(index_table, stack.size);
 	return (next_table);
 }
 
@@ -106,6 +107,7 @@ void	selection_sort(t_data *data, int id)
 	while (next_table[i][0] < 0 && i < data->n_ins)
 		i++;
 	set = selection_sort_moves(next_table[i], id, data);
+	free_table(next_table, data->n_ins);
 	selection_sort_push(set, id, data);
 	selection_sort(data, id);
 }
