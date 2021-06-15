@@ -10,7 +10,7 @@ t_data	stack_data_init(char **argv)
 			* data.stack[STACK_ID_A].size);
 	if (!data.stack[STACK_ID_B].array || !data.stack[STACK_ID_A].array)
 		err_and_exit(&data, NULL, E_NOMEM);
-	data.n_steps = 7 + (data.stack[STACK_ID_A].size / 100);
-	data.n_ins = 1 + (data.stack[STACK_ID_A].size / 100);
+	data.n_steps = 6 + (data.stack[STACK_ID_A].size / 100);
+	data.n_ins = 1 + (data.stack[STACK_ID_A].size > 99) + (data.stack[STACK_ID_A].size > 499);
 	return (data);
 }

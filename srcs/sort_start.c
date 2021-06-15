@@ -50,7 +50,7 @@ static void	selection_sort_prev_step(int pivot_a[3], t_data *data)
 	int	**next_table;
 	int	index;
 
-	while (1)
+	while (data->stack[STACK_ID_A].size)
 	{
 		index = 0;
 		next_table = selection_sort_prev_table(pivot_a, data);
@@ -71,6 +71,8 @@ static void	selection_sort_prev_step(int pivot_a[3], t_data *data)
 	free_table(next_table, 4);
 }
 
+#define EAED !(data->n_steps % 2) // hacerlo bonico
+
 void	sort_start(t_data *data)
 {
 	int	pivot_a_step[3];
@@ -87,11 +89,11 @@ void	sort_start(t_data *data)
 	}
 	pivot_a = init_pivot_a(data->stack[STACK_ID_A], data->n_steps);
 	index = 0;
-	while (index < data->n_steps / 2 )
+	while (index < (data->n_steps - EAED) / 2)
 	{
-		pivot_a_step[0] = pivot_a[(data->n_steps / 2) - (index + 1)];
-		pivot_a_step[1] = pivot_a[data->n_steps / 2];
-		pivot_a_step[2] = pivot_a[(data->n_steps / 2) + (index + 1)];
+		pivot_a_step[0] = pivot_a[((data->n_steps / 2) - EAED) - (index + 1)];
+		pivot_a_step[1] = pivot_a[(data->n_steps / 2) - EAED];
+		pivot_a_step[2] = pivot_a[((data->n_steps / 2)- EAED) + (index + 1)];
 		selection_sort_prev_step(pivot_a_step, data);
 		index++;
 	}
