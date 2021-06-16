@@ -20,6 +20,13 @@ int	next_upper_half(int pivot_min, int pivot_max, t_stack stack)
 	int	n;
 
 	index = 0;
+	if (stack.size == 1)
+	{
+		n = stack_ud(stack, 0);
+		if (n >= pivot_min && n <= pivot_max)
+			return (0);
+		return (-1);
+	}
 	while (index < stack.size / 2)
 	{
 		n = stack_ud(stack, index);
@@ -36,6 +43,13 @@ int	next_lower_half(int pivot_min, int pivot_max, t_stack stack)
 	int	n;
 
 	index = 0;
+	if (stack.size == 1)
+	{
+		n = stack_ud(stack, 0);
+		if (n >= pivot_min && n <= pivot_max)
+			return (1);
+		return (-1);
+	}
 	while (index < stack.size / 2)
 	{
 		n = stack_ud(stack, stack.size - (index + 1));

@@ -11,8 +11,12 @@ END="\x1b[0m"
 # ------------------
 STEPS="5"
 m_steps=(10 20 50 100)
-b_steps=(200 300 500)
-bb_steps=(1000 1500)
+b_steps=(200 300 400 500)
+bb_steps=(700 900 1000 1500)
+# ------------------
+
+# ------------------
+CHECKER="./checker"
 # ------------------
 
 make
@@ -46,7 +50,7 @@ while [ $x -le $STEPS ]
 do
 	ARGS="$(ruby -e "puts (0..2).to_a.shuffle.join(' ')")"
 	RES_N="$(./push_swap $(echo $ARGS) | wc | awk '{print $1}')"
-	RES_OK=$(./push_swap $(echo $ARGS) | ./checker $(echo $ARGS))
+	RES_OK=$(./push_swap $(echo $ARGS) | $CHECKER $(echo $ARGS))
 	echo -e -n "Number of instr: $RES_N "
 	if [ "$RES_OK" = "OK" ]; then
 		echo -e -n "${GREEN}[$RES_OK]"
@@ -68,7 +72,7 @@ while [ $x -le $STEPS ]
 do
 	ARGS="$(ruby -e "puts (0..4).to_a.shuffle.join(' ')")"
 	RES_N="$(./push_swap $(echo $ARGS) | wc | awk '{print $1}')"
-	RES_OK=$(./push_swap $(echo $ARGS) | ./checker $(echo $ARGS))
+	RES_OK=$(./push_swap $(echo $ARGS) | $CHECKER $(echo $ARGS))
 	echo -e -n "Number of instr: $RES_N "
 	if [ "$RES_OK" = "OK" ]; then
 		echo -e -n "${GREEN}[$RES_OK]"
@@ -97,7 +101,7 @@ do
 	do
 		ARGS="$(ruby -e "puts (0..$i - 1).to_a.shuffle.join(' ')")"
 		RES_N="$(./push_swap $(echo $ARGS) | wc | awk '{print $1}')"
-		RES_OK=$(./push_swap $(echo $ARGS) | ./checker $(echo $ARGS))
+		RES_OK=$(./push_swap $(echo $ARGS) | $CHECKER $(echo $ARGS))
 		echo -e -n "Number of instr: $RES_N "
 		if [ "$RES_OK" = "OK" ]; then
 			echo -e -n "${GREEN}[$RES_OK]"
@@ -136,7 +140,7 @@ do
 	do
 		ARGS="$(ruby -e "puts (0..$i - 1).to_a.shuffle.join(' ')")"
 		RES_N="$(./push_swap $(echo $ARGS) | wc | awk '{print $1}')"
-		RES_OK=$(./push_swap $(echo $ARGS) | ./checker $(echo $ARGS))
+		RES_OK=$(./push_swap $(echo $ARGS) | $CHECKER $(echo $ARGS))
 		echo -n -e "Number of instr: $RES_N "
 		if [ "$RES_OK" = "OK" ]; then
 			echo -e -n "${GREEN}[$RES_OK]"
@@ -145,7 +149,15 @@ do
 		fi
 		echo -ne "${END}"
 		if [ "$RES_N" -gt "5500" ]; then
-			echo -e "${YELLOW} [GOOD]${END}"
+			if [ "$RES_N" -gt "8500" ]; then
+				if [ "$RES_N" -gt "11500" ]; then
+					echo -e "${RED} [KO]${END}"
+				else
+					echo -e "${ORANGE} [NOT GOOD!]${END}"
+				fi
+			else
+				echo -e "${YELLOW} [GOOD]${END}"
+			fi
 		else
 			echo -e "${GREEN} [OK]${END}"
 		fi
@@ -167,7 +179,7 @@ do
 	do
 		ARGS="$(ruby -e "puts (0..$i - 1).to_a.shuffle.join(' ')")"
 		RES_N="$(./push_swap $(echo $ARGS) | wc | awk '{print $1}')"
-		RES_OK=$(./push_swap $(echo $ARGS) | ./checker $(echo $ARGS))
+		RES_OK=$(./push_swap $(echo $ARGS) | $CHECKER $(echo $ARGS))
 		echo -n -e "Number of instr: $RES_N "
 		if [ "$RES_OK" = "OK" ]; then
 			echo -e -n "${GREEN}[$RES_OK]"

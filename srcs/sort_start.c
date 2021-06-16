@@ -72,7 +72,8 @@ static void	selection_sort_prev_step(int pivot[3], t_data *data)
 			exec_instr_loop(ROT_ID, STACK_ID_B, 1, data);
 		free_table(next_table, 4);
 	}
-	free_table(next_table, 4);
+	if (data->stack[STACK_ID_A].size > 0)
+		free_table(next_table, 4);
 }
 
 static void	sort_start_loop(t_data *data)
@@ -107,6 +108,6 @@ void	sort_start(t_data *data)
 		return ;
 	}
 	sort_start_loop(data);
-	exec_instr_loop(PUSH_ID, STACK_ID_B, data->stack[STACK_ID_A].size, data);
+	selection_sort(data, STACK_ID_A);
 	selection_sort(data, STACK_ID_B);
 }
