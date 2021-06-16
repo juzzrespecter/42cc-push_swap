@@ -61,9 +61,6 @@ void	push_swap(t_data *data, t_instr set, int id)
 
 static void	selection_sort_push(t_instr set, int id, t_data *data)
 {
-	int	rot_both;
-
-	rot_both = 0;
 	if (set.C1 == 1 && !set.fc)
 	{
 		push_swap(data, set, id);
