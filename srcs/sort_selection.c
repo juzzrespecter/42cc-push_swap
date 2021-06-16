@@ -1,7 +1,5 @@
 #include "push_swap.h"
 
-#include <stdio.h>
-
 static int	**selection_sort_next(t_stack stack, int n_ins, int id)
 {
 	int	**next_table;
