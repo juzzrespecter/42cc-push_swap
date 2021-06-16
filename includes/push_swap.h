@@ -25,7 +25,7 @@
 # define STACK_ID_B 1
 # define STACK_ID_BOTH 2
 
-# define SMALL_LIMIT 50 
+# define SMALL_LIMIT 30 
 
 typedef struct s_stack_list
 {
@@ -88,4 +88,7 @@ int		next_upper_half(int pivot_min, int pivot_max, t_stack stack);
 int		next_lower_half(int pivot_min, int pivot_max, t_stack stack);
 int		next_catcher(int n_to_push, int id, t_data *data);
 void	sort_three(t_data *data, t_stack stack);
+
+t_list	*rotate_mgmt(t_list *instr_node);
+void	print_instr(int instr_id, int stack_id);
 #endif

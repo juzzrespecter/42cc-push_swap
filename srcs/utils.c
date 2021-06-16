@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-static void	print_instr(int instr_id, int stack_id)
+void	print_instr(int instr_id, int stack_id)
 {
 	static const char	instr_array[2][3] = {
 		{'s', 'p', 'r'},
@@ -23,6 +23,9 @@ void	print_instr_loop(t_data *data)
 	instr_n = data->instr_list_head;
 	while (instr_n)
 	{
+		ids = (int *)instr_n->content;
+		if (ids[0] > 1)
+			instr_n = rotate_mgmt(instr_n);
 		ids = (int *)instr_n->content;
 		print_instr(ids[0], ids[1]);
 		instr_n = instr_n->next;

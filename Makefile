@@ -16,6 +16,7 @@ SRCS			= parse_element.c \
 			  sort_utils.c \
 			  sort_heap.c \
 			  sort_selection.c \
+			  sort_rot_opt.c \
 			  sort_start.c
 
 OBJS			= $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))

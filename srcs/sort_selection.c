@@ -69,19 +69,6 @@ static void	selection_sort_push(t_instr set, int id, t_data *data)
 		push_swap(data, set, id);
 		return ;
 	}
-	if (set.fc == set.fp && set.C1 > set.P1)
-	{
-		rot_both = set.P1;
-		set.C1 = set.C1 - set.P1;
-		set.P1 = 0;
-	}
-	if (set.fc == set.fp && set.C1 < set.P1)
-	{
-		rot_both = set.C1;
-		set.P1 = set.P1 - set.C1;
-		set.C1 = 0;
-	}
-	exec_instr_loop(ROT_ID + set.fc, STACK_ID_BOTH, rot_both, data);
 	exec_instr_loop(ROT_ID + set.fp, id, set.P1, data);
 	exec_instr_loop(ROT_ID + set.fc, !id, set.C1, data);
 	exec_instr_loop(PUSH_ID, !id, 1, data);
