@@ -93,7 +93,9 @@ int	main(int argc, char **argv)
 		if (!checker_if_valid_instr(instr_buffer))
 			err_and_exit(&data, instr_buffer, E_NOINSTR);
 		save_instr_init(instr_buffer, 0, 0, &data);
+		free(instr_buffer);
 	}
+	free(instr_buffer);
 	checker_exec_instr_loop(&data);
 	checker_stack_order(&data);
 	return (EXIT_SUCCESS);

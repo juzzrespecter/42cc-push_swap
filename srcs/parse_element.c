@@ -44,7 +44,7 @@ static void	parse_element_overflow(char *element)
 		err_and_exit(NULL, element, E_INTOVF);
 }
 
-void	parse_element(int i, int stack_size, char **argv)
+void	parse_element(int i, int stack_size, t_list *e_lst_head)
 {
 	int	count;
 
@@ -53,7 +53,7 @@ void	parse_element(int i, int stack_size, char **argv)
 	{
 		if (!stack_size)
 			exit(EXIT_SUCCESS);
-		parse_element_duplicates(i - stack_size, argv);
+		parse_element_duplicates(i - stack_size, (char *)e_lst_head->content);
 		return ;
 	}
 	while (argv[i][count] == ' ' && argv[i][count])
@@ -70,4 +70,28 @@ void	parse_element(int i, int stack_size, char **argv)
 	}
 	parse_element_overflow(argv[i]);
 	parse_element(i + 1, stack_size + 1, argv);
+}
+
+t_list	*parse_element_list(char **argv)
+{
+	int	i;
+	t_list	*e_lst_head;
+	t_list	*e_lst_node;
+	char	**expanded_arg;
+
+	i = 0;
+	e_lst_head = NULL;
+	while (argv[i])
+	{
+		expanded_arg = ft_split(argv[i]);
+		while (expanded_arg[j])
+		{
+			e_lst_node = (t_list *)malloc(sizeof(t_list));
+			e_lst_node->content = expanded_arg[j];
+			ft_lstadd_back(&e_lst_head, e_lst_node);
+			j++;
+		}
+		i++;
+	}
+	return (e_lst_head);
 }

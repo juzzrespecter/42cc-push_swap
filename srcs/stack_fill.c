@@ -10,7 +10,7 @@ static int	stack_empty_val(char *stack_n)
 	return (!stack_n[index]);
 }
 
-static t_stack_list	*stack_list_get(char **argv)
+/*static t_stack_list	*stack_list_get(char **argv)
 {
 	t_stack_list	*l_head;
 	t_stack_list	*l_node;
@@ -31,7 +31,7 @@ static t_stack_list	*stack_list_get(char **argv)
 		index++;
 	}
 	return (l_head);
-}
+}*/
 
 static void	stack_list_del(t_stack_list *l_head)
 {
