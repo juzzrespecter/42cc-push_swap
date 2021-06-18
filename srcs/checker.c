@@ -1,16 +1,4 @@
 #include "push_swap.h"
-#include <stdio.h>
-
-	/* stack en argv
-	 * 
-	 * primer argumento en el top del stack
-	 * no argumentos: checker stops
-	 * checker recibe stack, espera instrucciones en stdin
-	 * cuando todas las instrucciones han sido leidas, las ejecuta sobre el stack
-	 * si stack a esta ordenado y b esta vacio, imprime ok.
-	 * otro caso, imprime ko.
-	 * caso de error, imprime error.
-	 */
 
 static int	checker_if_valid_instr(char *instr)
 {
@@ -78,11 +66,13 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 	int		ret;
+	t_list	*argv_list;
 	char	*instr_buffer;
 
 	(void) argc;
-	parse_element(1, 0, argv);
-	data = stack_data_init(argv);
+	argv_list = parse_element_list(argv);
+	parse_element_recursive(0, argv_list, argv_list);
+	data = stack_data_init(argv_list);
 	while (1)
 	{
 		ret = get_next_line(STDIN_FILENO, &instr_buffer);

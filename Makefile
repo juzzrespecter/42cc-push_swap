@@ -7,7 +7,6 @@ CHECKER_MAIN		= checker.c
 PUSH_SWAP_MAIN		= push_swap.c
 SRCS			= parse_element.c \
 			  checker_utils.c \
-			  stack_fill.c \
 			  stack_data_init.c \
 			  err_and_exit.c \
 			  save_instr.c \

@@ -1,27 +1,15 @@
 #include "push_swap.h"
 
-static void	parse_element_duplicates(int start, char **argv)
+static void	parser_err_and_exit(char *content, t_list *lst_h, int err_id)
 {
-	char	*to_cmp;
-	int		i;
-	int		j;
+	char	*err_token;
 
-	i = 0;
-	while (argv[start + i])
-	{
-		j = 0;
-		to_cmp = argv[start + i];
-		while (j < i)
-		{
-			if (!ft_strncmp(to_cmp, argv[start + j], ft_strlen(to_cmp) + 1))
-				err_and_exit(NULL, to_cmp, E_DUPL);
-			j++;
-		}
-		i++;
-	}
+	err_token = ft_strdup(content);
+	ft_lstclear(&lst_h, free);
+	err_and_exit(NULL, err_token, err_id);
 }
 
-static void	parse_element_overflow(char *element)
+static void	parse_element_overflow(char *element, t_list *lst_h)
 {
 	int	i;
 	int	len;
@@ -36,62 +24,91 @@ static void	parse_element_overflow(char *element)
 	if (len < 10)
 		return ;
 	if (len > 11)
-		err_and_exit(NULL, element, E_INTOVF);
+		parser_err_and_exit(element, lst_h, E_INTOVF);
 	if (len == 10 && ft_strncmp(element + i, "2147483647", len) > 0 && \
 			*element != '-')
-		err_and_exit(NULL, element, E_INTOVF);
+		parser_err_and_exit(element, lst_h, E_INTOVF);
 	if (len == 10 && ft_strncmp(element + i, "2147483648", len) > 0)
-		err_and_exit(NULL, element, E_INTOVF);
+		parser_err_and_exit(element, lst_h, E_INTOVF);
 }
 
-void	parse_element(int i, int stack_size, t_list *e_lst_head)
+static void	parse_element_duplicates(t_list *lst_h)
 {
-	int	count;
+	t_list	*lst_n;
+	t_list	*lst_start;
+	int		count;
+	int		index;
 
 	count = 0;
-	if (!argv[i])
+	lst_n = lst_h;
+	while (lst_n)
+	{
+		index = 0;
+		lst_start = lst_h;
+		while (index < count)
+		{
+			if (!ft_strncmp(lst_n->content, lst_start->content, \
+						ft_strlen(lst_n->content) + 1))
+				parser_err_and_exit(lst_n->content, lst_h, E_DUPL);
+			lst_start = lst_start->next;
+			index++;
+		}
+		lst_n = lst_n->next;
+		index = 0;
+		count++;
+	}
+}
+
+void	parse_element_recursive(int stack_size, t_list *lst_h, t_list *lst_n)
+{
+	int	i;
+
+	i = 0;
+	if (!lst_n)
 	{
 		if (!stack_size)
 			exit(EXIT_SUCCESS);
-		parse_element_duplicates(i - stack_size, (char *)e_lst_head->content);
+		parse_element_duplicates(lst_h);
 		return ;
 	}
-	while (argv[i][count] == ' ' && argv[i][count])
-		count++;
-	if (!argv[i][count])
-		parse_element(i + 1, stack_size, argv);
-	if (argv[i][count] == '-')
-		count++;
-	while (argv[i][count])
+	if (!*((char *)lst_n->content + i))
+		parse_element_recursive(stack_size, lst_h, lst_n->next);
+	if (*((char *)lst_n->content + i) == '-')
+		i++;
+	while (*((char *)lst_n->content + i))
 	{
-		if (!ft_isdigit(argv[i][count]))
-			err_and_exit(NULL, argv[i], E_NONUM);
-		count++;
+		if (!ft_isdigit(*((char *)lst_n->content + i)))
+			parser_err_and_exit(lst_n->content, lst_h, E_NONUM);
+		i++;
 	}
-	parse_element_overflow(argv[i]);
-	parse_element(i + 1, stack_size + 1, argv);
+	parse_element_overflow(lst_n->content, lst_h);
+	parse_element_recursive(stack_size + 1, lst_h, lst_n->next);
 }
 
 t_list	*parse_element_list(char **argv)
 {
-	int	i;
-	t_list	*e_lst_head;
-	t_list	*e_lst_node;
+	int		i;
+	int		j;
+	t_list	*lst_h;
+	t_list	*lst_n;
 	char	**expanded_arg;
 
-	i = 0;
-	e_lst_head = NULL;
+	i = 1;
+	lst_h = NULL;
 	while (argv[i])
 	{
-		expanded_arg = ft_split(argv[i]);
+		j = 0;
+		expanded_arg = ft_split(argv[i], ' ');
 		while (expanded_arg[j])
 		{
-			e_lst_node = (t_list *)malloc(sizeof(t_list));
-			e_lst_node->content = expanded_arg[j];
-			ft_lstadd_back(&e_lst_head, e_lst_node);
+			lst_n = (t_list *)malloc(sizeof(t_list));
+			lst_n->content = expanded_arg[j];
+			lst_n->next = NULL;
+			ft_lstadd_back(&lst_h, lst_n);
 			j++;
 		}
+		free(expanded_arg);
 		i++;
 	}
-	return (e_lst_head);
+	return (lst_h);
 }

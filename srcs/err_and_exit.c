@@ -25,7 +25,7 @@ void	err_and_exit(t_data *data, char *err_token, int err_code)
 	if (err_token != NULL)
 		ft_putstr_fd(err_token, STDERR_FILENO);
 	ft_putstr_fd(err_descrp[err_code], STDERR_FILENO);
-	if (err_code == E_NOINSTR)
+	if (err_token)
 		free(err_token);
 	if (data != NULL)
 		free_data(data);

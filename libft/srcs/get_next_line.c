@@ -6,7 +6,7 @@
 /*   By: danrodri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 18:14:54 by danrodri          #+#    #+#             */
-/*   Updated: 2021/03/31 20:02:07 by danrodri         ###   ########.fr       */
+/*   Updated: 2021/06/18 18:53:30 by danrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ static int	get_out(int fd, char **line, char **backup, char *nl_pos)
 {
 	if (**line == 0)
 		return (0);
-	if (nl_pos != NULL)
+	if (*(nl_pos + 1) != 0)
 	{
 		backup[fd] = ft_strdup(nl_pos + 1);
 		if (!backup[fd])
 			return (free_and_exit(*line));
-		ft_bzero(nl_pos, ft_strlen(nl_pos));
 	}
+	ft_bzero(nl_pos, ft_strlen(nl_pos));
 	return (1);
 }
 

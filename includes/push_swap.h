@@ -27,12 +27,6 @@
 
 # define SMALL_LIMIT 30 
 
-typedef struct s_stack_list
-{
-	int					stack_n;
-	struct s_stack_list	*next;
-}				t_stack_list;
-
 typedef struct s_instr
 {
 	int	P1;
@@ -58,21 +52,18 @@ typedef struct s_data
 }				t_data;
 
 void	swap(int stack_id, t_data *data);
-void	swap_both(int stack_id, t_data *data);
 void	push(int stack_id, t_data *data);
 void	rotate(int stack_id, t_data *data);
-void	rotate_both(int stack_id, t_data *data);
 void	rev_rotate(int stack_id, t_data *data);
-void	rev_rotate_both(int stack_id, t_data *data);
 
 void	free_data(t_data *data);
 void	err_and_exit(t_data *data, char *err_token, int err_code);
-t_data	stack_data_init(char **argv);
-void	parse_element(int i, int stack_size, char **argv);
+t_data	stack_data_init(t_list *argv_lst);
+t_list	*parse_element_list(char **argv);
+void	parse_element_recursive(int stack_size, t_list *lst_h, t_list *lst_n);
 void	exec_instr_loop(int instr_id, int stack_id, int n, t_data *data);
 void	exec_instr(int instr_id, int stack_id, t_data *data);
 int		stack_ud(t_stack stack_s, int pos);
-t_stack	stack_fill(int start, char **argv);
 void	print_instr_loop(t_data *data);
 void	save_instr_init(char *instr, int instr_id, int stack_id, t_data *data);
 
