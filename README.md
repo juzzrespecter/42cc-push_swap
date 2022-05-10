@@ -44,7 +44,7 @@ make checker && ./checker [n ...]
 
 ### Tester
 ```
-./start.sh
+./test.sh
 ```
 
 Project passed with [125/100] mark ✅😎
